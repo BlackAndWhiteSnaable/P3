@@ -1,0 +1,29 @@
+\select@language {english}
+\contentsline {chapter}{Abstract}{iii}{chapter*.1}
+\contentsline {chapter}{Resum\IeC {\'e}}{v}{chapter*.2}
+\contentsline {chapter}{Thesis Details}{xi}{chapter*.5}
+\contentsline {chapter}{Preface}{xiii}{chapter*.6}
+\contentsline {part}{I\hspace {1em}Introduction}{1}{part.1}
+\gdef \the@ipfilectr {@-1}
+\contentsline {chapter}{Introduction}{3}{chapter*.7}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.0.1}
+\contentsline {subsection}{\numberline {1.1}Examples}{3}{subsection.0.1.1}
+\contentsline {subsection}{\numberline {1.2}How does Subsections and Subsubsections Look?}{3}{subsection.0.1.2}
+\contentsline {subsubsection}{This is a Subsubsection}{3}{subsubsection*.8}
+\contentsline {paragraph}{A Paragraph}{3}{paragraph*.9}
+\contentsline {subparagraph}{A Subparagraph}{3}{subparagraph*.10}
+\contentsline {section}{\numberline {2}Section 2 name}{4}{section.0.2}
+\contentsline {section}{\numberline {3}Conclusion}{4}{section.0.3}
+\gdef \the@ipfilectr {}
+\contentsline {part}{II\hspace {1em}Papers}{5}{part.2}
+\gdef \the@ipfilectr {@-2}
+\contentsline {chapter}{\numberline {A}Paper A title }{7}{appendix.A}
+\contentsline {section}{\numberline {1}Introduction}{9}{section.A.1}
+\contentsline {section}{\numberline {2}Conclusion}{9}{section.A.2}
+\contentsline {section}{\numberline {A}An appendix}{9}{section.a.A}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-3}
+\contentsline {chapter}{\numberline {B}Paper B title }{11}{appendix.B}
+\contentsline {section}{\numberline {1}Introduction}{13}{section.B.1}
+\contentsline {section}{\numberline {2}Conclusion}{13}{section.B.2}
+\gdef \the@ipfilectr {}
