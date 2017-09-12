@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.7)  7 SEP 2017 11:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.7)  12 SEP 2017 16:45
 entering extended mode
 **./master.tex
 (master.tex
@@ -1506,61 +1506,32 @@ LaTeX Font Warning: Font shape `OMS/pplx/m/n' undefined
 File: figures/aau_logo_en.pdf Graphic file (type pdf)
 
 <use figures/aau_logo_en.pdf>
-Package pdftex.def Info: figures/aau_logo_en.pdf used on input line 31.
+Package pdftex.def Info: figures/aau_logo_en.pdf used on input line 34.
 (pdftex.def)             Requested size: 194.59193pt x 130.30179pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 31--31
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
 
  []
 
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 31.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 34.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
 File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 31.
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 34.
 
-Overfull \hbox (3.18648pt too wide) in paragraph at lines 31--31
+Underfull \hbox (badness 1924) in paragraph at lines 34--34
+[]\T1/pplx/m/n/10.95 Something about Robots find-ing a
+ []
+
+
+Overfull \hbox (3.18648pt too wide) in paragraph at lines 34--34
 [] 
  []
 
 [3
 
- <./figures/aau_logo_en.pdf>] [4
-
-
-
-]
-Package babel Info: Redefining danish shorthand "|
-(babel)             in language  on input line 35.
-Package babel Info: Redefining danish shorthand "~
-(babel)             in language  on input line 35.
-
-<figures/aau_logo_da.pdf, id=120, 121.45375pt x 77.28876pt>
-File: figures/aau_logo_da.pdf Graphic file (type pdf)
-
-<use figures/aau_logo_da.pdf>
-Package pdftex.def Info: figures/aau_logo_da.pdf used on input line 65.
-(pdftex.def)             Requested size: 194.59193pt x 123.8308pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 65--65
-
- []
-
-
-Overfull \hbox (3.18648pt too wide) in paragraph at lines 65--65
-[] 
- []
-
-Package babel Info: Redefining danish shorthand "|
-(babel)             in language  on input line 65.
-Package babel Info: Redefining danish shorthand "~
-(babel)             in language  on input line 65.
-Package babel Info: Redefining danish shorthand "|
-(babel)             in language  on input line 65.
-Package babel Info: Redefining danish shorthand "~
-(babel)             in language  on input line 65.
-[5 <./figures/aau_logo_da.pdf>]) [6
+ <./figures/aau_logo_en.pdf>]) [4
 
 
 
@@ -1574,10 +1545,10 @@ LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
 \tf@toc=\write7
 \openout7 = `master.toc'.
 
- [7
+ [5
 
 
-] [8
+] [6
 
 
 ] (master.tdo)
@@ -1585,32 +1556,39 @@ LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
 \openout8 = `master.tdo'.
 
 
-(sections/preface.tex [9] [10
+(sections/preface.tex [7] [8
 
 
-]) [11] [12
+]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 4.
+) [9] [10
 
 
 ] (sections/introduction.tex
 Chapter 1.
 
-LaTeX Warning: Reference `ch:ch2label' on page 1 undefined on input line 2.
+LaTeX Warning: Marginpar on page 1 moved.
+
+
+LaTeX Warning: Marginpar on page 1 moved.
+
+
+LaTeX Warning: Marginpar on page 1 moved.
 
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 8.
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 14.
 Package hyperref Info: bookmark level for unknown exa defaults to 0 on input li
-ne 10.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 16.
+ne 16.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 22.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-Overfull \hbox (1.555pt too wide) in paragraph at lines 19--19
+Overfull \hbox (1.555pt too wide) in paragraph at lines 25--25
 |[]\T1/pplx/b/n/14.4 How Does Sec-tions, Sub-sec-tions, and Sub-sec-tions Look?
 | 
  []
 
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 29.
 [1
 
 
@@ -1681,17 +1659,14 @@ Package logreq Info: Writing requests to 'master.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26474 strings out of 493323
- 478267 string characters out of 3139064
- 894427 words of memory out of 3000000
- 29392 multiletter control sequences out of 15000+200000
- 48959 words of font info for 83 fonts, out of 3000000 for 9000
+ 26492 strings out of 493323
+ 478814 string characters out of 3139064
+ 906427 words of memory out of 3000000
+ 29409 multiletter control sequences out of 15000+200000
+ 49216 words of font info for 84 fonts, out of 3000000 for 9000
  1146 hyphenation exceptions out of 8191
- 64i,14n,80p,896b,1855s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 64i,14n,80p,896b,1713s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{exa.0.1.1} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.13} has been referenced but does not exist
 , replaced by a fixed one
 
 pdfTeX warning (dest): name{section*.12} has been referenced but does not exist
@@ -1762,9 +1737,9 @@ ogram Files/MiKTeX 2.9/fonts/type1/public/mathpazo/fplmri.pfb><C:/Program Files
 nts/type1/urw/palatino/uplr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
 palatino/uplri8a.pfb>
 Output written on C:\Users\Bruger\Documents\AAU\P3\LaTeX\testLTC\build\master.p
-df (19 pages, 148084 bytes).
+df (17 pages, 139111 bytes).
 PDF statistics:
- 333 PDF objects out of 1000 (max. 8388607)
- 63 named destinations out of 1000 (max. 500000)
- 191 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 324 PDF objects out of 1000 (max. 8388607)
+ 65 named destinations out of 1000 (max. 500000)
+ 186 words of extra memory for PDF output out of 10000 (max. 10000000)
 
