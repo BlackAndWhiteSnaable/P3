@@ -28,5 +28,3 @@ C:\\nppdf32Log\\debuglog.txt
 # Sublime Text Project Files (usually contain absolute paths)
 *.sublime-project
 *.sublime-workspace
-
-*somethingspecific.txt
