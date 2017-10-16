@@ -1,0 +1,57 @@
+// b00000100 = 0x04
+
+#define char NN = 0x01;
+#define char EE = 0x02;
+#define char SS = 0x04;
+#define char WW = 0x08;
+
+#define char NE = 0x10;
+#define char SE = 0x20;
+#define char SW = 0x40;
+#define char NW = 0x80;
+
+char direction;
+
+if direction=NN {
+
+}
+if direction=EE {
+
+}
+
+int main(int argc, char const *argv[]) {
+  /* code */
+  int x,y;
+  char map;   //make this a two dimensional array
+
+  return 0;
+}
+
+
+//function to compare two map segments
+//map segments are given as a char(newest scan) and xy coordinates
+//map is stored in a two dimensional array, that can be accessed by the coordinates
+bool compare_map_segment(int x, int y, char segment){
+  if segment=map[x][y] return TRUE;
+  else return FALSE;
+}
+
+
+char scan(void) {
+  //probaly something with the ADC, and comparing to a given value
+  char value;
+  //implement the hardware stuff
+  return value;
+}
+
+
+char update_map_segment(void){
+  char scan_a=scan();
+  char scan_b=scan();
+  char scan_c=scan();
+
+  if scan_a=scan_b {return scan_a};
+  if scan_a=scan_c {return scan_a};
+  if scan_b=scan_c {return scan_b};
+  return update_map_segment();
+}
