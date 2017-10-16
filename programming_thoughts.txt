@@ -1,5 +1,15 @@
 // b00000100 = 0x04
 
+//IDEA
+//could be a good idea to calculate movement instruction from coordinates on the way
+//because otherwise we might waste a lot of calculations if the environment changes
+
+//IDEA
+//save map as possible paths, not as walls
+//because that way we can directly use those values
+
+
+
 #define char NN = 0x01;
 #define char EE = 0x02;
 #define char SS = 0x04;
@@ -31,7 +41,7 @@ int main(int argc, char const *argv[]) {
 //function to compare two map segments
 //map segments are given as a char(newest scan) and xy coordinates
 //map is stored in a two dimensional array, that can be accessed by the coordinates
-bool compare_map_segment(int x, int y, char segment){
+bool map_compare_segment(int x, int y, char segment){
   if segment=map[x][y] return TRUE;
   else return FALSE;
 }
@@ -45,7 +55,7 @@ char scan(void) {
 }
 
 
-char update_map_segment(void){
+char map_update_segment(void){
   char scan_a=scan();
   char scan_b=scan();
   char scan_c=scan();
@@ -53,13 +63,28 @@ char update_map_segment(void){
   if scan_a=scan_b {return scan_a};
   if scan_a=scan_c {return scan_a};
   if scan_b=scan_c {return scan_b};
-  return update_map_segment();
+  return map_update_segment();
 }
 
-char calculate_movement(int x_0, int y_0, int x_1, int y_1) {
+char convert_coordinates_movement(int x_0, int y_0, int x_1, int y_1) {
   char nibble_1 = x_0 - x_1;
   char nibble_2 = y_0 - y_1;
   char move_char;
   //TODO merge nibbles into move_char
   return move_char;
 }
+
+
+/*------------------------------------------------------------------------------
+thoughts about how to handle map OK
+------------------------------------------------------------------------------*/
+
+//inside the main {
+
+  if map_compare_segment(x,y,segment) {
+    move_next();
+  } else {
+    path_calculate();   //TODO not implemented
+  }
+
+//}
