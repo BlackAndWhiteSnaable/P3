@@ -1,0 +1,40 @@
+/*------------------------------------------------------------------------------
+Some thoughts about the programming of the path finding specifically
+obviously some things are copied from the general thoughts about programming
+------------------------------------------------------------------------------*/
+//!!if nodecount can be over 255, almost all uint8_t are too small!!
+void path_calculate(char map[][5], uint8_t nodecount) {//TODO #define array size
+  uint8_t i;
+  for (i=0;i<nodecount;i++)     //repeat for all nodes
+  {
+    //TODO pop node from stack  //TODO implement stack
+    char current_node = pop()   //TODO should be a pointer to a struct?
+    //uint8_t can go up to 255, our path (depending on maze size) only up to 24
+    //or nodecount - 1
+    float current_path = current_node.path  //TODO has to be something with pointers
+    uint8_t j;
+    for (j=0;j<4;j++)           //repeat for the 90°-neighbours (LSN)
+    {
+      //TODO does current_node work like that?
+      if current_node[8-j]      //is there a connection to neighbour j?
+      {
+        //is the new path shorter than the old?
+        if (current_path + 1 < current_node[8-j].path)
+        {
+          current_node[8-j].path = current_path + 1;
+        }
+      }
+    }
+    for (j=4;j<8;j++)           //repeat for the 45°-neighbours (MSN)
+    {
+      if current_node[8-j]      //is there a connection to neighbour j?
+      {
+        //is the new path shorter than the old? (sqrt(2) edition)
+        if (current_path + 1.41421356237 < current_node[8-j].path)
+        {
+          current_node[8-j].path = current_path + 1.41421356237;
+        }
+      }
+    }
+  }
+}
