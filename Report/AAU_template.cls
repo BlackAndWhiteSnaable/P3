@@ -36,7 +36,6 @@
 \pagenumbering{arabic} %use arabic page numbering in the mainmatter
 \input{sections/introduction.tex}
 \input{sections/ch2name.tex}
-\input{sections/inverter.tex}
 \input{sections/conclusion.tex}
 \printbibliography[heading=bibintoc]
 \label{bib:mybiblio}

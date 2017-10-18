@@ -1,29 +1,5 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: master.aux
-A level-1 auxiliary file: introduction/introduction.aux
-The style file: IEEEtranS.bst
-A level-1 auxiliary file: papers/paperA/paperA.aux
-Illegal, another \bibstyle command---line 8 of file papers/paperA/paperA.aux
- : \bibstyle
- :          {IEEEtran}
-I'm skipping whatever remains of this command
-Illegal, another \bibdata command---line 9 of file papers/paperA/paperA.aux
- : \bibdata
- :         {bib/mybib}
-I'm skipping whatever remains of this command
-A level-1 auxiliary file: papers/paperB/paperB.aux
-Illegal, another \bibstyle command---line 8 of file papers/paperB/paperB.aux
- : \bibstyle
- :          {IEEEtran}
-I'm skipping whatever remains of this command
-Illegal, another \bibdata command---line 9 of file papers/paperB/paperB.aux
- : \bibdata
- :         {bib/mybib}
-I'm skipping whatever remains of this command
-Database file #1: bib/mybib.bib
--- IEEEtranS.bst version 1.14 (2015/08/26) by Michael Shell.
--- http://www.michaelshell.org/tex/ieeetran/bibtex/
--- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
-** Sorting version - not for normal IEEE work.
-
-Done.
-(There were 4 error messages)
+The style file: biblatex.bst
+Database file #1: master-blx.bib
+Database file #2: bib/mybib.bib
+Biblatex version: 3.3

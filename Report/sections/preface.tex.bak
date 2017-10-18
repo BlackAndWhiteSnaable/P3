@@ -17,9 +17,9 @@ Here is the preface. You should put your signatures at the end of the preface.
  Johannes Ari Lárusson Holm\\
  {\footnotesize <jlarus15@student.aau.dk>}
 \end{minipage}
+\vspace{5\baselineskip}
 \noindent
 \begin{minipage}[b]{0.45\textwidth}
- \vspace{20mm}
  \centering
  \rule{\textwidth}{0.5pt}
     Razvan-Vlad Bucur\\
@@ -27,10 +27,9 @@ Here is the preface. You should put your signatures at the end of the preface.
 \end{minipage}
 \hfill
 \begin{minipage}[b]{0.45\textwidth}
- \vspace{20mm}
  \centering
  \rule{\textwidth}{0.5pt}\\
     Troels Ulstrup Klein\\
  {\footnotesize <tklein11@student.aau.dk>}
 \end{minipage}
-
+\hfill
