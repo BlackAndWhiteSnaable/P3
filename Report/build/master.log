@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.7)  12 SEP 2017 16:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.12)  18 OCT 2017 23:32
 entering extended mode
 **./master.tex
 (master.tex
@@ -346,11 +346,11 @@ Package: babel 2017/05/19 3.10 The Babel package
 *************************************
 * Local config file bblopts.cfg used
 *
-("C:\Program Files\MiKTeX 2.9\tex\latex\arabi\bblopts.cfg"
+(C:\Users\bw_\AppData\Roaming\MiKTeX\2.9\tex\latex\arabi\bblopts.cfg
 File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
  babel
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\babel-danish\danish.ldf"
+(C:\Users\bw_\AppData\Roaming\MiKTeX\2.9\tex\latex\babel-danish\danish.ldf
 Language: danish 2009/09/19 v1.3r Danish support from the babel system
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
@@ -377,7 +377,7 @@ Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
 File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\xcolor\xcolor.sty"
+(C:\Users\bw_\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
@@ -1318,8 +1318,7 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count335
 \@quotereset=\count336
-(master.aux (introduction/introduction.aux) (papers/paperA/paperA.aux)
-(papers/paperB/paperB.aux))
+(master.aux)
 \openout1 = `master.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -1337,8 +1336,7 @@ LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Try loading font information for T1+pplx on input line 21.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1pplx.fd"
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1pplx.fd"
 File: t1pplx.fd 2004/09/06 font definitions for T1/pplx.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
@@ -1414,14 +1412,14 @@ Package biblatex Info: Data encoding 'utf8' specified.
 \openout4 = `master-blx.bib'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'master.bbl' not found.
-No file master.bbl.
+Package biblatex Info: ... file 'master.bbl' found.
+(master.bbl)
 Package biblatex Info: Reference section=0 on input line 21.
 Package biblatex Info: Reference segment=0 on input line 21.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
 (lastpage)             ! on input line 21.
-ABD: EveryShipout initializing macros
+ ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box41
 Package hyperref Info: Link coloring OFF on input line 21.
 
@@ -1502,50 +1500,44 @@ LaTeX Font Warning: Font shape `OMS/pplx/m/n' undefined
 \titlepageleftcolumnwidth=\skip87
 \titlepagerightcolumnwidth=\skip88
 
-<figures/aau_logo_en.pdf, id=102, 115.43124pt x 77.28876pt>
+<figures/aau_logo_en.pdf, id=82, 115.43124pt x 77.28876pt>
 File: figures/aau_logo_en.pdf Graphic file (type pdf)
 
 <use figures/aau_logo_en.pdf>
-Package pdftex.def Info: figures/aau_logo_en.pdf used on input line 34.
+Package pdftex.def Info: figures/aau_logo_en.pdf used on input line 33.
 (pdftex.def)             Requested size: 194.59193pt x 130.30179pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 34--34
+Underfull \hbox (badness 10000) in paragraph at lines 33--33
 
  []
 
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 34.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 33.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
 File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 34.
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 33.
 
-Underfull \hbox (badness 1924) in paragraph at lines 34--34
-[]\T1/pplx/m/n/10.95 Something about Robots find-ing a
- []
-
-
-Overfull \hbox (3.18648pt too wide) in paragraph at lines 34--34
+Overfull \hbox (3.18648pt too wide) in paragraph at lines 33--33
 [] 
  []
 
 [3
 
- <./figures/aau_logo_en.pdf>]) [4
+ <./figures/aau_logo_en.pdf>] [4
 
 
 
-]
+])
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <20.74> not available
 (Font)              Font shape `T1/pplx/b/n' tried instead on input line 31.
- (master.toc
-LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 6.
-)
+ (master.toc)
 \tf@toc=\write7
 \openout7 = `master.toc'.
 
  [5
+
+
 
 
 ] [6
@@ -1559,40 +1551,33 @@ LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
 (sections/preface.tex [7] [8
 
 
-]
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 4.
-) [9] [10
+]) [9] [10
 
 
 ] (sections/introduction.tex
 Chapter 1.
-
-LaTeX Warning: Marginpar on page 1 moved.
-
-
-LaTeX Warning: Marginpar on page 1 moved.
-
-
-LaTeX Warning: Marginpar on page 1 moved.
-
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 14.
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 10.
 Package hyperref Info: bookmark level for unknown exa defaults to 0 on input li
-ne 16.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 22.
+ne 12.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 18.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-Overfull \hbox (1.555pt too wide) in paragraph at lines 25--25
+Overfull \hbox (1.555pt too wide) in paragraph at lines 21--21
 |[]\T1/pplx/b/n/14.4 How Does Sec-tions, Sub-sec-tions, and Sub-sec-tions Look?
 | 
  []
 
+LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 23.
 [1
 
 
-]) (sections/ch2name.tex
+]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 31.
+) (sections/ch2name.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1601,16 +1586,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [2]
 Chapter 2.
+) (sections/conclusion.tex
+Underfull \hbox (badness 10000) in paragraph at lines 3--1
 
-LaTeX Warning: Citation 'Madsen2010' on page 3 undefined on input line 2.
+ []
 
-
-LaTeX Warning: Citation 'Oetiker2010' on page 3 undefined on input line 2.
-
-
-LaTeX Warning: Citation 'Mittelbach2005' on page 3 undefined on input line 2.
-
-) (sections/conclusion.tex [3
+[3
 
 
 ] [4
@@ -1618,11 +1599,10 @@ LaTeX Warning: Citation 'Mittelbach2005' on page 3 undefined on input line 2.
 
 ]
 Chapter 3.
-)
+) [5] [6
 
-LaTeX Warning: Empty bibliography on input line 40.
 
-(sections/appAname.tex [5] [6
+] (sections/appAname.tex [7] [8
 
 
 ]
@@ -1633,113 +1613,59 @@ Appendix A.
 
  
 AED: lastpage setting LastPage
-[7]
+[9]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 44.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 44.
- (master.aux (introduction/introduction.aux) (papers/paperA/paperA.aux)
-(papers/paperB/paperB.aux))
+ (master.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 44.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 44.
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: 260997FE4047CC93CAA91DBC77A31D6A;1227.
+(rerunfilecheck)             Checksum: ED270792CFB71F79C343E7628F4084C5;955.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
-
-
-Package biblatex Warning: Please (re)run BibTeX on the file(s):
-(biblatex)                master
-(biblatex)                and rerun LaTeX afterwards.
 
 Package logreq Info: Writing requests to 'master.run.xml'.
 \openout1 = `master.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26492 strings out of 493323
- 478814 string characters out of 3139064
- 906427 words of memory out of 3000000
- 29409 multiletter control sequences out of 15000+200000
- 49216 words of font info for 84 fonts, out of 3000000 for 9000
+ 26438 strings out of 493323
+ 477925 string characters out of 3139071
+ 893427 words of memory out of 3000000
+ 29385 multiletter control sequences out of 15000+200000
+ 50094 words of font info for 84 fonts, out of 3000000 for 9000
  1146 hyphenation exceptions out of 8191
  64i,14n,80p,896b,1713s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{exa.0.1.1} has been referenced but does not exist
+pdfTeX warning (dest): name{page.11} has been referenced but does not exist, 
+replaced by a fixed one
+
+pdfTeX warning (dest): name{chapter.4} has been referenced but does not exist, 
+replaced by a fixed one
+
+pdfTeX warning (dest): name{section.3.3} has been referenced but does not exist
 , replaced by a fixed one
 
-pdfTeX warning (dest): name{section*.12} has been referenced but does not exist
+pdfTeX warning (dest): name{section.3.2} has been referenced but does not exist
 , replaced by a fixed one
 
-pdfTeX warning (dest): name{section*.11} has been referenced but does not exist
+pdfTeX warning (dest): name{section.3.1} has been referenced but does not exist
 , replaced by a fixed one
 
-pdfTeX warning (dest): name{page.13} has been referenced but does not exist, re
-placed by a fixed one
-
-pdfTeX warning (dest): name{section.B.2} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.B.1} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{appendix.B} has been referenced but does not exist,
- replaced by a fixed one
-
-pdfTeX warning (dest): name{section.a.A} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.A.2} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.A.1} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{part.2} has been referenced but does not exist, rep
-laced by a fixed one
-
-pdfTeX warning (dest): name{section.0.3} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.0.2} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.0.1.2} has been referenced but does not 
-exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.0.1.1} has been referenced but does not 
-exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.0.1} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{chapter*.7} has been referenced but does not exist,
- replaced by a fixed one
-
-pdfTeX warning (dest): name{part.1} has been referenced but does not exist, rep
-laced by a fixed one
-
-pdfTeX warning (dest): name{chapter*.6} has been referenced but does not exist,
- replaced by a fixed one
-
-pdfTeX warning (dest): name{chapter*.5} has been referenced but does not exist,
- replaced by a fixed one
-
- <C:\Users\Bruger\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\e
-ctt1095.pk>{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc} <C:\Users\
-Bruger\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecss1000.pk>
- <C:\Users\Bruger\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\e
-csx1000.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/mathpazo/fplmri.pfb><C:/Program Files
-/MiKTeX 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Program Files/MiKTeX 2.9/fo
-nts/type1/urw/palatino/uplr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
-palatino/uplri8a.pfb>
-Output written on C:\Users\Bruger\Documents\AAU\P3\LaTeX\testLTC\build\master.p
-df (17 pages, 139111 bytes).
+ <C:\Users\bw_\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt
+1095.pk>{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc} <C:\Users\bw_
+\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecss1000.pk> <C:\U
+sers\bw_\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsx1000.p
+k><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/mathpazo/fplmri.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/urw/palatino/uplr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/palatino/
+uplri8a.pfb>
+Output written on "C:\Users\bw_\Documents\AAU\P3\git inside\Report\build\master
+.pdf" (19 pages, 143092 bytes).
 PDF statistics:
- 324 PDF objects out of 1000 (max. 8388607)
- 65 named destinations out of 1000 (max. 500000)
- 186 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 317 PDF objects out of 1000 (max. 8388607)
+ 50 named destinations out of 1000 (max. 500000)
+ 146 words of extra memory for PDF output out of 10000 (max. 10000000)
 
