@@ -1,0 +1,71 @@
+/*------------------------------------------------------------------------------
+Some thoughts about the programming of the path finding specifically
+obviously some things are copied from the general thoughts about programming
+// uint8_t = char at least in size. maybe also in handling, not sure
+until maps are getting bigger than what we want (5*5) this code works
+//TODO calculate biggest possible size
+------------------------------------------------------------------------------*/
+#define uint8_t mapX = 5;
+#define uint8_t mapY = 5;
+#define uint8_t nodecount = mapY * mapX;
+
+//!!if nodecount can be over 255, almost all uint8_t are too small!!
+/*IDEA
+//maybe map should be a pointer
+//we need the directions_from_node and the path_to_node
+//or we have too stacks that need to be sorted the same way
+//or one stack with coordinates and two 2D-arrays with those coordinates
+//until a map size of 16*16 we can use one byte to store the coordinates
+*/
+/*------------------------------------------------------------------------------
+implementation of the map
+first idea
+------------------------------------------------------------------------------*/
+uint8_t map_directions[mapX][mapY];
+uint8_t map_path[mapX][mapY];
+//TODO implement proper stack
+uint8_t map_stack[nodecount] = {
+  0x00,0x01,0x02,0x03,0x04,
+  0x10,0x11,0x12,0x13,0x14,
+  0x20,0x21,0x22,0x23,0x24,
+  0x30,0x31,0x32,0x33,0x34,
+  0x40,0x41,0x42,0x43,0x44
+};
+//------------------------------------------------------------------------------
+
+
+void path_calculate(char map[][mapY])//, uint8_t nodecount) {//nodecount is global
+  uint8_t i;                    //can't get bigger than nodecount
+  for (i=0;i<nodecount;i++)     //repeat for all nodes
+  {
+    //TODO pop node from stack  //TODO implement stack
+    char current_node = pop()   //TODO should be a pointer to a struct?
+    //uint8_t can go up to 255, our path (depending on maze size) only up to 24
+    //or nodecount - 1
+    float current_path = current_node.path  //TODO has to be something with pointers
+    uint8_t j;
+    for (j=0;j<4;j++)           //repeat for the 90°-neighbours (LSN)
+    {
+      //TODO does current_node work like that?
+      if current_node[7-j]      //is there a connection to neighbour j?
+      {
+        //is the new path shorter than the old?
+        if (current_path + 1 < current_node[8-j].path)
+        {
+          current_node[8-j].path = current_path + 1;
+        }
+      }
+    }
+    for (j=4;j<8;j++)           //repeat for the 45°-neighbours (MSN)
+    {
+      if current_node[7-j]      //is there a connection to neighbour j?
+      {
+        //is the new path shorter than the old? (sqrt(2) edition)
+        if (current_path + 1.41421356237 < current_node[8-j].path)
+        {
+          current_node[8-j].path = current_path + 1.41421356237;
+        }
+      }
+    }
+  }
+}
