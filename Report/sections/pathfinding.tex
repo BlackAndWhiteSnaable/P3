@@ -30,7 +30,27 @@ In this integer is stored how much it costs to traverse along that edge,
 measured in the metric that should get optimized (in our case distance).
 
 A node has a \emph{name}, an integer \emph{travel cost} and a reference to another node \emph{parent}.
-The name is used as an identifier
+The name is used as an identifier,
+travel cost sums the travelling costs of all edges along the current shortest path
+and parent refers to what node is the previous in that path.
+
+\missingfigure{example of a graph}
+
+%There also exists a list of all nodes, sorted by their travel cost, from low to high.
+
+Dijkstra's approach now is to look at the facts we already know:
+The shortest path from A to A
+and the costs to get to any of A's neighbours.
+
+Those values then get added to and stored  inside the neighbours' travel cost with A as the parent.
+Now the starting node gets marked as done
+and the node with the lowest travel cost gets selected
+as the starting point for the next round of calculations
+
+
+Since the only known travel cost before runtime is the starting node (being 0),
+this is always where calculations start.
+
 
 
 \cite{Madsen2010}, \cite{Oetiker2010} and \cite{Mittelbach2005}.
