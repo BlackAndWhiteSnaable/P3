@@ -49,7 +49,7 @@ char scan();
 //proper way
 //void path_calculate(struct Robot *robot);
 //bodge for testing
-void path_calculate(char **map);
+//void path_calculate(char map[5][5]);
 
 /*******************
  main.c
@@ -57,22 +57,84 @@ void path_calculate(char **map);
 
 int main()
 {
-  struct Robot *robot;    // Declare empty pointer to a struct of type Robot
-  robot = init_robot();   // Allocate structs and return the address to pointer
-  path_calculate(robot);
+  char map[5][5] = {
+    {0x06, 0x0C, 0x06, 0x0E, 0x0C},
+    {0x05, 0x07, 0x0F, 0x0F, 0x0D},
+    {0x05, 0x05, 0x01, 0x07, 0x0D},
+    {0x05, 0x07, 0x0E, 0x0F, 0x0D},
+    {0x01, 0x03, 0x0B, 0x0B, 0x09}
+    /*
+    {'A', 'A', 'A', 'A', 'A'},
+    {'A', 'A', 'A', 'A', 'A'},
+    {'A', 'A', 'A', 'A', 'A'},
+    {'A', 'A', 'A', 'A', 'A'},
+    {'A', 'A', 'A', 'A', 'A'}
+    */
+    /*
+    {'1', '6', '3', '4', '5'},
+    {'F', 'G', 'H', 'I', 'J'},
+    {'K', 'L', 'M', 'N', 'O'},
+    {'P', 'Q', 'R', 'S', 'T'},
+    {'U', 'V', 'W', 'X', 'Y'}
+    */
+  };
+  path_calculate(map, 0, 0, 1, 1);
   return 0;
 }
 
-// Initialize default settings for robot on startup
-struct Robot *init_robot() {
-  // Dynamically allocate robot struct in memory and return pointer
-  struct Robot *robot = malloc(sizeof(struct Robot));
-  // Return pointer to the data allocated in memory
-  return robot;
-}
-
-void path_calculate(char **map)
+void path_calculate(char map[][5], int startX, int startY, int stopX,  int stopY)
 {
   printf("Inside path_calculate! \n");
-  printf("%c",map[0][1]);
-}
+  for (int i = 0; i<5;i++){
+    for (int j = 0; j<5;j++){
+      printf("0x%.2x ",map[i][j]);
+    }
+    printf("\n");
+  }
+  printf("\n");
+  //totally useless, but this prints a representation of a rectangular graph
+  for (int i = 0; i<5;i++){
+    for (int j = 0; j<5;j++){
+      switch(map[i][j]) {
+        case 0x06:
+          printf("%c",218);
+          break;
+        case 0x0c:
+          printf("%c",191);
+          break;
+        case 0x03:
+          printf("%c",192);
+          break;
+        case 0x09:
+          printf("%c",217);
+          break;
+
+        case 0x0B:
+          printf("%c",193);
+          break;
+        case 0x0E:
+          printf("%c",194);
+          break;
+        case 0x07:
+          printf("%c",195);
+          break;
+        case 0x0A:
+          printf("%c",196);
+          break;
+        case 0x0F:
+          printf("%c",197);
+          break;
+        case 0x05:
+          printf("%c",179);
+          break;
+        case 0x0D:
+          printf("%c",180);
+          break;
+
+        default:
+          printf(" ");
+      }
+    }
+    printf("\n");
+  }
+ }
