@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1510052271 source:c:\users\bw_\documents\aau\p3\gitkraken\testltc\pathfinding\2017_11_07_pathfinding_v1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
