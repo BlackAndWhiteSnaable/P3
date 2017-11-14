@@ -18,7 +18,7 @@
 #define SW 0x40
 #define NW 0x80
 
-// Funny, look at these interesting declarations
+// Look at these interesting declarations
 #define map(i,j) robot->map.segments[i][j]
 #define node(i,j) robot->map.nodes[i][j]
 
@@ -47,11 +47,13 @@ struct Robot {
 
 // For each map node
 // Declaring as 2D array keeps track of the elements [i][j]
-// By using a 2D array we do not have a list with closed nodes, which means extra cycles? Unless pathfinding know which ones to ask for
+//
+// By using a 2D array we do not have a list with closed nodes, which means extra cycles?
+// Unless pathfinding knows which nodes to ask for?
 struct Nodes {
   unsigned char hex;
-  signed int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
-  // movement cost score
+  unsigned int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
+  unsigned int move1_cost;
   // parent
 };
 
@@ -124,9 +126,9 @@ void go() {
   printf("\nThis is a test: %X\n", node(0,0)); // testing interesting declaration
 
   test_node_array(robot);
-  printf("\nrobot->node[0][0]: hex = 0x%02X and status = %d\n", robot->node[0][0].hex);
-  printf("robot->node[1][0]: hex = 0x%02X and status = %d\n", robot->node[1][0].hex);
-  printf("robot->node[2][0]: hex = 0x%02X and status = %d\n", robot->node[2][0].hex);
+  printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
+  printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move_cost);
+  printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move_cost);
 }
 
 // Initialize default settings for robot on startup
@@ -138,21 +140,22 @@ struct Robot *init_robot() {
 }
 
 void test_node_array(struct Robot *robot) {
-  // Allocating 2D array of structs of type nodes
-  // This can be done, once we know what the size of the array will be (runtime)
-  struct Nodes **node; // Pointer to a pointer of Nodes structs
+  // Allocating 2D array of Node structs
+  // This can be done, once we know the size of the array (runtime)
+  // The size will be known from map size
+  struct Nodes **node; // Pointer to an array of Nodes structs
 
-  // 3x1
+  // Example allocating 2D array with size 3x1
   node = (struct Nodes **)malloc(sizeof(struct Nodes *) * 3);
   for (int i = 0; i < 3; i++) {
     node[i] = (struct Nodes *)malloc(sizeof(struct Nodes) * 1);
   }
 
-  // Storing array adress in struct
+  // Store array adress in robot struct
   robot->node = node;
 
   // Setting some test values
-  // access as nodes[x][y] 3x1
+  // access as nodes[x][y] - remember size is 3x1
   robot->node[0][0].hex = 10;
   robot->node[1][0].hex = 16;
   robot->node[2][0].hex = 128;
@@ -160,6 +163,10 @@ void test_node_array(struct Robot *robot) {
   robot->node[0][0].status = 0;
   robot->node[1][0].status = 1;
   robot->node[2][0].status = 0;
+
+  robot->node[0][0].move_cost = 5;
+  robot->node[1][0].move_cost = 10;
+  robot->node[2][0].move_cost = 20;
 }
 
 void robot_print(struct Robot *robot) {
