@@ -21,8 +21,8 @@
 // Look at these interesting declarations
 //this is a macro, could lead to some unwanted
 //"optimization" by the compiler
-#define map(i,j) robot->map.segments[i][j]
-#define node(i,j) robot->map.nodes[i][j]
+//#define map(i,j) robot->map.segments[i][j]
+//#define node(i,j) robot->map.nodes[i][j]
 
 //a simple point, consisting of two integers
 struct Point {
@@ -111,7 +111,7 @@ void go() {
 
   map_load(robot);        // Load map data from file into structs and set current pos to map start pos
 
-  path_calculate(robot);  // Calculate shortest path from msp start to finish
+  //path_calculate(robot);  // Calculate shortest path from msp start to finish
 
   // While robot has not reached the finish position
   while (!finished(robot)) {
@@ -144,7 +144,7 @@ void go() {
 
 //  printf("\nThis is a test: %i\n", /*robot->map.nodes[0][0]); */node(0,0)); // testing interesting declaration
 
-//  test_node_array(robot);
+  test_node_array(robot);
 //  printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
 //  printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move_cost);
 //  printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move_cost);
@@ -163,6 +163,35 @@ void move_next(struct Robot *robot) {
 struct Robot *init_robot() {
   // Dynamically allocate robot struct in memory and return pointer
   struct Robot *robot = malloc(sizeof(struct Robot));
+
+  //actually initialize the struct with values
+  robot->map.finish.x=0;
+  robot->map.finish.y=0;
+
+  //2D array
+  struct Node **nodes;
+  nodes = (struct Node **)malloc(sizeof(struct Node *) * 5);
+  for (int i = 0; i < 5; i++) {
+      nodes[i] = (struct Node **)malloc(sizeof(struct Node) *5);
+  }
+  robot->map.nodes = nodes;
+
+  //2D array
+  //robot->map.segments
+
+  robot->map.size.x=0;
+  robot->map.size.y=0;
+
+  robot->map.start.x=0;
+  robot->map.start.y=0;
+
+  //2D array
+  //robot->node
+
+  //TODO implement
+  //robot->path.HoP = init_list();
+  robot->pos.x=0;
+  robot->pos.y=0;
   // Return pointer to the data allocated in memory
   return robot;
 }
@@ -173,6 +202,7 @@ void test_node_array(struct Robot *robot) {
   // This can be done, once we know the size of the array (runtime)
   // The size will be known from map size
   struct Node **node; // Pointer to an array of Node structs
+
 
   // Example allocating 2D array with size 3x1
   node = (struct Node **)malloc(sizeof(struct Node *) * 3);
@@ -426,8 +456,8 @@ void map_update(struct Robot *robot, char hex) {
 
 void path_calculate(struct Robot *robot) {
   //TODO check if current node is finishline
-  /*if (robot->path.HoP->self.x == robot->map.finish.x &&
-      robot->path.HoP->self.y == robot->map.finish.y) return; */
+  if (robot->path.HoP->self.x == robot->map.finish.x &&
+      robot->path.HoP->self.y == robot->map.finish.y) return;
   printf("calculate more");
   //look at current node
   //evaluate neighbours
