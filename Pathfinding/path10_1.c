@@ -36,11 +36,11 @@ struct Maps {
   struct Point finish;
   struct Point size; // Size is amount of nodes in the map
   unsigned char **segments; // 2D array of the map data from text file (user input)
-  unsigned char **nodes; // 2D array of each node's 8 neighbours represented in a hex value
+  unsigned char **nodes; // 2D array of each node's 8 neighbours represented as a hex value
 };
 
 struct Robot {
-  struct Point pos;   //current position
+  struct Point pos;   //current position?
   struct Maps map;
   struct Node **node; // testing node structs in 2D array
   // IDEA We could setup other data we need such as:
@@ -53,7 +53,7 @@ struct Robot {
 struct Node {
   unsigned char hex;
   unsigned int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
-  unsigned int move1_cost;
+  unsigned int move_cost;
   // parent
 };
 
@@ -123,7 +123,7 @@ void go() {
     }
   }
 
-  printf("\nThis is a test: %X\n", node(0,0)); // testing interesting declaration
+  printf("\nThis is a test: %i\n", /*robot->map.nodes[0][0]); */node(0,0)); // testing interesting declaration
 
   test_node_array(robot);
   printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
@@ -132,12 +132,14 @@ void go() {
 }
 
 // Initialize default settings for robot on startup
+//a whole function for one line?
 struct Robot *init_robot() {
   // Dynamically allocate robot struct in memory and return pointer
   struct Robot *robot = malloc(sizeof(struct Robot));
   // Return pointer to the data allocated in memory
   return robot;
 }
+
 
 void test_node_array(struct Robot *robot) {
   // Allocating 2D array of Node structs
@@ -188,7 +190,7 @@ int finished(struct Robot *robot) {
 
 // TODO Sensor scan
 unsigned char scan() {
-  return 0xFF; // Return scan result - in this case just a hardcoded value
+  return 0x5F; // Return scan result - in this case just a hardcoded value
 }
 
 // Scan surroundings at current position and compare with map segment
@@ -233,20 +235,7 @@ void map_save(struct Robot *robot) {
   fclose(myfile); // Close
 }
 
-// Reads map data from file and saves it in the map struct
-  // Start and finish positions are read from file and saved in robot struct
-  //
-  // In C an array and its size must be declared before we can store data in it
-  // Since we do not know the needed array size at compile time we wait and
-  // calculate the needed size at runtime instead
-  //
-  // The array size depends on the map size (rows and cols)
-  // The maps rows and cols can be calculated by counting the lines in the file
-  // and by counting characters in each line
-  //
-  // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
-  // a 5x5 array must be used to hold the values
-
+// Load map fata from a text file
 void map_load(struct Robot *robot) {
   // for first 2 lines all characters into an array = string (skip for now)
   //
@@ -269,6 +258,7 @@ void map_load(struct Robot *robot) {
   // Other options could be to call malloc/realloc for each character
   // or to have a buffer large enough to hold map data of any size.
   int rows = 1;       // Counts newlines, 1 because last line has no \n
+                      //except it should --Daniel
   int cols = 0;       // Counts characters in each line
   int c;              // Holds each character as it is read from file
 
@@ -323,7 +313,7 @@ void map_load(struct Robot *robot) {
   }
   fclose(myfile);
 
-  // printf
+  // print the whole map from memory
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       printf("%c", robot->map.segments[i][j]);
@@ -404,140 +394,3 @@ void map_update(struct Robot *robot, char hex) {
   free(robot->map.nodes); // TODO more free stuff all around
   node_map_load(robot);
 }
-
-
-
-
-
-
-
-// Read map into an array for processing to nodes, and for
-// updating/displaying/saving to file
-// For changes the map only need ONE node updated, node map also needs the
-// correct of 8 neighbors updatedm and checking for map borders is painfull
-//
-// For creating nodes, circle around each node to get the neighbours
-//
-// For saving map from node (after a change to a node - sucks more nodes need update)
-// if line < 3 and FIRST node print all neighbours
-// if line < 3 and NOT first node print above/below and right side
-// if line > 3 and FIRST node print all sides but the above
-// if line > 3 and NOT first node print right and below
-//
-// line 3 could also be identified as first node line: node[i][j] where i = 0
-
-/*
-
-// <<<<<<<<<<<<<<<<<<<<<<
-
-// 1. save map data in an array
-// 2. >for each node in array<, lookup the 8 neighbours and if its a wall add the hex value to the node
-// how to figure out each node pos (had that ealier)
-// If there's a change, update map and regenerate node map
-
-
-char hex[20][20];
-
-// The 8 binary byte values in hex according to direction of neighbour wall
-// Values for binary byte (0000 0000) where each bit represents a neighbour
-// that is either moveable (0) or a wall (1)
-char values[3][3] = {
-  {0x10, 0x01, 0x20}, // NW, N, NE
-  {0x08, 0x00, 0x02}, // W, Node, E
-  {0x80, 0x04, 0x40}  // SW, S, SE
-};
-
-
-// Calculate which node the neighbour (character) that gets read belongs to
-node_x = cols/3; // divide chars into groups of 3 -> 012=1 345=2 678=3
-node_y = rows/3; // divide rows into groups of 3 -> 012=1 345=2 678=3
-
-  //hex[rows/3][cols/3] += values[rows%3][cols%3];
-
-
-
-//
-// using lists (containers) for the open and closed nodes rather than a grid of nodes,
-// and returning paths as self-contained objects (you can write a class or struct for that.
-// https://www.gamedev.net/forums/topic/521928-a-star-a-pathfinding-in-c/
-//
-// Node are only necessary to indicate what tiles you've checked or still need to check,
-// and how costly they are, as well as what their parent is
-// (hint: the final node already contains your path: just follow it's chain of parents).
-//
-// instead of keeping x and y coordinates, you can use pointers to nodes instead.
-// The same can be done for storing parents.
-//
-//
-// *** Todos
-// how will new map work? empty file? all 0's? filename?
-// change filename to file with empty map, but still start and finish. Will that work?
-// change char hex values to uint8_t or unsigned char
-//
-//
-// *** Notes
-// We do it differently because we can expect changes to the map
-// All other examples of diekstra/A* don't expect to recalculate
-// But why do it differently? Makes no sense
-//
-// The correct way would be to have Map_nodes to store all data for a node
-// in a list, instead of having different node data multiple times (arrays)
-
-IDEA for data structure:
-
-Why is this better than iterating through a list?
-We have the possibillity of being able to address any random element
-In a list you typically want to add and remove elements.
-We have a fixed amount of elements (a map size) unless we reroute which means
-we delete (all?) node data and start over -> is it possible to update a node
-neighbord instead, and the actual map (and save) instead of updating map, save, reload
-
--------------------------
-
-The idea is to store all data about each node in a node struct.
-This way we don't have node neighbours in one 2D array, node costs
-node parents and open/closed in different 2D arrays. We just store it all in ONE place.
-This also requires less data to be read into memory. (node map is only sligthly bigger than user map)
-
-Like a linked list (structs) can hold different data types, so I just want to create an 2D array of node structs.
-Each node (struct) should be accessable through map_node[i][j] instead of having a head and next pointers in linked list.
-
-To access it we could write map_nodes[i][j]->somevar.
-But by storing the adress of the 2D array in the Maps struct, we can still access all the node structs as
-robot->node[i][i].neighbors (which would be a hex)
-robot->node[i][i].cost (which would be a hex)
-
-In theory this should work (at least in my head).
-
--------------------------
-
-
-struct Maps {
-  Struct Map_nodes **nodes; <-- add this to Map
-};
-
-// any data that
-Struct Map_nodes {
-
-}
-
-
-A thing to test
-having a pointer point to the 2D array pointer to get to a 2D array is that smart
-why not just directly store the adress of a 2D array in a pointer
-
-go from
-**[pointer] -> *[pointer for 2d array adress]
-to this
-*[pointer] -> &[pointer for 2d array adress]
-
-tested, it did not work hehe
-
-
-
-Dashboard diodes (light for 1 sek?):
-- Map change found
-- Calculating path
-- Show walls detected or possible directions to move
-- Steps to goal?
-*/
