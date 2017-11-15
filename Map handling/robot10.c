@@ -18,7 +18,10 @@
 #define SW 0x40
 #define NW 0x80
 
-#define node(i,j) robot->nodemap.node[i][j];  // hmm
+// Look at these interesting declarations
+#define map(i,j) robot->map.segments[i][j]
+#define node(i,j) robot->map.nodes[i][j]
+
 
 struct Point {
   int x,y;
@@ -28,18 +31,14 @@ struct Maps {
   struct Point start;
   struct Point finish;
   struct Point size; // Size is amount of nodes in the map
-  char **segments; // 2D array of the map data from text file (user input)
-};
-
-struct Nodemap {
-  struct Point size; // Size is amount of nodes in the map
-  unsigned char **node; // 2D array of each node's 8 neighbours represented in a hex value
+  unsigned char **segments; // 2D array of the map data from text file (user input)
+  unsigned char **nodes; // 2D array of each node's 8 neighbours represented in a hex value
 };
 
 struct Robot {
   struct Point pos;
   struct Maps map;
-  struct Nodemap nodemap;
+  struct Nodes **node; // testing node struts in 2D array
   // IDEA We could setup other data we need such as:
   // struct Path
   // struct Motors
@@ -48,11 +47,13 @@ struct Robot {
 
 // For each map node
 // Declaring as 2D array keeps track of the elements [i][j]
-// When allocating the 2D array in memory we have to do it with a for loop like before
+//
+// By using a 2D array we do not have a list with closed nodes, which means extra cycles?
+// Unless pathfinding knows which nodes to ask for?
 struct Nodes {
-  char neighbours;
-  // signed int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
-  // movement cost score
+  unsigned char hex;
+  unsigned int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
+  unsigned int move1_cost;
   // parent
 };
 
@@ -67,9 +68,9 @@ void map_update(struct Robot *robot, char hex);
 void node_map_load(struct Robot *robot);
 void robot_print(struct Robot *robot);
 int finished(struct Robot *robot);
-char scan();
+unsigned char scan();
 
-
+void test_node_array(struct Robot *robot);
 
 /*******************
  main.c
@@ -113,13 +114,21 @@ void go() {
   printf("\nRobot current pos: %d.%d\n", robot->pos.x, robot->pos.y);
   printf("### Finishline reached ###\n\n");
 
-  printf("Array size: x=%d y=%d\n\n", robot->map.size.x, robot->map.size.y);
+  printf("Map array size: %dx%d\n", robot->map.size.x, robot->map.size.y);
+  printf("Node array size: %dx%d\n\n", (robot->map.size.x-1)/2, (robot->map.size.y-1)/2);
 
   for (int i = 0; i < (robot->map.size.y-1)/2; ++i) { // loop rows
     for (int j = 0; j < (robot->map.size.x-1)/2; ++j) { // loop cols
-      printf("Node %d.%d in nodemap = %X\n", i, j, robot->nodemap.node[i][j]);
+      printf("Node %d.%d in map.nodes = 0x%02X\n", i, j, robot->map.nodes[i][j]);
     }
   }
+
+  printf("\nThis is a test: %X\n", node(0,0)); // testing interesting declaration
+
+  test_node_array(robot);
+  printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
+  printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move_cost);
+  printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move_cost);
 }
 
 // Initialize default settings for robot on startup
@@ -130,10 +139,40 @@ struct Robot *init_robot() {
   return robot;
 }
 
+void test_node_array(struct Robot *robot) {
+  // Allocating 2D array of Node structs
+  // This can be done, once we know the size of the array (runtime)
+  // The size will be known from map size
+  struct Nodes **node; // Pointer to an array of Nodes structs
+
+  // Example allocating 2D array with size 3x1
+  node = (struct Nodes **)malloc(sizeof(struct Nodes *) * 3);
+  for (int i = 0; i < 3; i++) {
+    node[i] = (struct Nodes *)malloc(sizeof(struct Nodes) * 1);
+  }
+
+  // Store array adress in robot struct
+  robot->node = node;
+
+  // Setting some test values
+  // access as nodes[x][y] - remember size is 3x1
+  robot->node[0][0].hex = 10;
+  robot->node[1][0].hex = 16;
+  robot->node[2][0].hex = 128;
+
+  robot->node[0][0].status = 0;
+  robot->node[1][0].status = 1;
+  robot->node[2][0].status = 0;
+
+  robot->node[0][0].move_cost = 5;
+  robot->node[1][0].move_cost = 10;
+  robot->node[2][0].move_cost = 20;
+}
+
 void robot_print(struct Robot *robot) {
   printf("\n");
   printf("Robot current pos: %d,%d\n", robot->pos.x, robot->pos.y);
-  printf("Check map segments[%d][%d] - Map says: %X scan() says: %X (hardcoded)\n", robot->pos.x, robot->pos.y, robot->nodemap.node[robot->pos.x][robot->pos.y], scan());
+  printf("Check map segments[%d][%d] - Map says: 0x%02X scan() says: 0x%02X (hardcoded)\n", robot->pos.x, robot->pos.y, robot->map.nodes[robot->pos.x][robot->pos.y], scan());
 }
 
 // Returns TRUE if robot current position is identical to map finish position
@@ -148,7 +187,7 @@ int finished(struct Robot *robot) {
 }
 
 // TODO Sensor scan
-char scan() {
+unsigned char scan() {
   return 0xFF; // Return scan result - in this case just a hardcoded value
 }
 
@@ -242,14 +281,14 @@ void map_load(struct Robot *robot) {
     }
   }
 
-  // Set file position back to beginning of file
+  // Set file pointer position back to beginning of file
   rewind(myfile);
 
   // Allocate memory for the 2D array with size of rows and cols
   // malloc() allocates single block of memory
   // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
   // sizeof() returns size in bytes of the object representation of type
-  char **array; // Pointer to array
+  unsigned char **array; // Pointer to array
   array = malloc(rows * sizeof(char*));
   for (int i = 0; i < rows; i++) array[i] = calloc(cols, sizeof(char));
 
@@ -293,8 +332,8 @@ void map_load(struct Robot *robot) {
   }
 
   // Set robot current position to map start position
-  robot->pos.x = 0;//robot->map.start.x;
-  robot->pos.y = 0;//robot->map.start.y;
+  robot->pos.x = robot->map.start.x;
+  robot->pos.y = robot->map.start.y;
 }
 
 void node_map_load(struct Robot *robot) {
@@ -312,13 +351,13 @@ void node_map_load(struct Robot *robot) {
 
   // Store the pointer to the 2D array in map struct
   // Data can now be written to the allocated array through the struct
-  robot->nodemap.node = array;
+  robot->map.nodes = array;
 
   unsigned char hex;
 
   // loop through all nodes in map
-  for (int i=1; i<robot->map.size.y; i=i+2) {
-    for (int j=1; j<robot->map.size.x; j=j+2) {
+  for (int i=1; i<robot->map.size.y; i+=2) {
+    for (int j=1; j<robot->map.size.x; j+=2) {
 
       // For each node check the 8 neighbours and generate the total hex value
       hex = 0;
@@ -331,7 +370,7 @@ void node_map_load(struct Robot *robot) {
       hex += (robot->map.segments[i+1][j-1] == '#') ? SW : 0;
       hex += (robot->map.segments[i-1][j-1] == '#') ? NW : 0;
 
-      robot->nodemap.node[(i-1)/2][(j-1)/2] = hex;
+      robot->map.nodes[(i-1)/2][(j-1)/2] = hex;
     }
   }
 }
@@ -340,7 +379,7 @@ void node_map_load(struct Robot *robot) {
 // input is a hex ie FF (walls all around)
 // split it into the 8 individual hex values and update the correct map array values
 //
-// should update the node at the current position, which is the same node on map or nodemap
+// should update the node at the current position, which is the same node on map or node.map
 
 void map_update(struct Robot *robot, char hex) {
 
@@ -362,7 +401,7 @@ void map_update(struct Robot *robot, char hex) {
   robot->map.segments[i-1][j-1] = (hex & NW) ? '#' : ' ';
 
   // Map has changed so update the node map
-  free(robot->nodemap.node); // TODO more free stuff all around
+  free(robot->map.nodes); // TODO more free stuff all around
   node_map_load(robot);
 }
 
