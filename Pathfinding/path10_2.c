@@ -39,6 +39,13 @@ struct Maps {
   unsigned char **nodes; // 2D array of each node's 8 neighbours represented as a hex value
 };
 
+//TODO initialize
+struct Path {
+  struct Node *HoP;  //Head of Path
+  //use char hex as movement instruction
+  //use Point parent as nextInList
+};
+
 //the master struct, containing:
 //  current position, map struct, node array
 struct Robot {
@@ -47,7 +54,7 @@ struct Robot {
   //TODO next line seems redundant
   struct Node **node; // testing node structs in 2D array
   // IDEA We could setup other data we need such as:
-  // struct Path path;
+  struct Path path;
   // struct Motors
 };
 
@@ -58,6 +65,8 @@ struct Node {
   unsigned int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
   unsigned int move_cost; //how much does it cost to move here
   struct Point parent;  //saving the parent as a point (x & y)
+  struct Point self;    //own coordinates (needed in pathfinding)
+  struct Node *next;    //next in linked list   should default to NULL
 };
 
 
@@ -101,11 +110,12 @@ void go() {
   //1.
 
   map_load(robot);        // Load map data from file into structs and set current pos to map start pos
+
   path_calculate(robot);  // Calculate shortest path from msp start to finish
 
   // While robot has not reached the finish position
   while (!finished(robot)) {
-    robot_print(robot);
+    //robot_print(robot);
 
     // Scan surroundings at current position and compare with map segment
     // if scan and map differs update map segment save file and recalculate path
@@ -123,18 +133,21 @@ void go() {
   printf("Map array size: %dx%d\n", robot->map.size.x, robot->map.size.y);
   printf("Node array size: %dx%d\n\n", (robot->map.size.x-1)/2, (robot->map.size.y-1)/2);
 
+  /* This is only debug, and was annoying me --Daniel
   for (int i = 0; i < (robot->map.size.y-1)/2; ++i) { // loop rows
     for (int j = 0; j < (robot->map.size.x-1)/2; ++j) { // loop cols
       printf("Node %d.%d in map.nodes = 0x%02X\n", i, j, robot->map.nodes[i][j]);
     }
   }
+  */
 
-  printf("\nThis is a test: %i\n", /*robot->map.nodes[0][0]); */node(0,0)); // testing interesting declaration
 
-  //test_node_array(robot);
-  printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
-  printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move_cost);
-  printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move_cost);
+//  printf("\nThis is a test: %i\n", /*robot->map.nodes[0][0]); */node(0,0)); // testing interesting declaration
+
+//  test_node_array(robot);
+//  printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
+//  printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move_cost);
+//  printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move_cost);
 }
 
 //should fetch the next movement from the movement stack
@@ -413,6 +426,8 @@ void map_update(struct Robot *robot, char hex) {
 
 void path_calculate(struct Robot *robot) {
   //check if current node is finishline
+  if (robot->path.HoP->self.x == robot->map.finish.x && robot->path.HoP->self.y == robot->map.finish.y) return;
+  printf("calculate more");
   //look at current node
   //evaluate neighbours
   //save costs
