@@ -425,8 +425,9 @@ void map_update(struct Robot *robot, char hex) {
 }
 
 void path_calculate(struct Robot *robot) {
-  //check if current node is finishline
-  if (robot->path.HoP->self.x == robot->map.finish.x && robot->path.HoP->self.y == robot->map.finish.y) return;
+  //TODO check if current node is finishline
+  /*if (robot->path.HoP->self.x == robot->map.finish.x &&
+      robot->path.HoP->self.y == robot->map.finish.y) return; */
   printf("calculate more");
   //look at current node
   //evaluate neighbours
