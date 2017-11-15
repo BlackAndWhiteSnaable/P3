@@ -19,8 +19,8 @@
 #define NW 0x80
 
 // Look at these interesting declarations
-//this is a macro, could lead to some unwanted "optimization"
-//by the compiler
+//this is a macro, could lead to some unwanted
+//"optimization" by the compiler
 #define map(i,j) robot->map.segments[i][j]
 #define node(i,j) robot->map.nodes[i][j]
 
@@ -30,7 +30,7 @@ struct Point {
 };
 
 //a map, consisting of start, finish and size
-//and two arrays
+//and two char arrays (segments & nodes)
 struct Maps {
   struct Point start;
   struct Point finish;
@@ -39,12 +39,17 @@ struct Maps {
   unsigned char **nodes; // 2D array of each node's 8 neighbours represented as a hex value
 };
 
+//TODO struct path
+
+//the master struct, containing:
+//  current position, map struct, node array
 struct Robot {
   struct Point pos;   //current position?
   struct Maps map;
+  //TODO next line seems redundant
   struct Node **node; // testing node structs in 2D array
   // IDEA We could setup other data we need such as:
-  // struct Path
+  // struct Path path;
   // struct Motors
 };
 
@@ -54,7 +59,7 @@ struct Node {
   unsigned char hex;
   unsigned int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
   unsigned int move_cost;
-  // parent
+  //TODO parent
 };
 
 
@@ -72,10 +77,13 @@ unsigned char scan();
 
 void test_node_array(struct Robot *robot);
 
+void move_next(struct Robot *robot);
+
 /*******************
  main.c
 *******************/
 int main() {
+  //really ugly, you can't see what's happening --Daniel
   go(); // Calls all other functions
 
   return 0;
@@ -86,11 +94,12 @@ int main() {
 *******************/
 // Executes robot behavior instructions
 void go() {
+  //1. this could be moved into a function --Daniel
   struct Robot *robot;    // Declare empty pointer to a struct of type Robot
   robot = init_robot();   // Allocate structs and return the address to pointer
+  //1.
 
   map_load(robot);        // Load map data from file into structs and set current pos to map start pos
-  node_map_load(robot);
   //path_calculate(robot);  // Calculate shortest path from msp start to finish
 
   // While robot has not reached the finish position
@@ -102,18 +111,14 @@ void go() {
     map_check(robot);
 
     // Move to next position
-    // path_next_move(robot);
-
-    // Simulate move south east until finish is reached
-    robot->pos.x++;
-    robot->pos.y++;
-
+    move_next(robot);
   }
 
   // While loop has ended so robot must be at finish coordinates
   printf("\nRobot current pos: %d.%d\n", robot->pos.x, robot->pos.y);
   printf("### Finishline reached ###\n\n");
 
+  //why is this in hex though? --Daniel
   printf("Map array size: %dx%d\n", robot->map.size.x, robot->map.size.y);
   printf("Node array size: %dx%d\n\n", (robot->map.size.x-1)/2, (robot->map.size.y-1)/2);
 
@@ -129,6 +134,14 @@ void go() {
   printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move_cost);
   printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move_cost);
   printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move_cost);
+}
+
+//should fetch the next movement from the movement stack
+//TODO implement
+void move_next(struct Robot *robot) {
+  // Simulate move south east until finish is reached
+  robot->pos.x++;
+  robot->pos.y++;
 }
 
 // Initialize default settings for robot on startup
@@ -180,12 +193,11 @@ void robot_print(struct Robot *robot) {
 // Returns TRUE if robot current position is identical to map finish position
 int finished(struct Robot *robot) {
   // Compares robot current position with map finish position
-  if(robot->pos.x == robot->map.finish.x &&
-    robot->pos.y == robot->map.finish.y) {
-    return TRUE;
-  } else {
+  if(!(robot->pos.x == robot->map.finish.x &&
+    robot->pos.y == robot->map.finish.y)) {
     return FALSE;
   }
+  return TRUE;
 }
 
 // TODO Sensor scan
@@ -324,6 +336,8 @@ void map_load(struct Robot *robot) {
   // Set robot current position to map start position
   robot->pos.x = robot->map.start.x;
   robot->pos.y = robot->map.start.y;
+
+  node_map_load(robot);
 }
 
 void node_map_load(struct Robot *robot) {
