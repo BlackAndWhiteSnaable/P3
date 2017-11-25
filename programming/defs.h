@@ -18,8 +18,27 @@
 #define SW 0x40
 #define NW 0x80
 
-#include "map.h"
-#include "framework.h"
-#include "path.h"
-//#include "move.h"
-//#include "scan.h"
+
+
+struct Point {
+  int x,y;
+};
+
+struct Maps {
+  struct Point start;
+  struct Point finish;
+  struct Point size; // Size is amount of nodes in the map
+  unsigned char **segments; // 2D array of the map data from text file (user input)
+  unsigned char **nodes; // 2D array of each node's 8 neighbours represented in a hex value
+};
+
+typedef struct Robot {
+  struct Point pos;
+  struct Maps map;
+  struct Nodes **node; // testing node struts in 2D array
+  // IDEA We could setup other data we need such as:
+  // struct Path
+  // struct Motors
+  // struct LEDs
+} RobotType;
+

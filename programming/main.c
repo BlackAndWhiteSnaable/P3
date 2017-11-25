@@ -23,6 +23,13 @@ void map_check(struct Robot *robot);
 void map_update(struct Robot *robot, char hex);
 void test_node_array(struct Robot *robot);
 
+void path_next_move(RobotType *robot);
+
+
+RobotType *init_robot();
+void robot_print(RobotType *robot);
+
+
 //don't want to be moved to their own .h or .c files
 void map_load(struct Robot *robot);
 
@@ -34,6 +41,8 @@ int main() {
 
   return 0;
 }
+
+
 
 /*******************
  functions.c
@@ -56,11 +65,7 @@ void go() {
     map_check(robot);
 
     // Move to next position
-    // path_next_move(robot);
-
-    // Simulate move south east until finish is reached
-    robot->pos.x++;
-    robot->pos.y++;
+    path_next_move(robot);
 
   }
 
@@ -358,10 +363,6 @@ void map_update(struct Robot *robot, char hex) {
   free(robot->map.nodes); // TODO more free stuff all around
   node_map_load(robot);
 }
-
-
-
-
 
 
 
