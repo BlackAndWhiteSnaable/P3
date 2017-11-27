@@ -166,7 +166,7 @@ struct Robot *init_robot() {
   struct Node **nodes;
   nodes = (struct Node **)malloc(sizeof(struct Node *) * 5);
   for (int i = 0; i < 5; i++) {
-      nodes[i] = (struct Node **)malloc(sizeof(struct Node) *5);
+      nodes[i] = (struct Node *)malloc(sizeof(struct Node) *5);
   }
   robot->map.nodes = nodes;
 
