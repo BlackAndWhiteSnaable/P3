@@ -23,53 +23,55 @@
 //
 // By using a 2D array we do not have a list with closed nodes, which means extra cycles?
 // Unless pathfinding knows which nodes to ask for?
+
 typedef struct {
-  unsigned char hex;
-  unsigned int status:1; // 1 bit unsigned int (bool) 0/1 indicates open or closed
-  unsigned int move1_cost;
-  // parent
-} NodesType;
-
-typedef struct  {
   int x,y;
-} PointType;
+} Point;
 
-typedef struct{
-  PointType start;
-  PointType finish;
-  PointType size; // Size is amount of nodes in the map
+typedef struct Node {
+  struct Node *n,*e,*s,*w;      // Pointers to neighbors vertical/horizontal
+  struct Node *nw,*ne,*se,*sw;  // Pointers to neighbors diagonal
+  struct Node *parent;          // Pointer to parent node
+  unsigned char walls;          // Hex value for the 8 walls
+  int movecost;                 // Steps needed to get here
+  struct Node *next;            // Next node in the list
+} Nodes;
+
+typedef struct {
+  Point start;
+  Point finish;
+  Point size; // Size is amount of nodes in the map
   unsigned char **segments; // 2D array of the map data from text file (user input)
-  unsigned char **nodes; // 2D array of each node's 8 neighbours represented in a hex value
-} MapsType;
+  Nodes **node; // 2D array of each node's 8 neighbours represented in a hex value
+} Maps;
 
-typedef struct{
-  PointType pos;
-  MapsType map;
-  NodesType **node; // testing node struts in 2D array
+typedef struct {
+  Point pos;
+  Maps map;
   // IDEA We could setup other data we need such as:
   // struct Path
   // struct Motors
   // struct LEDs
-} RobotType;
+} Robot;
 
 
 // Function declarations
 void go();
-void node_map_load(RobotType *robot);
-int robot_finished(RobotType *robot);
+void node_map_load(Robot *robot);
+int robot_finished(Robot *robot);
 unsigned char scan();
-void map_save(RobotType *robot);
-void map_check(RobotType *robot);
-void map_update(RobotType *robot, char hex);
-void test_node_array(RobotType *robot);
+void map_save(Robot *robot);
+void map_check(Robot *robot);
+void map_update(Robot *robot, char hex);
+void test_node_array(Robot *robot);
 
-void path_next_move(RobotType *robot);
+void move_next(Robot *robot);
 
 
-RobotType *init_robot();
-void robot_print(RobotType *robot);
+Robot *init_robot();
+void robot_print(Robot *robot);
 
 
 //don't want to be moved to their own .h or .c files
-void map_load(RobotType *robot);
+void map_load(Robot *robot);
 
