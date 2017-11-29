@@ -16,7 +16,7 @@ int main() {
 *******************/
 // Executes robot behavior instructions
 void go() {
-  RobotType *robot;    // Declare empty pointer to a struct of type Robot
+  Robot *robot;    // Declare empty pointer to a struct of type Robot
   robot = init_robot();   // Allocate structs and return the address to pointer
 
   map_load(robot);        // Load map data from file into structs and set current pos to map start pos
@@ -32,7 +32,7 @@ void go() {
     map_check(robot);
 
     // Move to next position
-    path_next_move(robot);
+    move_next(robot);
 
   }
 
@@ -45,21 +45,19 @@ void go() {
 
   for (int i = 0; i < (robot->map.size.y-1)/2; ++i) { // loop rows
     for (int j = 0; j < (robot->map.size.x-1)/2; ++j) { // loop cols
-      printf("Node %d.%d in map.nodes = 0x%02X\n", i, j, robot->map.nodes[i][j]);
+      printf("Node in robot->map.node[%d][%d].walls = 0x%02X\n", i, j, robot->map.node[i][j].walls);
     }
   }
 
-/*  test_node_array(robot);
-  printf("\nrobot->node[0][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[0][0].hex, robot->node[0][0].status, robot->node[0][0].move1_cost);
-  printf("robot->node[1][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[1][0].hex, robot->node[1][0].status, robot->node[1][0].move1_cost);
-  printf("robot->node[2][0]: hex=0x%02X, status=%d, move cost=%d\n", robot->node[2][0].hex, robot->node[2][0].status, robot->node[2][0].move1_cost);
-  */
+  // Path and priority queue testing
+  path_test(robot);
 }
 
 //TODO Initialize default settings for robot on startup
-RobotType *init_robot() {
+Robot *init_robot() {
   // Dynamically allocate robot struct in memory and return pointer
-  RobotType *robot = malloc(sizeof(RobotType));
+  Robot *robot = malloc(sizeof(Robot));
+
   //TODO give values to everything, even if they are only 0   --Daniel
-  return robot;   // Return pointer to the data allocated in memory
+  return robot;
 }

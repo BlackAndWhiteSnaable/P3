@@ -1,8 +1,8 @@
 /*******************
  defs.h
 *******************/
-#include <stdio.h>  // Needed for printf
-#include <stdlib.h> // Needed for malloc
+#include <stdio.h>      // Needed for printf
+#include <stdlib.h>     // Needed for malloc
 
 #define TRUE 1
 #define FALSE 0
@@ -18,23 +18,17 @@
 #define SW 0x40
 #define NW 0x80
 
-// For each map node
-// Declaring as 2D array keeps track of the elements [i][j]
-//
-// By using a 2D array we do not have a list with closed nodes, which means extra cycles?
-// Unless pathfinding knows which nodes to ask for?
-
 typedef struct {
   int x,y;
 } Point;
 
 typedef struct Node {
+  Point position;               // Nodes own x,y position on node map
   struct Node *n,*e,*s,*w;      // Pointers to neighbors vertical/horizontal
   struct Node *nw,*ne,*se,*sw;  // Pointers to neighbors diagonal
   struct Node *parent;          // Pointer to parent node
   unsigned char walls;          // Hex value for the 8 walls
   int movecost;                 // Steps needed to get here
-  struct Node *next;            // Next node in the list
 } Nodes;
 
 typedef struct {
@@ -48,30 +42,54 @@ typedef struct {
 typedef struct {
   Point pos;
   Maps map;
-  // IDEA We could setup other data we need such as:
-  // struct Path
-  // struct Motors
-  // struct LEDs
 } Robot;
 
+typedef struct stack_elem {
+    Nodes *node;      // Pointer to the map node
+	struct stack_elem *next; // next element in queue
+} Stack;
 
-// Function declarations
+typedef struct {
+	int num;        // Number of elements in stack
+	Stack *start;   // Queue start
+} TopStack;
+
+
+/*
+Function declarations
+*/
+
+// Robot
 void go();
-void node_map_load(Robot *robot);
-int robot_finished(Robot *robot);
-unsigned char scan();
+Robot *init_robot();
+
+// Map
+void map_load(Robot *robot);
 void map_save(Robot *robot);
 void map_check(Robot *robot);
 void map_update(Robot *robot, char hex);
+void node_map_load(Robot *robot); // node/map?
+int robot_finished(Robot *robot);
 void test_node_array(Robot *robot);
 
+// Scan
+unsigned char scan();
+
+// Move
 void move_next(Robot *robot);
 
+// Priority queue
+TopStack *init_queue(); // initialize top of stack struct in memory
+void push(TopStack *ts, Nodes *node); // add element on the stack
+void pop(TopStack *ts); // removes element from top of stack
+void printStack(TopStack *ts); //prints the elements in the stack
+void emptyStack(TopStack *ts); // empties the stack using the pop operation
+//void push(int queue, Nodes *node); // temp
 
-Robot *init_robot();
+// Pathfinding
+void path_test(Robot *robot);
+
+// Debugging and print to screen
 void robot_print(Robot *robot);
 
-
-//don't want to be moved to their own .h or .c files
-void map_load(Robot *robot);
 

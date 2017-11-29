@@ -1,6 +1,6 @@
 #include "defs.h"
 
-void path_next_move(RobotType *robot){
+void move_next(Robot *robot){
     // Simulate move south east until finish is reached
     robot->pos.x++;
     robot->pos.y++;

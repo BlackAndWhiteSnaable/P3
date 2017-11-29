@@ -1,110 +1,82 @@
-// Priority queue used for ordering nodes by movecost
-// Nodes are already declared as structs in a 2D array
-
-// pop(list) pops first element from queue and returns the address to the node
-// before removing the element from the list, not the actual node or node data.
-// This way the node (address) can also be inserted in another list
-//
-// push(list, node, priority) (node = address to the node)
-
 #include "defs.h"
 
-struct node {
-	int val;				// Variable to hold some value you wish to store
-	int pr;					// Priority
-	struct node *next;		// Pointer to next node
-};
+// initialize "index" pointer and struct called TopStack
+TopStack *init_queue()
+{
+    TopStack *ts;                                       // new struct pointer local to the function of type TopStack
+    ts = (TopStack *)malloc(sizeof(TopStack));          // set pointer equal to allocated space in memory
+    ts->num = 0;                                        // set num elements to 0
+    ts->start = NULL;                                   // set pointer to start of stack to NULL
 
-// TODO declare start node and pass address as argument, instead of using a global
-// This is similar to HoL
-struct node *start;
+    return ts; // needed, right?
+}
 
-// Function declarations
-void push(int val, int priority);
-void pop();
-void disp();
+// add element to stack
+void push(TopStack *ts, Nodes *mnode)
+{
+    Stack *tmp;                                         // pointer to a struct
+    tmp = (Stack *)malloc(sizeof(Stack));               // Allocate queue element struct in memory
 
-void push(int val, int priority) {
-	struct node *new, *temp;
-	new = (struct node *)malloc(sizeof(struct node));
-	new->val = val;
-	new->pr = priority;
-	new->next = NULL;
+    if (!ts->start) {                                   // add element to empty stack
+        ts->start = tmp;                                // set pointer to first element = new stack element tmp
+        ts->start->next = NULL;                         // first element has no next so set to NULL
 
-	// If start node pointer is NULL queue is empty, set new node as start node
-	if(start == NULL) {
-		start = new;
- 	// If the new node has a higher priority than the start node,
-	// save the new node as starting node and point next to previous start node
-    } else if(start->pr > priority) {
-		new->next = start;
-		start = new;
-	// Save the new node in the correct list position according to its priority.
-	// Traverse through the nodes in the list until a with lower priority than
-	// the new node is found. Insert the new node and update its next address.
-	} else {
-		temp = start; // Address of the queue start node
+    } else if(ts->start->node->movecost > mnode->movecost) {
+		tmp->next = ts->start;
+		ts->start = tmp;
 
-		while(temp->next != NULL && (temp->next)->pr <= priority) {
-			temp = temp->next; // Next node
+    } else {
+        Stack *cur;
+        cur = ts->start;                                  // add element to start of existing stack element(s)
+        while(cur->next != NULL && cur->next->node->movecost <= mnode->movecost) {
+			cur = cur->next; // Next node
 		}
-		new->next = temp->next; // Set new node next to point to next node in list
-		temp->next = new; // Set new node to be the next node in the list (insert)
-	}
-disp();
-}
+        tmp->next = cur->next;                            // in new stack element set next pointer to current start stack element
+        cur->next = tmp;                                  // set start stack element to point to the new stack element
 
-// Remove starting node
-// TODO remember to free() memory when deleting nodes
-// TODO But maybe we need a move function also, if we want to move a node from one list to the other
-void pop() {
-	if(start != NULL) {
-		struct node *temp;
-		printf("\nRemoved: %d", start->val);
-		start = start->next;
-		free(start); // is it ok to free now?
-		disp();
-	} else {
-		printf("\nError List Empty");
-	}
-}
-
-void disp() {
-	struct node *temp;
-	temp = start;
-	printf("\nPriority Queue: ");
-	while(temp!=NULL) {
-		printf("%d,%d ",temp->val, temp->pr);
-		temp=temp->next;
-	}
-	printf("\n");
-}
-
-int main2() {
-	int ch, value, pr, check=1;
-	while(check==1)	{
-		printf("\nIn Priority Queue Select:\n1. Insert\n2. Remove\n3. Exit\n");
-		scanf("%d",&ch);
-		switch(ch) {
-			case 1:
-				printf("\nEnter element and its priority: ");
-				scanf("%d%d",&value,&pr); //input from user
-				push(value,pr);	//Send Element and its priority for insertion
-				break;
-			case 2:
-				pop();
-				break;
-			case 3:
-				check=0; //Stops the loop
-				break;
-			default:
-				printf("Wrong Choice");
-				printf("\nPress 1 to continue or 0 to stop");
-				scanf("%d",&check);
     }
-	}
-	return 0;
-} //end of Main
+   // NEED to save address of node here
+   // node just created should be = &mnode
+    ts->num++;                                          // set number of elements to +1
+}
 
+// remove one element from start of stack
+void pop(TopStack *ts)
+{
+    if (!ts->start) {
+        printf("Nothing to pop, stack is empty\n");
+    } else {
+        Stack *tmp;                                     // tmp pointer to struct
+        tmp = ts->start->next;                            // set pointer to 2nd stack element from start
+        free(ts->start);                                  // free allocated memory for 1st stack element
+        ts->start = tmp;                                  // set 2nd stack element to 1st stack element
+        ts->num--;                                      // stack now has 1 less element so update num
+    }
+}
 
-//push(robot->map.node[0][0], 123);
+// empties stack using pop() to remove elements one by one
+void emptyStack(TopStack *ts)
+{
+    while(ts->start) {                                    // ts->start always points to first stack element, pop() updates it
+        pop(ts);                                        // remove element from start of stack by calling pop()
+    }
+}
+
+// print number of elements in stack and their values
+void printStack(TopStack *ts) {
+    if(ts->num==0)
+    {
+        printf("Print what? Stack is empty\n");
+    } else {
+        printf("Queue contains %d element(s):\n", ts->num);
+
+        Stack *cur; // pointer to node currently being traversed
+        int i=1; // count stack element position
+
+        for (cur = ts->start; cur != NULL; cur = cur->next)
+        {
+            printf("%d. Queue element has movecost: %d\n", i, cur->node->movecost);
+            i++;
+        }
+    }
+}

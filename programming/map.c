@@ -2,7 +2,7 @@
 
 // Scan surroundings at current position and compare with map segment
 // If it differs, update map, then save map to file and recalculate path
-void map_check(RobotType *robot) {
+void map_check(Robot *robot) {
   char scan_segment = scan();
   char map_segment = robot->map.segments[robot->pos.x][robot->pos.y];
 
@@ -20,7 +20,7 @@ void map_check(RobotType *robot) {
 }
 
 // Write map data to text file
-void map_save(RobotType *robot) {
+void map_save(Robot *robot) {
 
   // Open the file in write mode
   FILE *myfile = fopen(MAP_FILENAME, "w");
@@ -55,7 +55,7 @@ void map_save(RobotType *robot) {
   //
   // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
   // a 5x5 array must be used to hold the values
-void map_load(RobotType *robot) {
+void map_load(Robot *robot) {
   // for first 2 lines all characters into an array = string (skip for now)
   //
   // for map segments read character by character into array (forget size and malloc to begin with?)
@@ -144,30 +144,33 @@ void map_load(RobotType *robot) {
   robot->pos.y = robot->map.start.y;
 }
 
-void node_map_load(RobotType *robot) {
-  // For creating nodes, circle around each node to get the neighbours
-
+// TODO change name to build_nodes?
+void node_map_load(Robot *robot) {
   // From the map size the amount of nodes in the map can be calculated
   // TODO save in node struct
   int rows = (robot->map.size.y-1)/2;
   int cols = (robot->map.size.x-1)/2;
 
-  // declare node map of correct size
-  unsigned char **array;
-  array = malloc(rows * sizeof(char*));
-  for(int i=0; i<rows; i++) array[i] = malloc(cols * sizeof(char));
+  // Declare node map of correct size
+  Nodes **array;
+  array = malloc(rows * sizeof(Nodes*));
+  for(int i=0; i<rows; i++) {
+    array[i] = malloc(cols * sizeof(Nodes));
+  }
 
-  // Store the pointer to the 2D array in map struct
+  // Store the pointer to the nodes in
   // Data can now be written to the allocated array through the struct
-  robot->map.nodes = array;
+  robot->map.node = array;
 
+  // Build hex value that contains data about the walls surrounding each node
   unsigned char hex;
 
-  // loop through all nodes in map
+  // loop through all nodes positions in the map
   for (int i=1; i<robot->map.size.y; i+=2) {
     for (int j=1; j<robot->map.size.x; j+=2) {
 
-      // For each node check the 8 neighbours and generate the total hex value
+      // For each node check the 8 neighbors and generate the 8-bit value
+      // # means the direction is closed by a wall, if no wall it is open
       hex = 0;
       hex += (robot->map.segments[i-1][j+0] == '#') ? N : 0;
       hex += (robot->map.segments[i-0][j+1] == '#') ? E : 0;
@@ -178,27 +181,25 @@ void node_map_load(RobotType *robot) {
       hex += (robot->map.segments[i+1][j-1] == '#') ? SW : 0;
       hex += (robot->map.segments[i-1][j-1] == '#') ? NW : 0;
 
-      robot->map.nodes[(i-1)/2][(j-1)/2] = hex;
+      robot->map.node[(i-1)/2][(j-1)/2].walls = hex;
     }
   }
 }
 
-// TODO TODO update a map segment (then call generate_node_map)
-// input is a hex ie FF (walls all around)
-// split it into the 8 individual hex values and update the correct map array values
+// Input for walls is a hex value eg. FF means walls all around
+// Check the 8 individual hex values and update the correct map array values
 //
 // should update the node at the current position, which is the same node on map or node.map
-void map_update(RobotType *robot, char hex) {
+void map_update(Robot *robot, char hex) {
 
-  // Get robot current node position
-  // Math converts node coordinate to map coordinate
+  // Convert node coordinate to map coordinate
   int i = robot->pos.y*2+1;
   int j = robot->pos.x*2+1;
 
-  // Update all 8 neighbours corresponding to the hex value
-  // Bitwise comparison for each neighbour in the hex value, 1 puts a wall in the given direction
-  // store a '#' if not store a ' ' (space)
-  //TODO wouldn't this need to be double =?   --Daniel
+  // Update all 8 neighbors according to the hex wall value
+  // Done by comparing bitwise each neighbor of the node to the hex wall value
+  // Equal values puts a wall in the given direction by storing a '#'
+  // Not equal stores a ' ' (space)
   robot->map.segments[i-1][j+0] = (hex & N) ? '#' : ' ';
   robot->map.segments[i-0][j+1] = (hex & E) ? '#' : ' ';
   robot->map.segments[i+1][j-0] = (hex & S) ? '#' : ' ';
@@ -208,58 +209,12 @@ void map_update(RobotType *robot, char hex) {
   robot->map.segments[i+1][j-1] = (hex & SW) ? '#' : ' ';
   robot->map.segments[i-1][j-1] = (hex & NW) ? '#' : ' ';
 
-  // Map has changed so update the node map
-  free(robot->map.nodes); // TODO more free stuff all around
-  node_map_load(robot);
+  // Map is now up to date, so rebuild nodes based on the updated map
+  free(robot->map.node); // Free current nodes
+  node_map_load(robot); // Rebuild nodes
 }
 
-
-// Read map into an array for processing to nodes, and for
-// updating/displaying/saving to file
-// For changes the map only need ONE node updated, node map also needs the
-// correct of 8 neighbors updatedm and checking for map borders is painfull
-//
-// For creating nodes, circle around each node to get the neighbours
-//
-// For saving map from node (after a change to a node - sucks more nodes need update)
-// if line < 3 and FIRST node print all neighbours
-// if line < 3 and NOT first node print above/below and right side
-// if line > 3 and FIRST node print all sides but the above
-// if line > 3 and NOT first node print right and below
-//
-// line 3 could also be identified as first node line: node[i][j] where i = 0
-
 /*
-
-// <<<<<<<<<<<<<<<<<<<<<<
-
-// 1. save map data in an array
-// 2. >for each node in array<, lookup the 8 neighbours and if its a wall add the hex value to the node
-// how to figure out each node pos (had that ealier)
-// If there's a change, update map and regenerate node map
-
-
-char hex[20][20];
-
-// The 8 binary byte values in hex according to direction of neighbour wall
-// Values for binary byte (0000 0000) where each bit represents a neighbour
-// that is either moveable (0) or a wall (1)
-char values[3][3] = {
-  {0x10, 0x01, 0x20}, // NW, N, NE
-  {0x08, 0x00, 0x02}, // W, Node, E
-  {0x80, 0x04, 0x40}  // SW, S, SE
-};
-
-
-// Calculate which node the neighbour (character) that gets read belongs to
-node_x = cols/3; // divide chars into groups of 3 -> 012=1 345=2 678=3
-node_y = rows/3; // divide rows into groups of 3 -> 012=1 345=2 678=3
-
-  //hex[rows/3][cols/3] += values[rows%3][cols%3];
-
-
-
-//
 // using lists (containers) for the open and closed nodes rather than a grid of nodes,
 // and returning paths as self-contained objects (you can write a class or struct for that.
 // https://www.gamedev.net/forums/topic/521928-a-star-a-pathfinding-in-c/
@@ -285,6 +240,9 @@ node_y = rows/3; // divide rows into groups of 3 -> 012=1 345=2 678=3
 //
 // The correct way would be to have Map_nodes to store all data for a node
 // in a list, instead of having different node data multiple times (arrays)
+
+
+
 
 IDEA for data structure:
 
@@ -313,34 +271,4 @@ robot->node[i][i].cost (which would be a hex)
 In theory this should work (at least in my head).
 
 -------------------------
-
-
-MapsType {
-  Struct Map_nodes **nodes; <-- add this to Map
-};
-
-// any data that
-Struct Map_nodes {
-
-}
-
-
-A thing to test
-having a pointer point to the 2D array pointer to get to a 2D array is that smart
-why not just directly store the adress of a 2D array in a pointer
-
-go from
-**[pointer] -> *[pointer for 2d array adress]
-to this
-*[pointer] -> &[pointer for 2d array adress]
-
-tested, it did not work hehe
-
-
-
-Dashboard diodes (light for 1 sek?):
-- Map change found
-- Calculating path
-- Show walls detected or possible directions to move
-- Steps to goal?
 */
