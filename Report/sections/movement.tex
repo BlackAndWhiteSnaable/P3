@@ -1,12 +1,75 @@
 \chapter{Movement}\label{ch:move}
-Pathfinding is generally the process of finding a path from a given starting point ('A')
-to a given destination ('B'),
-on a given map.
+For our robot to be able to show the results of path finding,
+it needed to be able to move.
 
-\section{Section}\label{sec:sec}
-Like with many others,
-is the first step in Dijkstra's algorithm to reduce the map to the necessary minimum.
-After this reduction, the map only consists of \emph{nodes} and \emph{edges}.
-An edge connects two nodes together and has one integer \emph{travel cost}.
-In this integer is stored how much it costs to traverse along that edge,
-measured in the metric that should get optimized (in our case distance).
+We decided to move only along a simple 2D grid-like structure,
+therefore wheels were the easiest solution.
+
+\section{Wheels}\label{sec:wheels}
+We wanted the robot to be capable of moving in eight directions from every position.
+One solution for this would have been for the robot to turn every time it needed to change direction,
+but since our goal was to test and time our path finding algorithm,
+this was highly impractical.
+One of our group members had worked with small wheel-based robots before,
+and remembered omni-wheels.
+\missingfigure{a picture of omniwheels}
+Omni-wheels are wheels,
+whose contact area consists of smaller wheels.
+Those smaller wheels are able to spin freely,
+with very little force needed.
+If mounted in two pairs,
+with the axes crossing at a 90 degree angle, \todo{find degree symbol}
+one pair controls all forces along the x-axis,
+and the other one along the y-axis.
+\missingfigure{a figure of the forces in different directions added together}
+
+\section{Direction Control}\label{sec:direction}
+To control the direction of the robot,
+we had to control which wheels turn how many degrees.
+
+One option for this would have been to control each motor individually,
+for this we would have needed four individually controllable stepper motors,
+and four times four control outputs from our microcontroller.
+This solution also meant precise timing between the four motors was needed,
+in order to not generate any rotation.
+
+We decided to look for a solution using less output pins,
+and without the danger of rotation.
+
+By analysing the requirements for our directional control,
+we figured out that we only need 8 configurations of motor pairs.
+\begin{center}
+\begin{tabular}{|l|l|l|}
+	\hline
+	Direction & Pair A & Pair B	\\
+	\hline
+	North & forward & forward \\
+	East 	& forward & backward \\
+	South & backward & backward \\
+	West 	& backward & forward \\
+	\hline
+	North-East & forward & off \\
+	South-East & off & backward \\
+	South-West & backward & off\\
+	North-West & off & forward \\
+	\hline
+\end{tabular}
+\begin{tabular}{|l|c|c|c|c|}
+	\hline
+	Direction & flipA & onA & flipB & onB \\
+	\hline
+	North & 0 & 1 & 0 & 1 \\
+	East 	& 0 & 1 & 1 & 1 \\
+	South & 1 & 1 & 1 & 1 \\
+	West 	& 1 & 1 & 0 & 1 \\
+	\hline
+	North-East & 0 & 1 & 1 & 0 \\
+	South-East & 1 & 0 & 0 & 1 \\
+	South-West & 1 & 1 & 1 & 0 \\
+	North-West & 1 & 0 & 1 & 1 \\
+	\hline
+\end{tabular}
+\end{center}
+\missingfigure{schematic of motor control circuit\label{fig:mot_ctrl}}
+
+We decided to use 6 tri-state buffers as shown in figure\ref{fig:mot_ctrl}.
