@@ -2,3 +2,15 @@
 Report/build/
 
 Report/sections/build/
+
+*.exe
+
+*.cbp
+
+*.cscope_file_list
+
+*.depend
+
+*.depend
+
+*.o
