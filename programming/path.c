@@ -53,3 +53,18 @@ void path_set_neighbors(Robot *robot) {
   }
 }
 
+//calculates the path
+void path_calculate(Robot *robot) {
+  Nodes *currentNode;
+  int curx,cury;
+  curx = robot->pos.x;
+  cury = robot->pos.y;
+  currentNode = &robot->map.node[curx][cury];
+  printf("currently calculating position [%02i][%02i]\n",curx,cury);
+  while (curx!=robot->map.finish.x && cury!=robot->map.finish.y){
+    curx++;
+    cury++;
+    printf("not done calculating yet\n");
+  }
+  printf("done calculating\n");
+}
