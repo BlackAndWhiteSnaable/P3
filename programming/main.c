@@ -22,6 +22,8 @@ void go() {
   map_load(robot);        // Load map data from file into structs and set current pos to map start pos
   node_map_load(robot);
   //path_calculate(robot);  // Calculate shortest path from msp start to finish
+  path_set_neighbors(robot);
+  /*
 
   // While robot has not reached the finish position
   while (!robot_finished(robot)) {
@@ -50,7 +52,7 @@ void go() {
   }
 
   // Path and priority queue testing
-  path_test(robot);
+  */
 }
 
 //TODO Initialize default settings for robot on startup
