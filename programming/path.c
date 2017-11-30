@@ -53,17 +53,23 @@ void path_set_neighbors(Robot *robot) {
   }
 }
 
-//calculates the path
+//calculates the path at some point
 void path_calculate(Robot *robot) {
-  Nodes *currentNode;
-  int curx,cury;
-  curx = robot->pos.x;
-  cury = robot->pos.y;
-  currentNode = &robot->map.node[curx][cury];
+  Nodes *currentNode;     //the Node currently looked at (should be popped from priority queue)
+  int curx,cury;          //to keep track of your food/position on the map
+  curx = robot->pos.x;    //we start with the current position of the robot, should be start at first execution
+  cury = robot->pos.y;    //TODO is pos == start?
+  currentNode = &robot->map.node[curx][cury];     //TODO pop from queue?
+  //TODO is the current position at the first position in queue?
   printf("currently calculating position [%02i][%02i]\n",curx,cury);
-  while (curx!=robot->map.finish.x && cury!=robot->map.finish.y){
+  while (curx!=robot->map.finish.x && cury!=robot->map.finish.y){   //do until we reach the finish
+    //TODO pop from priority queue
+    //TODO 8 if (neighbor exists && neighbor.movement > own.movement+1)
+      //TODO update neighbor.movecost
+      //TODO check whether neighbor is in priority queue, move to right position
     curx++;
     cury++;
+    //TODO
     printf("not done calculating yet\n");
   }
   printf("done calculating\n");
