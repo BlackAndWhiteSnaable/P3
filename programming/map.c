@@ -148,28 +148,27 @@ void map_load(Robot *robot) {
 void node_map_load(Robot *robot) {
   // From the map size the amount of nodes in the map can be calculated
   // TODO save in node struct
-  int rows = (robot->map.size.y-1)/2;
-  int cols = (robot->map.size.x-1)/2;
+  int num_nodes_x = (robot->map.size.y-1)/2;
+  int num_nodes_y = (robot->map.size.x-1)/2;
 
   // Declare node map of correct size
   Nodes **array;
-  array = malloc(rows * sizeof(Nodes*));
-  for(int i=0; i<rows; i++) {
-    array[i] = malloc(cols * sizeof(Nodes));
+  array = malloc(num_nodes_x * sizeof(Nodes*));
+  for(int i=0; i<num_nodes_x; i++) {
+    array[i] = malloc(num_nodes_y * sizeof(Nodes));
   }
 
-  // Store the pointer to the nodes in
+  // Store the pointer to the nodes in map struct
   // Data can now be written to the allocated array through the struct
   robot->map.node = array;
 
   // Build hex value that contains data about the walls surrounding each node
   unsigned char hex;
 
-  // loop through all nodes positions in the map
+  // loop through all nodes positions in the map (avoid walls)
   for (int i=1; i<robot->map.size.y; i+=2) {
     for (int j=1; j<robot->map.size.x; j+=2) {
-
-      // For each node check the 8 neighbors and generate the 8-bit value
+      // For each node check walls in the 8 directions and build 8-bit value
       // # means the direction is closed by a wall, if no wall it is open
       hex = 0;
       hex += (robot->map.segments[i-1][j+0] == '#') ? N : 0;
@@ -181,9 +180,30 @@ void node_map_load(Robot *robot) {
       hex += (robot->map.segments[i+1][j-1] == '#') ? SW : 0;
       hex += (robot->map.segments[i-1][j-1] == '#') ? NW : 0;
 
+      // Save final 8-bit wall value
       robot->map.node[(i-1)/2][(j-1)/2].walls = hex;
+
+      // Save nodes own x,y position on node map
+      // Nodes position is calculated based on the position in segment map
+      // Example: First node top left will have position 0,0 and so on
+      robot->map.node[(i-1)/2][(j-1)/2].position.x = (i-1)/2;
+      robot->map.node[(i-1)/2][(j-1)/2].position.y = (j-1)/2;
     }
   }
+/*
+    for (int i=0; i<num_nodes_x; i++) {
+      for (int j=0; j<num_nodes_y; j++) {
+        robot->map.node[i][j] = (robot->map.node[i-1][j+0] < 0 || ) ? address of node north to it : NULL;
+      }
+    }
+*/
+      // TODO
+      // find neighbors to current node (like segments but only nodes that don't have walss in the way)
+      //
+      //
+      // see http://www.growingwiththeweb.com/2012/06/a-pathfinding-algorithm.html
+      // and wiki
+
 }
 
 // Input for walls is a hex value eg. FF means walls all around

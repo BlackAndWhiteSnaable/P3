@@ -34,7 +34,8 @@ typedef struct Node {
 typedef struct {
   Point start;
   Point finish;
-  Point size; // Size is amount of nodes in the map
+  Point size; // Size is amount of segments in the map
+  //Point num_nodes; // number of nodes in the map
   unsigned char **segments; // 2D array of the map data from text file (user input)
   Nodes **node; // 2D array of each node's 8 neighbours represented in a hex value
 } Maps;

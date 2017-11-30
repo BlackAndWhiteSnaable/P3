@@ -17,10 +17,12 @@ void push(TopStack *ts, Nodes *mnode)
     Stack *tmp;                                         // pointer to a struct
     tmp = (Stack *)malloc(sizeof(Stack));               // Allocate queue element struct in memory
 
+    // stack is empty, insert new element as head
     if (!ts->start) {                                   // add element to empty stack
         ts->start = tmp;                                // set pointer to first element = new stack element tmp
         ts->start->next = NULL;                         // first element has no next so set to NULL
 
+    // queue is not empty, first element has higher movecost than new element
     } else if(ts->start->node->movecost > mnode->movecost) {
 		tmp->next = ts->start;
 		ts->start = tmp;
@@ -35,8 +37,7 @@ void push(TopStack *ts, Nodes *mnode)
         cur->next = tmp;                                  // set start stack element to point to the new stack element
 
     }
-   // NEED to save address of node here
-   // node just created should be = &mnode
+    tmp->node = mnode;              // Save pointer to map node
     ts->num++;                                          // set number of elements to +1
 }
 
@@ -75,7 +76,7 @@ void printStack(TopStack *ts) {
 
         for (cur = ts->start; cur != NULL; cur = cur->next)
         {
-            printf("%d. Queue element has movecost: %d\n", i, cur->node->movecost);
+            printf("%d. Queue element node[%d][%d] and has movecost: %d\n", i, cur->node->position.x, cur->node->position.y, cur->node->movecost);
             i++;
         }
     }
