@@ -434,8 +434,8 @@ void map_update(struct Robot *robot, char hex) {
 
   // Get robot current node position
   // Math converts node coordinate to map coordinate
-  int i = robot->pos.y*2+1;
-  int j = robot->pos.x*2+1;
+  int i = robot->pos.y * 2 + 1;
+  int j = robot->pos.x * 2 + 1;
 
   // Update all 8 neighbours corresponding to the hex value
   // Bitwise comparison for each neighbour in the hex value, 1 puts a wall in the given direction
