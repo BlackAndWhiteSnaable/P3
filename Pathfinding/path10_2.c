@@ -18,12 +18,6 @@
 #define SW 0x40
 #define NW 0x80
 
-// Look at these interesting declarations
-//this is a macro, could lead to some unwanted
-//"optimization" by the compiler
-//#define map(i,j) robot->map.segments[i][j]
-//#define node(i,j) robot->map.nodes[i][j]
-
 //a simple point, consisting of two integers
 struct Point {
   int x,y;
@@ -172,7 +166,7 @@ struct Robot *init_robot() {
   struct Node **nodes;
   nodes = (struct Node **)malloc(sizeof(struct Node *) * 5);
   for (int i = 0; i < 5; i++) {
-      nodes[i] = (struct Node **)malloc(sizeof(struct Node) *5);
+      nodes[i] = (struct Node *)malloc(sizeof(struct Node) *5);
   }
   robot->map.nodes = nodes;
 
