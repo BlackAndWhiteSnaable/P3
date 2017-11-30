@@ -28,14 +28,18 @@
 \cleardoublepage
 \pdfbookmark[0]{Contents}{label:contents}
 \pagestyle{fancy} %enable headers and footers again
-\tableofcontents
+\tableofcontents	%TODO some weird shit happening here
+%TODO remember to delete before final version
 \listoftodos
 \input{sections/preface.tex}
 \cleardoublepage
 %mainmatter
 \pagenumbering{arabic} %use arabic page numbering in the mainmatter
 \input{sections/introduction.tex}
-\input{sections/ch2name.tex}
+%TODO populate with sections
+\input{sections/movement.tex}
+\input{sections/maphandling.tex}
+\input{sections/scan.tex}
 \input{sections/pathfinding.tex}
 \input{sections/conclusion.tex}
 \printbibliography[heading=bibintoc]
