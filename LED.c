@@ -1,4 +1,16 @@
 #include <msp430x20x3.h>
+/*maybe we should use the same naming conventions as in the other programs --Daniel
+#define N 1
+#define E 2
+#define S 4
+#define W 8
+
+#define NE 16
+#define SE 32
+#define SW 64
+#define NW 128
+*/
+
 #define North           1
 #define East            2
 #define South           4
@@ -10,12 +22,13 @@
 
 
 void stepping(void){
-  int step = 1, counter = 0;
-  CCR0 = 8000;
-  TACTL = MC_1 | ID_0 | TASSEL_2 |TACLR;
+  int step = 1, counter = 0;                    //can we make step a 3 bit variable? --Daniel
+  CCR0 = 8000;                                  //PLEASE EXPLAIN WHAT THIS DOES --Daniel
+  TACTL = MC_1 | ID_0 | TASSEL_2 |TACLR;        //PLEASE EXPLAIN WHAT THIS DOES --Daniel
   while(counter < 1000){                        //number of steps
     while((TACTL & 0x0001) == 0){}              //halfstepping from here down
-    TACTL &= ~0x0001;
+                                                //what does this expression state? --Daniel
+    TACTL &= ~0x0001;                           //PLEASE EXPLAIN WHAT THIS DOES --Daniel
     if(step == 1){                      //A1
       P1OUT &= ~0x02;
       P1OUT &= ~0x04;
@@ -32,7 +45,7 @@ void stepping(void){
       step++;
       counter++;
      }
-    else if(step == 3){                 //B1 
+    else if(step == 3){                 //B1
       P1OUT |= 0x02;
       P1OUT &= ~0x04;
       P1OUT &= ~0x08;
@@ -48,7 +61,7 @@ void stepping(void){
       step++;
       counter++;
     }
-    else if(step == 5){                 //A2 
+    else if(step == 5){                 //A2
       P1OUT &= ~0x02;
       P1OUT &= ~0x04;
       P1OUT |= 0x08;
@@ -67,7 +80,7 @@ void stepping(void){
     else if(step == 7){                 //B2
       P1OUT &= ~0x02;
       P1OUT |= 0x04;
-      P1OUT &= ~0x08;
+      P1OUT &= ~0x08;   //can we put this and the next in one line? --Daniel
       P1OUT &= ~0x10;
       step++;
       counter++;
@@ -84,8 +97,10 @@ void stepping(void){
 }
 void moveNorthWest(void){
   P1OUT |= 0x20;                                //enable the pair of wheels
+                                                //don't we have to disable the other wheels? why not? --Daniel
   P1OUT |= 0x40;                                //choose direction
-  stepping();                                     
+                                                //isn't direction also somehting with two bit?
+  stepping();
   P1OUT &= ~0x20;
 }
 void moveSouthEast(void){
@@ -122,7 +137,7 @@ void moveWest(void){
   P1OUT |= 0x40;                                //select direction
   stepping();
   P1OUT &= ~0x20;
-  P1OUT &= ~0x80; 
+  P1OUT &= ~0x80;
 }
 void moveSouth(void){
   P1OUT |= 0x80;                                //enable first pair of wheels
@@ -132,7 +147,7 @@ void moveSouth(void){
   stepping();
   P1OUT &= ~0x20;
   P1OUT &= ~0x80;
-  
+
 }
 void moveEast(void){
   P1OUT |= 0x80;                                //enable first pair of wheels
@@ -144,7 +159,8 @@ void moveEast(void){
   P1OUT &= ~0x80;
 }
 
-void move(unsigned volatile int x){
+void move(unsigned volatile int x){       //why volatile --Daniel
+  //really like this function, coded very neatly --Daniel
   switch(x){
   case 1: moveNorth(); break;
   case 2: moveEast(); break;
@@ -158,6 +174,8 @@ void move(unsigned volatile int x){
 }
 
 void wait(void){
+  //please don't get used to this, same bullshit as delay
+  //this is what we have timers for --Daniel
   TACTL = MC_2 | ID_3 | TASSEL_2 |TACLR;
   unsigned volatile int waitingTime = 0;
   while(waitingTime < 10){
@@ -178,14 +196,14 @@ void main(void){
   P1DIR |= 0x80;                                  //configure p1.7 p9 as output enable second pair
   P2SEL = 0;
   P2DIR |= 0x80;                                  //configure p2.7 p12 as output select direction of second pair
-  P1OUT &= ~0x02;  
-  P1OUT &= ~0x04;                            
-  P1OUT &= ~0x08;                                 
-  P1OUT &= ~0x10;                                  
-  P1OUT &= ~0x20;                                 
-  P1OUT &= ~0x40;                                  
+  P1OUT &= ~0x02;
+  P1OUT &= ~0x04;
+  P1OUT &= ~0x08;
+  P1OUT &= ~0x10;
+  P1OUT &= ~0x20;
+  P1OUT &= ~0x40;
   P1OUT &= ~0x80;
-  P2OUT &= ~0x80; 
+  P2OUT &= ~0x80;
   move(NorthWest);
   wait();
   move(SouthEast);
