@@ -14,3 +14,5 @@ Report/sections/build/
 *.depend
 
 *.o
+
+*.layout
