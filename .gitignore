@@ -14,3 +14,7 @@ Report/sections/build/
 *.depend
 
 *.o
+
+*.bak
+
+*.log
