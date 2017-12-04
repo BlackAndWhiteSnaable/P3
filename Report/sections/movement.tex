@@ -53,6 +53,152 @@ This type of stepper motor has a magnetized rotor. Each winding, will be subdivi
         }%
 \end{figure}
 
+The resolution of the motor can be improved in two ways, either by increasing the number of pole pairs in the rotor itself, or by increasing the number of phases as shown below.
+
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[Increased Pole Pairs]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor7.png}%
+        }%
+    \hfill%
+    \subfloat[Increased Number of Winding]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor8.png}%
+        }%
+\end{figure}
+
+To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is shown in the images below, with the corresponding phase energized.
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[$1\textsuperscript{st}$ Step]{
+        \includegraphics[width=0.2\textwidth]{figures/motor9.png}
+        }
+    \hfill
+    \subfloat[$2\textsuperscript{nd}$ Step]{
+        \includegraphics[width=0.2\textwidth]{figures/motor10.png}
+        }
+    \hfill
+    \subfloat[$3\textsuperscript{rd}$ Step]{
+    	\includegraphics[width=0.2\textwidth]{figures/motor11.png}
+    	}
+  	\hfill
+  	\subfloat[$4\textsuperscript{th}$ Step]{
+  		\includegraphics[width=0.2\textwidth]{figures/motor12.png}
+  		}
+\end{figure}
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[$1\textsuperscript{st}$ Step Winding]{
+        \includegraphics[width=0.2\textwidth]{figures/motor13.png}
+        }
+    \hfill
+    \subfloat[$2\textsuperscript{nd}$ Step Winding]{
+        \includegraphics[width=0.2\textwidth]{figures/motor14.png}
+        }
+    \hfill
+    \subfloat[$3\textsuperscript{rd}$ Step Winding]{
+    	\includegraphics[width=0.2\textwidth]{figures/motor15.png}
+    	}
+  	\hfill
+  	\subfloat[$4\textsuperscript{th}$ Winding]{
+  		\includegraphics[width=0.2\textwidth]{figures/motor16.png}
+  		}
+\end{figure}
+\subsubsection{Variable Reluctance Motor}
+This type of motor, uses a rotor that is not magnetized, and has a number of teeth as seen in the image below. The windings are configured differently, as depicted in the second figure, all having a common voltage source but with each end being separate. They usually have 3 or 5 windings. Greater precision can be achieved by adding more teeth to the rotor.
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[Non Magnetized Rotor]{
+        \includegraphics[width=0.4\textwidth]{figures/motor17.png}
+        }
+    \hfill
+    \subfloat[Windings]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor18.png}
+        }
+\end{figure}
+
+To spin the motor, each winding is energized one at a time, and the rotor rotates in such a way, to minimize reluctance. Some of the differences, between this type of stepper motor and the permanent magnet motor, are that, in order to spin the motor in a direction, the windings have to be energized in a reverse sequence, as depicted in the images below. In addition, the step angle is actually half of the one of a permanent magnet motor with the same number of windings is.
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[$1\textsuperscript{st}$ Step]{
+        \includegraphics[width=0.2\textwidth]{figures/motor19.png}
+        }
+    \hfill
+    \subfloat[$2\textsuperscript{nd}$ Step]{
+        \includegraphics[width=0.2\textwidth]{figures/motor20.png}
+        }
+    \hfill
+    \subfloat[$3\textsuperscript{rd}$ Step]{
+    	\includegraphics[width=0.2\textwidth]{figures/motor21.png}
+    	}
+  	\hfill
+  	\subfloat[$4\textsuperscript{th}$ Step]{
+  		\includegraphics[width=0.2\textwidth]{figures/motor22.png}
+  		}
+\end{figure}
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[$1\textsuperscript{st}$ Step Winding]{
+        \includegraphics[width=0.2\textwidth]{figures/motor23.png}
+        }
+    \hfill
+    \subfloat[$2\textsuperscript{nd}$ Step Winding]{
+        \includegraphics[width=0.2\textwidth]{figures/motor24.png}
+        }
+    \hfill
+    \subfloat[$3\textsuperscript{rd}$ Step Winding]{
+    	\includegraphics[width=0.2\textwidth]{figures/motor25.png}
+    	}
+  	\hfill
+  	\subfloat[$4\textsuperscript{th}$ Winding]{
+  		\includegraphics[width=0.2\textwidth]{figures/motor26.png}
+  		}
+\end{figure}
+
+\subsubsection{Hybrid Stepper Motor}
+Hybrid stepper motors borrow characteristics both the previous ones. The picture below shows the two of the main components of the hybrid stepper motor. On the left side, the stator can be seen consisting of 8 poles. On the right side, is represented the rotor. The rotor consists of two sets of teeth, corresponding for the two poles, north and south, respectively.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{figures/motor27.png}
+	\caption{Stator And Rotor}
+\end{figure}
+
+It is important to notice two additional things. The first, is that the teeth on the rotor are not aligned but are interleaved, as shown in the picture below. The second, is the placement of the stator teeth in respect to those of the rotor, represented in the second picture.
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[Interleaved Teeth]{
+        \includegraphics[width=0.4\textwidth]{figures/motor28.png}
+        }
+    \hfill
+    \subfloat[Stepper Motor Inside]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor29.png}
+        }
+\end{figure}
+
+It can be observed in the second picture, the windings with numbers 1 and 5 are completely aligned with the teeth of the rotor. Windings number 3 and 7 are completely unaligned, while the others are half aligned. This results in higher precision and higher torque offered by the hybrid stepper motor, depending on the stepping method used.
+
+The picture below represents the front view of the hybrid stepper motor together with the configuration of the two windings. 
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[Front View Stepper Motor]{
+        \includegraphics[width=0.4\textwidth]{figures/motor30.png}
+        }
+    \hfill
+    \subfloat[Winding Configuration]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor31.png}
+        }
+\end{figure}
+
+It is important to notice that, even though the motor has only two windings, each individual winding energizes 4 stator poles.
+
 \section{Motor Drivers}\label{sec:drivers}
 \section{Wheels}\label{sec:wheels}
 We wanted the robot to be capable of moving in eight directions from every position.
