@@ -4,7 +4,56 @@ it needed to be able to move.
 
 We decided to move only along a simple 2D grid-like structure,
 therefore wheels were the easiest solution.
+\section{Motors}\label{sec:motors}
+A stepper motor is a motor that moves one step at a time, with its step defined by a step angle.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{figures/motor1.png}
+	\caption{Step Angle}
+\end{figure}
+
+The image above represents a stepper motor that requires 4 steps to complete a 360 degrees rotation. This determines the step angle to be 90 degrees. 
+The main components of a stepper motor are represented in the image below, and they consist of stators, windings(phases), and rotor.
+The part that moves, is the rotor, which can be magnetized or not, depending on the type of stepper motor.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/motor2.png}
+	\caption{Main Components}
+\end{figure}
+
+By applying a voltage across one of the windings, current will start flowing through it. By using the right-hand rule, the direction of the magnetic flux can be determined. This is represented in the image below.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/motor3.png}
+	\caption{Direction of Magnetic Flux}
+\end{figure}
+
+The flux will want to travel through the path that has the least resistance. This determines the rotor to change its position to minimize resistance. This is shown in the image below.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/motor4.png}
+	\caption{Direction of Magnetic Flux 2}
+\end{figure}
+\subsection{Types of Stepper Motors}
+\subsubsection{Permanent Magnet Motor}
+This type of stepper motor has a magnetized rotor. Each winding, will be subdivided into two, to better understand how to motor functions. The image below represents the windings, and how they are distributed inside a stepper motor.
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[Rotor]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor5.png}%
+        }%
+    \hfill%
+    \subfloat[Winding]{%
+        \includegraphics[width=0.4\textwidth]{figures/motor6.png}%
+        }%
+\end{figure}
+
+\section{Motor Drivers}\label{sec:drivers}
 \section{Wheels}\label{sec:wheels}
 We wanted the robot to be capable of moving in eight directions from every position.
 One solution for this would have been for the robot to turn every time it needed to change direction,
