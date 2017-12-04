@@ -22,13 +22,12 @@
 
 
 void stepping(void){
-  int step = 1, counter = 0;                    //can we make step a 3 bit variable? --Daniel
-  CCR0 = 8000;                                  //PLEASE EXPLAIN WHAT THIS DOES --Daniel
-  TACTL = MC_1 | ID_0 | TASSEL_2 |TACLR;        //PLEASE EXPLAIN WHAT THIS DOES --Daniel
+  int step = 1, counter = 0;                    //can we make step a 3 bit variable? --Daniel, Maybe -- Razvan
+  CCR0 = 8000;                                  //upper limit for the timer
+  TACTL = MC_1 | ID_0 | TASSEL_2 |TACLR;        //initializing timer, up mode, divided by 1, source seleect, clear
   while(counter < 1000){                        //number of steps
     while((TACTL & 0x0001) == 0){}              //halfstepping from here down
-                                                //what does this expression state? --Daniel
-    TACTL &= ~0x0001;                           //PLEASE EXPLAIN WHAT THIS DOES --Daniel
+    TACTL &= ~0x0001;                           //resetting the interrupt flag
     if(step == 1){                      //A1
       P1OUT &= ~0x02;
       P1OUT &= ~0x04;
@@ -80,7 +79,7 @@ void stepping(void){
     else if(step == 7){                 //B2
       P1OUT &= ~0x02;
       P1OUT |= 0x04;
-      P1OUT &= ~0x08;   //can we put this and the next in one line? --Daniel
+      P1OUT &= ~0x08;   //can we put this and the next in one line? --Daniel, probably yes
       P1OUT &= ~0x10;
       step++;
       counter++;
