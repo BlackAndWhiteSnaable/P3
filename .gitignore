@@ -20,3 +20,7 @@ Report/sections/build/
 *.log
 
 ~\$epper Motor_v2\.docx
+
+*.cdl
+
+*.layout
