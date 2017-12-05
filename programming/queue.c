@@ -1,7 +1,7 @@
 #include "defs.h"
 
 // Add element to stack
-void push(Queue **HoQ, Nodes *new_node)
+void pushQ(Queue **HoQ, Nodes *new_node)
 {
   printf("Inside function: HoQ = %p\n", HoQ);
   printf("Inside function: *HoQ = %p\n", *HoQ);

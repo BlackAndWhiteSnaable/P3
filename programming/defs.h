@@ -84,7 +84,7 @@ unsigned char scan();
 void move_next(Robot *robot);
 
 // Priority queue
-void push(Queue **HoQ, Nodes *new_node);  // add element on the stack
+void pushQ(Queue **HoQ, Nodes *new_node);  // add element on the stack
 void pop(Queue *tq); // removes element from top of stack
 void printQueue(Queue *tq); //prints the elements in the stack
 void emptyQueue(Queue *tq); // empties the stack using the pop operation

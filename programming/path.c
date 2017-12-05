@@ -9,19 +9,13 @@ void path_test(Robot *robot) {
   printf("\n\n\n\nOutside function: robot->unchecked = %p\n", robot->unchecked);
   printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
 
-  // Set some dummy movecost values for testing
-  robot->map.node[0][0].movecost = 4;
-  robot->map.node[0][1].movecost = 3;
-  robot->map.node[0][2].movecost = 2;
-  robot->map.node[0][3].movecost = 1;
-
   printf("Outside function: Pushing &robot->unchecked to function\n");
 
   // Push some nodes to queue
-  push(&robot->unchecked, &robot->map.node[0][0]);
-  //push(&robot->unchecked, &robot->map.node[0][1]);
-  //push(&robot->unchecked, &robot->map.node[0][2]);
-  //push(&robot->unchecked, &robot->map.node[0][3]);
+  pushQ(&robot->unchecked, &robot->map.node[0][0]);
+  pushQ(&robot->unchecked, &robot->map.node[0][1]);
+  pushQ(&robot->unchecked, &robot->map.node[0][2]);
+  pushQ(&robot->unchecked, &robot->map.node[0][3]);
 
   printf("Outside function: robot->unchecked = %p\n", robot->unchecked);
   printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
@@ -55,10 +49,16 @@ void path_set_neighbors(Robot *robot) {
       if (!(robot->map.node[i][j].walls & SW)) robot->map.node[i][j].sw=&robot->map.node[i-1][j+1];
       if (!(robot->map.node[i][j].walls & NW)) robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];
 
+      //set movecost to something high, set pos to 0 later
+      robot->map.node[i][j].movecost = 0xFFF;   //4095
       printf("[%2i][%2i] has been linked\n",i,j);
     }
   }
+  robot->map.node[robot->pos.x][robot->pos.y].movecost = 0;
 }
+
+//push first node to queue
+//void path_
 
 //calculates the path at some point
 void path_calculate(Robot *robot) {
