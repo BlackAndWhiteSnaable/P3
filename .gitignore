@@ -31,3 +31,9 @@ Report/sections/build/
 *.out
 
 *.gz
+
+*.aux
+
+*.toc
+
+*.tdo
