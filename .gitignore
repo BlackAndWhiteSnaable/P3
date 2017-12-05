@@ -25,3 +25,7 @@ Report/sections/build/
 *.layout
 
 *.pdn
+
+*.pdf
+
+*.out
