@@ -1,9 +1,11 @@
 \chapter{Movement}\label{ch:move}
 For our robot to be able to show the results of path finding,
-it needed to be able to move.BlaBla
+it needed to be able to move.
 
 We decided to move only along a simple 2D grid-like structure,
 therefore wheels were the easiest solution.
+\todo{we need to make this flow nicer into the next section}
+
 \section{Motors}\label{sec:motors}
 A stepper motor is a motor that moves one step at a time, with its step defined by a step angle.
 
@@ -11,11 +13,13 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 	\centering
 	\includegraphics[width=\textwidth]{figures/move/motor1.png}
 	\caption{Step Angle}
+	\label{fig:angle} 
 \end{figure}
 
-The image above represents a stepper motor that requires 4 steps to complete a 360 degrees rotation. This determines the step angle to be 90 degrees.
+Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360 degrees rotation. This determines the step angle to be 90 degrees.
 The main components of a stepper motor are represented in the image below, and they consist of stators, windings(phases), and rotor.
 The part that moves, is the rotor, which can be magnetized or not, depending on the type of stepper motor.
+\todo[inline]{draw arrows on the figure instead?}
 
 \begin{figure}[ht]
 	\centering
@@ -23,24 +27,26 @@ The part that moves, is the rotor, which can be magnetized or not, depending on 
 	\caption{Main Components}
 \end{figure}
 
-By applying a voltage across one of the windings, current will start flowing through it. By using the right-hand rule, the direction of the magnetic flux can be determined. This is represented in the image below.
+By applying a voltage across one of the windings, current will start flowing through it. By using the right-hand rule, the direction of the magnetic flux can be determined. This is represented in figure \ref{fig:flux}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/move/motor3.png}
 	\caption{Direction of Magnetic Flux}
+	\label{fig:flux} 
 \end{figure}
 
-The flux will want to travel through the path that has the least resistance. This determines the rotor to change its position to minimize resistance. This is shown in the image below.
+The flux will want to travel through the path that has the least resistance. This determines the rotor to change its position to minimize resistance. This is shown in figure \ref{fig:flux2}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.5\textwidth]{figures/move/motor4.png}
 	\caption{Direction of Magnetic Flux 2}
+	\label{fig:flux2}
 \end{figure}
 \subsection{Types of Stepper Motors}
 \subsubsection{Permanent Magnet Motor}
-This type of stepper motor has a magnetized rotor. Each winding, will be subdivided into two, to better understand how to motor functions. The image below represents the windings, and how they are distributed inside a stepper motor.
+This type of stepper motor has a magnetized rotor. Each winding, will be subdivided into two, to better understand how to motor functions. Figure \ref{fig:bas_struct} represents the windings, and how they are distributed inside a stepper motor.
 
 \begin{figure}[htp]
     \centering
@@ -51,26 +57,32 @@ This type of stepper motor has a magnetized rotor. Each winding, will be subdivi
     \subfloat[Winding]{%
         \includegraphics[width=0.4\textwidth]{figures/move/motor6.png}%
         }%
+    \caption{Basic structure of a motor}
+    \label{fig:bas_struct} 
 \end{figure}
 
-The resolution of the motor can be improved in two ways, either by increasing the number of pole pairs in the rotor itself, or by increasing the number of phases as shown below.
+The resolution of the motor can be improved in two ways, either by increasing the number of pole pairs in the rotor itself, or by increasing the number of phases as shown in figure \ref{fig:inc_res}.
 
 
 \begin{figure}[htp]
-    \centering
+    \hfill
     \subfloat[Increased Pole Pairs]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor7.png}%
+        \includegraphics[width=0.2\textwidth]{figures/move/motor7.png}%
         }%
     \hfill%
     \subfloat[Increased Number of Winding]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor8.png}%
+        \includegraphics[width=0.2\textwidth]{figures/move/motor8.png}%
         }%
+	\hfill%
+	\hfill%
+	\caption{Increased resolution}
+	\label{fig:inc_res}
 \end{figure}
 
 To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is shown in the images below, with the corresponding phase energized.
 
 \begin{figure}[htp]
-    \centering
+    \begin{center}
     \subfloat[$1\textsuperscript{st}$ Step]{
         \includegraphics[width=0.2\textwidth]{figures/move/motor9.png}
         }
@@ -86,10 +98,9 @@ To rotate the motor, simply apply a voltage across the windings in a sequence. A
   	\subfloat[$4\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor12.png}
   		}
-\end{figure}
-
-\begin{figure}[htp]
-    \centering
+    \end{center}
+    
+    \begin{center}
     \subfloat[$1\textsuperscript{st}$ Step Winding]{
         \includegraphics[width=0.2\textwidth]{figures/move/motor13.png}
         }
@@ -105,7 +116,9 @@ To rotate the motor, simply apply a voltage across the windings in a sequence. A
   	\subfloat[$4\textsuperscript{th}$ Winding]{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor16.png}
   		}
+    \end{center}
 \end{figure}
+
 \subsubsection{Variable Reluctance Motor}
 This type of motor, uses a rotor that is not magnetized, and has a number of teeth as seen in the image below. The windings are configured differently, as depicted in the second figure, all having a common voltage source but with each end being separate. They usually have 3 or 5 windings. Greater precision can be achieved by adding more teeth to the rotor.
 
@@ -429,6 +442,5 @@ we figured out that we only need 8 configurations of motor pairs.
 	\caption{motor control circuit}
 	\label{fig:mot_ctrl}
 \end{figure}
-\missingfigure{schematic of motor control circuit}
 
 We decided to use 6 tri-state buffers as shown in figure \ref{fig:mot_ctrl}.
