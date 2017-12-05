@@ -89,6 +89,8 @@ void emptyStack(TopStack *ts); // empties the stack using the pop operation
 
 // Pathfinding
 void path_test(Robot *robot);
+void path_set_neighbors(Robot *robot);
+void path_calculate(Robot *robot);
 
 // Debugging and print to screen
 void robot_print(Robot *robot);

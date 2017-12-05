@@ -23,6 +23,11 @@ void go() {
   node_map_load(robot);
   //path_calculate(robot);  // Calculate shortest path from msp start to finish
 
+  path_set_neighbors(robot);
+  path_calculate(robot);
+  /*
+
+
   // While robot has not reached the finish position
   while (!robot_finished(robot)) {
     robot_print(robot);
@@ -50,7 +55,7 @@ void go() {
   }
 
   // Path and priority queue testing
-  path_test(robot);
+  */
 }
 
 //TODO Initialize default settings for robot on startup
