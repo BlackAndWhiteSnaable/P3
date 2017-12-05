@@ -79,7 +79,13 @@ iterating through all existing nodes.
 Pathfinding on a grid is slightly different to pathfinding on a regular map,
 because all nodes tend to have the same amount of neighbours,
 and all edges have the same or similar costs.
-\missingfigure{closeup of a grid map, with values}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.24\textwidth]{figures/path/graph_values}
+	\caption{3x3 grid with edge costs}
+	\label{fig:graph_cost}
+\end{figure}
+%\missingfigure{closeup of a grid map, with values}
 
 
 \section{Our implementation}
@@ -90,7 +96,25 @@ We decided to store those eight directions in one single byte,
 with the least significant nibble (LSN) corresponding to the four main directions (N,E,S,W),
 and the MSN corresponding to NE, SE, SW and NW.
 
-\missingfigure{maybe a table would be better. hex values for directions}
+\begin{center}
+	\begin{tabular}{|*{8}{m{0.6cm}|}|l|}
+		\hline
+		N & E& S& W& NE& SE& SW& NW& byte\\
+		\hline
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0x01\\
+		0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0x02\\
+		0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0x03\\
+		0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0x\\
+		\hline
+		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
+		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
+		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
+		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
+		\hline
+	\end{tabular}
+\end{center}
+
+%\missingfigure{maybe a table would be better. hex values for directions}
 
 
 \todo{fix citation stuff}
