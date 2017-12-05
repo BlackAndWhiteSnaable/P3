@@ -1,35 +1,40 @@
 #include "defs.h"
 
+/// Testing examples of queue push/pop functions
 void path_test(Robot *robot) {
-  // First queue element must be initialized to NULL
-  robot->unchecked = NULL;
-  //robot->checked = NULL;
-
 
   printf("\n\n\n\nOutside function: robot->unchecked = %p\n", robot->unchecked);
   printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
 
   // Set some dummy movecost values for testing
-  robot->map.node[0][0].movecost = 4;
-  robot->map.node[0][1].movecost = 3;
-  robot->map.node[0][2].movecost = 2;
-  robot->map.node[0][3].movecost = 1;
+  robot->map.node[0][0].movecost = 5;
+  robot->map.node[0][1].movecost = 10;
+  robot->map.node[0][2].movecost = 20;
+  robot->map.node[0][3].movecost = 4;
 
   printf("Outside function: Pushing &robot->unchecked to function\n");
 
   // Push some nodes to queue
   push(&robot->unchecked, &robot->map.node[0][0]);
-  //push(&robot->unchecked, &robot->map.node[0][1]);
-  //push(&robot->unchecked, &robot->map.node[0][2]);
-  //push(&robot->unchecked, &robot->map.node[0][3]);
-
+  push(&robot->unchecked, &robot->map.node[0][1]);
+  push(&robot->unchecked, &robot->map.node[0][2]);
+  push(&robot->unchecked, &robot->map.node[0][3]);
+/*
   printf("Outside function: robot->unchecked = %p\n", robot->unchecked);
   printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
 
   printf("Outside function: movecost of 1st element in queue is = %d\n", robot->unchecked->node->movecost);
-
+*/
   //pop(ts);          // remove first element from Queue
   //emptyQueue(ts);   // remove all elements from Queue
+/*
+  Nodes *node; // Empty pointer
+
+  node = pop(&robot->unchecked);
+  printf("\nPopped queue element, node returned: node->movecost=%d\n", node->movecost);
+
+  node = pop(&robot->unchecked);
+  printf("Popped queue element, node returned: node->movecost=%d\n", node->movecost);
 
   // Print queues
   printf("\nUnchecked:\n");
@@ -37,9 +42,11 @@ void path_test(Robot *robot) {
 
   printf("\nChecked:\n");
   //printQueue(robot->checked);
+  */
+  printQueue(robot->unchecked);
 }
 
-//finds all neighbors of a node and sets them as pointers
+///finds all neighbors of a node and sets them as pointers
 void path_set_neighbors(Robot *robot) {
   printf("\n");
   for (int i = 0; i<(robot->map.size.x-1)/2; i++){

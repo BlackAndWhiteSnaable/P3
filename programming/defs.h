@@ -54,9 +54,8 @@ typedef struct {
   Point pos;
   Maps map;
   Queue *unchecked; // Head of queue for unchecked nodes
-  Queue *checked; // Head of stack for checked nodes
+  Stack *checked; // Head of stack for checked nodes
 } Robot;
-
 
 
 
@@ -85,9 +84,8 @@ void move_next(Robot *robot);
 
 // Priority queue
 void push(Queue **HoQ, Nodes *new_node);  // add element on the stack
-void pop(Queue *tq); // removes element from top of stack
-void printQueue(Queue *tq); //prints the elements in the stack
-void emptyQueue(Queue *tq); // empties the stack using the pop operation
+Nodes *pop(Queue **HoQ); // removes element from top of stack
+void printQueue(Queue *HoQ); //prints the elements in the stack
 //void push(int queue, Nodes *node); // temp
 
 // Pathfinding

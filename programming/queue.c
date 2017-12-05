@@ -3,6 +3,7 @@
 // Add element to stack
 void push(Queue **HoQ, Nodes *new_node)
 {
+
   printf("Inside function: HoQ = %p\n", HoQ);
   printf("Inside function: *HoQ = %p\n", *HoQ);
   printf("Inside function: &HoQ = %p\n", &HoQ);
@@ -41,46 +42,40 @@ void push(Queue **HoQ, Nodes *new_node)
         tmp->next = cur->next;                            // in new stack element set next pointer to current start stack element
         cur->next = tmp;                                  // set start stack element to point to the new stack element
     }
-
-    //*HoQ = tmp;
 }
 
-/*
-// remove one element from start of stack
-void pop(TopQueue *tq)
+// remove one element from start of queue
+Nodes *pop(Queue **HoQ)
 {
-    if (!tq->head) {
+    if (!*HoQ) {
         printf("Nothing to pop, queue is empty\n");
+
+        return NULL;
     } else {
+        Nodes *node;
+        node = (*HoQ)->node;
+
         Queue *tmp;                                     // tmp pointer to struct
-        tmp = tq->head->next;                            // set pointer to 2nd stack element from start
-        free(tq->head);                                  // free allocated memory for 1st stack element
-        tq->head = tmp;                                  // set 2nd stack element to 1st stack element
-        tq->num--;                                      // stack now has 1 less element so update num
+        tmp = (*HoQ)->next;                            // set pointer to 2nd stack element from start
+        free(*HoQ);                                  // free allocated memory for 1st stack element
+        *HoQ = tmp;                                  // set 2nd stack element to 1st stack element
+
+        return node;
     }
 }
-
-
-// empties stack using pop() to remove elements one by one
-void emptyStack(TopQueue *tq)
-{
-    while(tq->head) {                                    // ts->start always points to first stack element, pop() updates it
-        pop(tq);                                        // remove element from start of stack by calling pop()
-    }
-}
-*/
-
 
 // print number of elements in stack and their values
-void printQueue(Queue *tq) {
-    if(tq==NULL)
+void printQueue(Queue *HoQ) {
+    if(HoQ == NULL)
     {
         printf("Print what? Queue is empty\n");
-    } else {
+    }
+    else
+    {
         Queue *cur; // pointer to node currently being traversed
         int i=1; // count stack element position
 
-        for (cur = tq; cur != NULL; cur = cur->next)
+        for (cur = HoQ; cur != NULL; cur = cur->next)
         {
             printf("%d. Queue element is node[%d][%d] with movecost: %d\n", i, cur->node->position.x, cur->node->position.y, cur->node->movecost);
             i++;

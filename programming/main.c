@@ -64,7 +64,8 @@ Robot *init_robot() {
   // Dynamically allocate robot struct in memory and return pointer
   Robot *robot = malloc(sizeof(Robot));
 
-  //robot->unchecked=NULL;
+  // First queue element must be initialized to NULL
+  robot->unchecked = NULL;
 
   //TODO give values to everything, even if they are only 0   --Daniel
   return robot;
