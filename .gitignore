@@ -24,3 +24,5 @@ Report/sections/build/
 *.cdl
 
 *.layout
+
+*.pdn
