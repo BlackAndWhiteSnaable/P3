@@ -3,8 +3,12 @@
 // Scan surroundings at current position and compare with map segment
 // If it differs, update map, then save map to file and recalculate path
 void map_check(Robot *robot) {
+  // TODO just realized this is no longer a hex value, to we need to fetch hex
+  // value instead. This is done by taking the walls hex value from node map
+  // at current robot position
+
   char scan_segment = scan();
-  char map_segment = robot->map.segments[robot->pos.x][robot->pos.y];
+  char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
 
   // If scan and map segments are NOT identical
   if(scan_segment != map_segment) {

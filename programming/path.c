@@ -1,13 +1,13 @@
 #include "defs.h"
 
 void path_test(Robot *robot) {
+  // First queue element must be initialized to NULL
+  robot->unchecked = NULL;
+  //robot->checked = NULL;
 
-  // Initialize head of priority queues
-  TopStack *unchecked;
-  unchecked = init_queue();
 
-  TopStack *checked;
-  checked = init_queue();
+  printf("\n\n\n\nOutside function: robot->unchecked = %p\n", robot->unchecked);
+  printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
 
   // Set some dummy movecost values for testing
   robot->map.node[0][0].movecost = 4;
@@ -15,21 +15,28 @@ void path_test(Robot *robot) {
   robot->map.node[0][2].movecost = 2;
   robot->map.node[0][3].movecost = 1;
 
-  // Push some nodes to queue
-  push(unchecked, &robot->map.node[0][0]);
-  push(unchecked, &robot->map.node[0][1]);
-  push(checked, &robot->map.node[0][2]);
-  push(checked, &robot->map.node[0][3]);
+  printf("Outside function: Pushing &robot->unchecked to function\n");
 
-  //pop(ts);          // remove first element from stack
-  //emptyStack(ts);   // remove all elements from stack
+  // Push some nodes to queue
+  push(&robot->unchecked, &robot->map.node[0][0]);
+  //push(&robot->unchecked, &robot->map.node[0][1]);
+  //push(&robot->unchecked, &robot->map.node[0][2]);
+  //push(&robot->unchecked, &robot->map.node[0][3]);
+
+  printf("Outside function: robot->unchecked = %p\n", robot->unchecked);
+  printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
+
+  printf("Outside function: movecost of 1st element in queue is = %d\n", robot->unchecked->node->movecost);
+
+  //pop(ts);          // remove first element from Queue
+  //emptyQueue(ts);   // remove all elements from Queue
 
   // Print queues
   printf("\nUnchecked:\n");
-  printStack(unchecked);
+  printQueue(robot->unchecked);
 
   printf("\nChecked:\n");
-  printStack(checked);
+  //printQueue(robot->checked);
 }
 
 //finds all neighbors of a node and sets them as pointers
