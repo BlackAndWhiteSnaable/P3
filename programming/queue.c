@@ -1,81 +1,48 @@
 #include "defs.h"
 
-// Add element to stack
-void push(Queue **HoQ, Nodes *new_node)
+// Add element to queue
+void push_queue(Queue **head, Nodes *new_node)
 {
-
-  printf("Inside function: HoQ = %p\n", HoQ);
-  printf("Inside function: *HoQ = %p\n", *HoQ);
-  printf("Inside function: &HoQ = %p\n", &HoQ);
-
-    if(!*HoQ) {
-        printf("Inside function: HoQ is NULL\n");
-    } else {
-        printf("Inside function: HoQ is NOT NULL\n");
-    }
-
     Queue *tmp;
     tmp = (Queue *)malloc(sizeof(Queue)); // Allocate new queue element struct in memory
 
-    tmp->node = new_node;
-    tmp->next = NULL;
-
-    printf("Inside function: tmp = %p\n", tmp);
-
-    // Stack is empty, insert new Queue element as head
-    if (!*HoQ) {
-        *HoQ = tmp; // Point HoQ to the new queue element
+    // queue is empty, insert new Queue element as head
+    if (!*head) {
+        *head = tmp; // Point head to the new queue element
+        (*head)->next = NULL;
 
     // First element in queue has higher movecost than the new element
     // So insert new element as first element, and update next pointer
-    } else if((*HoQ)->node->movecost > new_node->movecost) {
-		tmp->next = *HoQ;
-		*HoQ = tmp;
+    } else if((*head)->node->movecost > new_node->movecost) {
+		tmp->next = *head;
+		*head = tmp;
 
     // Insert new element before existing element with higher movecost value
     } else {
         Queue *cur;
-        cur = *HoQ;
+        cur = *head;
         while(cur->next != NULL && cur->next->node->movecost <= new_node->movecost) {
 			cur = cur->next; // Next node
 		}
-        tmp->next = cur->next;                            // in new stack element set next pointer to current start stack element
-        cur->next = tmp;                                  // set start stack element to point to the new stack element
+        tmp->next = cur->next;                            // in new queue element set next pointer to current head queue element
+        cur->next = tmp;                                  // set head queue element to point to the new queue element
     }
+    // Store pointer to node in the new queue element
+    tmp->node = new_node;
 }
 
-// remove one element from start of queue
-Nodes *pop(Queue **HoQ)
-{
-    if (!*HoQ) {
-        printf("Nothing to pop, queue is empty\n");
-
-        return NULL;
-    } else {
-        Nodes *node;
-        node = (*HoQ)->node;
-
-        Queue *tmp;                                     // tmp pointer to struct
-        tmp = (*HoQ)->next;                            // set pointer to 2nd stack element from start
-        free(*HoQ);                                  // free allocated memory for 1st stack element
-        *HoQ = tmp;                                  // set 2nd stack element to 1st stack element
-
-        return node;
-    }
-}
-
-// print number of elements in stack and their values
-void printQueue(Queue *HoQ) {
-    if(HoQ == NULL)
+// print number of elements in queue and their values
+void print_queue(Queue *head) {
+    if(!head)
     {
         printf("Print what? Queue is empty\n");
     }
     else
     {
         Queue *cur; // pointer to node currently being traversed
-        int i=1; // count stack element position
+        int i=1; // count queue element position
 
-        for (cur = HoQ; cur != NULL; cur = cur->next)
+        for (cur = head; cur != NULL; cur = cur->next)
         {
             printf("%d. Queue element is node[%d][%d] with movecost: %d\n", i, cur->node->position.x, cur->node->position.y, cur->node->movecost);
             i++;
@@ -83,3 +50,22 @@ void printQueue(Queue *HoQ) {
     }
 }
 
+// remove one element from head of queue
+Nodes *pop(Queue **head)
+{
+    if (!*head) {
+        printf("Nothing to pop, queue is empty\n");
+
+        return NULL;
+    } else {
+        Nodes *node;
+        node = (*head)->node;
+
+        Queue *tmp;                                     // tmp pointer to struct
+        tmp = (*head)->next;                            // set pointer to 2nd queue element from head
+        free(*head);                                  // free allocated memory for 1st queue element
+        *head = tmp;                                  // set 2nd queue element to 1st queue element
+
+        return node;
+    }
+}

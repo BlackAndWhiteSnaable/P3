@@ -3,47 +3,45 @@
 /// Testing examples of queue push/pop functions
 void path_test(Robot *robot) {
 
-  printf("\n\n\n\nOutside function: robot->unchecked = %p\n", robot->unchecked);
-  printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
-
   // Set some dummy movecost values for testing
   robot->map.node[0][0].movecost = 5;
   robot->map.node[0][1].movecost = 10;
   robot->map.node[0][2].movecost = 20;
   robot->map.node[0][3].movecost = 4;
 
-  printf("Outside function: Pushing &robot->unchecked to function\n");
-
   // Push some nodes to queue
-  push(&robot->unchecked, &robot->map.node[0][0]);
-  push(&robot->unchecked, &robot->map.node[0][1]);
-  push(&robot->unchecked, &robot->map.node[0][2]);
-  push(&robot->unchecked, &robot->map.node[0][3]);
-/*
-  printf("Outside function: robot->unchecked = %p\n", robot->unchecked);
-  printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
+  printf("\nPushing 4 node elements to queue\n");
+  push_queue(&robot->unchecked, &robot->map.node[0][0]);
+  push_queue(&robot->unchecked, &robot->map.node[0][1]);
+  push_queue(&robot->unchecked, &robot->map.node[0][2]);
+  push_queue(&robot->unchecked, &robot->map.node[0][3]);
 
-  printf("Outside function: movecost of 1st element in queue is = %d\n", robot->unchecked->node->movecost);
-*/
-  //pop(ts);          // remove first element from Queue
-  //emptyQueue(ts);   // remove all elements from Queue
-/*
-  Nodes *node; // Empty pointer
+  Nodes *node; // Empty pointer used for nodes returned when popping
 
+  // Pop 2 of the 4 elements in the queue
   node = pop(&robot->unchecked);
   printf("\nPopped queue element, node returned: node->movecost=%d\n", node->movecost);
 
   node = pop(&robot->unchecked);
   printf("Popped queue element, node returned: node->movecost=%d\n", node->movecost);
 
-  // Print queues
-  printf("\nUnchecked:\n");
-  printQueue(robot->unchecked);
+  // Print what is in the queue
+  printf("\nUnchecked queue:\n");
+  print_queue(robot->unchecked);
 
-  printf("\nChecked:\n");
-  //printQueue(robot->checked);
-  */
-  printQueue(robot->unchecked);
+  printf("\nPushing 4 node elements to stack\n");
+  push_stack(&robot->checked, &robot->map.node[0][0]);
+  push_stack(&robot->checked, &robot->map.node[0][1]);
+  push_stack(&robot->unchecked, &robot->map.node[0][2]);
+  push_stack(&robot->unchecked, &robot->map.node[0][3]);
+
+  node = pop(&robot->checked);
+  printf("\nPopped stack element, node returned: node->movecost=%d\n", node->movecost);
+
+
+  printf("\nChecked stack:\n");
+  print_stack(robot->checked);
+
 }
 
 ///finds all neighbors of a node and sets them as pointers

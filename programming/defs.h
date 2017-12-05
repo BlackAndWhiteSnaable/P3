@@ -44,12 +44,7 @@ typedef struct element {
     Nodes *node;      // Pointer to the map node
 	struct element *next; // next element in queue
 } Queue, Stack;
-/*
-typedef struct {
-	int num;        // Number of elements in stack
-	Queue *head;   // Queue start
-} TopQueue;
-*/
+
 typedef struct {
   Point pos;
   Maps map;
@@ -82,11 +77,12 @@ unsigned char scan();
 // Move
 void move_next(Robot *robot);
 
-// Priority queue
-void push(Queue **HoQ, Nodes *new_node);  // add element on the stack
-Nodes *pop(Queue **HoQ); // removes element from top of stack
-void printQueue(Queue *HoQ); //prints the elements in the stack
-//void push(int queue, Nodes *node); // temp
+// Priority queue and stack
+void push_queue(Queue **head, Nodes *new_node);  // add element on the stack
+void print_queue(Queue *head); //prints the elements in the queue
+void push_stack(Stack **head, Nodes *new_node);
+void print_stack(Stack *head); //prints the elements in the stack
+Nodes *pop(Queue **head); // removes element from top of queue or stack
 
 // Pathfinding
 void path_test(Robot *robot);
