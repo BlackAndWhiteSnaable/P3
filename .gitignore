@@ -29,3 +29,5 @@ Report/sections/build/
 *.pdf
 
 *.out
+
+*.gz
