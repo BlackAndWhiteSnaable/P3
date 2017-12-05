@@ -1,35 +1,36 @@
 #include "defs.h"
 
 void path_test(Robot *robot) {
+  // First queue element must be initialized to NULL
+  robot->unchecked = NULL;
+  //robot->checked = NULL;
 
-  // Initialize head of priority queues
-  TopStack *unchecked;
-  unchecked = init_queue();
 
-  TopStack *checked;
-  checked = init_queue();
+  printf("\n\n\n\nOutside function: robot->unchecked = %p\n", robot->unchecked);
+  printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
 
-  // Set some dummy movecost values for testing
-  robot->map.node[0][0].movecost = 4;
-  robot->map.node[0][1].movecost = 3;
-  robot->map.node[0][2].movecost = 2;
-  robot->map.node[0][3].movecost = 1;
+  printf("Outside function: Pushing &robot->unchecked to function\n");
 
   // Push some nodes to queue
-  push(unchecked, &robot->map.node[0][0]);
-  push(unchecked, &robot->map.node[0][1]);
-  push(checked, &robot->map.node[0][2]);
-  push(checked, &robot->map.node[0][3]);
+  pushQ(&robot->unchecked, &robot->map.node[0][0]);
+  pushQ(&robot->unchecked, &robot->map.node[0][1]);
+  pushQ(&robot->unchecked, &robot->map.node[0][2]);
+  pushQ(&robot->unchecked, &robot->map.node[0][3]);
 
-  //pop(ts);          // remove first element from stack
-  //emptyStack(ts);   // remove all elements from stack
+  printf("Outside function: robot->unchecked = %p\n", robot->unchecked);
+  printf("Outside function: &robot->unchecked = %p\n", &robot->unchecked);
+
+  printf("Outside function: movecost of 1st element in queue is = %d\n", robot->unchecked->node->movecost);
+
+  //pop(ts);          // remove first element from Queue
+  //emptyQueue(ts);   // remove all elements from Queue
 
   // Print queues
   printf("\nUnchecked:\n");
-  printStack(unchecked);
+  printQueue(robot->unchecked);
 
   printf("\nChecked:\n");
-  printStack(checked);
+  //printQueue(robot->checked);
 }
 
 //finds all neighbors of a node and sets them as pointers
@@ -48,10 +49,16 @@ void path_set_neighbors(Robot *robot) {
       if (!(robot->map.node[i][j].walls & SW)) robot->map.node[i][j].sw=&robot->map.node[i-1][j+1];
       if (!(robot->map.node[i][j].walls & NW)) robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];
 
+      //set movecost to something high, set pos to 0 later
+      robot->map.node[i][j].movecost = 0xFFF;   //4095
       printf("[%2i][%2i] has been linked\n",i,j);
     }
   }
+  robot->map.node[robot->pos.x][robot->pos.y].movecost = 0;
 }
+
+//push first node to queue
+//void path_
 
 //calculates the path at some point
 void path_calculate(Robot *robot) {

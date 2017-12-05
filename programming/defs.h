@@ -40,20 +40,24 @@ typedef struct {
   Nodes **node; // 2D array of each node's 8 neighbours represented in a hex value
 } Maps;
 
+typedef struct element {
+    Nodes *node;      // Pointer to the map node
+	struct element *next; // next element in queue
+} Queue, Stack;
+/*
+typedef struct {
+	int num;        // Number of elements in stack
+	Queue *head;   // Queue start
+} TopQueue;
+*/
 typedef struct {
   Point pos;
   Maps map;
+  Queue *unchecked; // Head of queue for unchecked nodes
+  Queue *checked; // Head of stack for checked nodes
 } Robot;
 
-typedef struct stack_elem {
-    Nodes *node;      // Pointer to the map node
-	struct stack_elem *next; // next element in queue
-} Stack;
 
-typedef struct {
-	int num;        // Number of elements in stack
-	Stack *start;   // Queue start
-} TopStack;
 
 
 /*
@@ -80,11 +84,10 @@ unsigned char scan();
 void move_next(Robot *robot);
 
 // Priority queue
-TopStack *init_queue(); // initialize top of stack struct in memory
-void push(TopStack *ts, Nodes *node); // add element on the stack
-void pop(TopStack *ts); // removes element from top of stack
-void printStack(TopStack *ts); //prints the elements in the stack
-void emptyStack(TopStack *ts); // empties the stack using the pop operation
+void pushQ(Queue **HoQ, Nodes *new_node);  // add element on the stack
+void pop(Queue *tq); // removes element from top of stack
+void printQueue(Queue *tq); //prints the elements in the stack
+void emptyQueue(Queue *tq); // empties the stack using the pop operation
 //void push(int queue, Nodes *node); // temp
 
 // Pathfinding

@@ -56,12 +56,15 @@ void go() {
 
   // Path and priority queue testing
   */
+  path_test(robot);
 }
 
 //TODO Initialize default settings for robot on startup
 Robot *init_robot() {
   // Dynamically allocate robot struct in memory and return pointer
   Robot *robot = malloc(sizeof(Robot));
+
+  //robot->unchecked=NULL;
 
   //TODO give values to everything, even if they are only 0   --Daniel
   return robot;
