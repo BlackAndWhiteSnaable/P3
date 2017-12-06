@@ -54,7 +54,7 @@ void print_queue(Queue *head) {
 Nodes *pop(Queue **head)
 {
     if (!*head) {
-        printf("Nothing to pop, queue is empty\n");
+        printf("[INFO]\tNothing to pop, queue is empty\n");
 
         return NULL;
     } else {

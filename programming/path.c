@@ -46,6 +46,7 @@ void path_test(Robot *robot) {
 
 ///finds all neighbors of a node and sets them as pointers
 void path_set_neighbors(Robot *robot) {
+  printf("\n[INFO]\tStarted linking nodes to neighbors\n");
   for (int i = 0; i<(robot->map.size.x-1)/2; i++){
     for (int j=0; j<(robot->map.size.y-1)/2; j++){
       if (!(robot->map.node[i][j].walls & N)) robot->map.node[i][j].n=&robot->map.node[i][j-1];
@@ -58,19 +59,35 @@ void path_set_neighbors(Robot *robot) {
       if (!(robot->map.node[i][j].walls & SW)) robot->map.node[i][j].sw=&robot->map.node[i-1][j+1];
       if (!(robot->map.node[i][j].walls & NW)) robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];
 
-      //printf("[%2i][%2i] has been linked\n",i,j);
+      //printf("[INFO]\t[%2i][%2i] has been linked\n",i,j);
     }
+  //printf("\n");
   }
-  printf("[INFO]\tDone linking nodes to neighbors\n\n");
+  printf("[INFO]\tDone linking nodes to neighbors\n");
 }
 
-//calculates the path at some point
+///calculates the path from the current position
 void path_calculate(Robot *robot) {
-  path_set_neighbors(robot);  //make sure that all nodes have the correct neighbors
-  Nodes *currentNode;     //the Node currently looked at (should be popped from priority queue)
+  //declare all variable needed in scope
   int curx,cury;          //to keep track of your food/position on the map
-  curx = robot->pos.x;    //we start with the current position of the robot, should be start at first execution
-  cury = robot->pos.y;    //TODO is pos == start?
+                          //should not be necessary, but would clean up the code
+  Nodes *currentNode;     //the Node currently looked at
+
+  //make sure that all nodes have the correct neighbors
+  path_set_neighbors(robot);
+
+  //start calculating from current position, not start
+  curx = robot->pos.x;
+  cury = robot->pos.y;
+
+  //[DEV] checks if robot is at start position
+  if (curx==robot->map.start.x && cury==robot->map.start.y){
+    printf("\n[DEV]\tRobot is at start position\n");
+  } else {
+    printf("\n[DEV]\tRobot is at position [%02i][%02i]\n",curx,cury);
+  }
+
+  printf("\n[DEV]\tThis is how far I am programming --Daniel\n\n\n");
   currentNode = &robot->map.node[curx][cury];     //TODO pop from queue?
   //TODO is the current position at the first position in queue?
   printf("[DEBUG]\tcurrently calculating position [%02i][%02i]\n",curx,cury);
@@ -83,6 +100,7 @@ void path_calculate(Robot *robot) {
     cury++;
     //TODO
     printf("[INFO]\tnot done calculating yet\n");
+    printf("[INFO]\tCurrent position: [%02i][%02i]\n",curx,cury);
   }
   printf("[INFO]\tdone calculating\n");
 }
