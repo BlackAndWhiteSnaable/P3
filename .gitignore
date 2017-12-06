@@ -26,8 +26,6 @@ Report/sections/build/
 
 *.pdn
 
-*.pdf
-
 *.out
 
 *.gz
