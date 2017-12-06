@@ -16,7 +16,28 @@
   {}
 \endgroup
 
-\datalist[entry]{nty/global//global/global}
+\datalist[entry]{none/global//global/global}
+  \entry{Pound2017}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=PDM}{%
+         family={Pound},
+         familyi={P\bibinitperiod},
+         given={Dr.\bibnamedelima Mike},
+         giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Brady Haran "Computerphile"}%
+    }
+    \strng{namehash}{PDM1}
+    \strng{fullhash}{PDM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{https://youtu.be/GazC3A4OQTE}
+    \field{title}{Dijkstra's Algorithm}
+    \field{year}{2017}
+  \endentry
+
   \entry{Madsen2010}{booklet}{}
     \name{author}{1}{}{%
       {{hash=ML}{%
@@ -30,10 +51,26 @@
     \strng{fullhash}{ML1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
     \field{howpublished}{\url{http://www.imf.au.dk/system/latex/bog/}}
     \field{title}{Introduktion til {LaTeX}}
+    \field{year}{2010}
+  \endentry
+
+  \entry{Oetiker2010}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=OT}{%
+         family={Oetiker},
+         familyi={O\bibinitperiod},
+         given={Tobias},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{OT1}
+    \strng{fullhash}{OT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{http://tobi.oetiker.ch/lshort/lshort.pdf}}
+    \field{title}{The Not So Short A Introduction to {LaTeX2e}}
     \field{year}{2010}
   \endentry
 
@@ -53,54 +90,9 @@
     \strng{fullhash}{MF1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
     \field{edition}{2. ed.}
     \field{title}{The LATEX companion}
     \field{year}{2005}
-  \endentry
-
-  \entry{Oetiker2010}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=OT}{%
-         family={Oetiker},
-         familyi={O\bibinitperiod},
-         given={Tobias},
-         giveni={T\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{OT1}
-    \strng{fullhash}{OT1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{O}
-    \field{sortinithash}{O}
-    \field{howpublished}{\url{http://tobi.oetiker.ch/lshort/lshort.pdf}}
-    \field{title}{The Not So Short A Introduction to {LaTeX2e}}
-    \field{year}{2010}
-  \endentry
-
-  \entry{Pound2017}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=PDM}{%
-         family={Pound},
-         familyi={P\bibinitperiod},
-         given={Dr.\bibnamedelima Mike},
-         giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Brady Haran "Computerphile"}%
-    }
-    \strng{namehash}{PDM1}
-    \strng{fullhash}{PDM1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{P}
-    \field{sortinithash}{P}
-    \field{howpublished}{https://youtu.be/GazC3A4OQTE}
-    \field{title}{Dijkstra's Algorithm}
-    \field{year}{2017}
   \endentry
 \enddatalist
 \endinput
