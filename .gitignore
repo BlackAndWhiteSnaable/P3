@@ -35,3 +35,7 @@ Report/sections/build/
 *.toc
 
 *.tdo
+
+Report/master\.pdf
+
+Report/master\.run\.xml
