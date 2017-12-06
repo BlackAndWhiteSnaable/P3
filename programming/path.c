@@ -88,6 +88,11 @@ void path_calculate(Robot *robot) {
   }
 
   printf("\n[DEV]\tThis is how far I am programming --Daniel\n\n\n");
+
+  //check whether queue is empty, if yes, push start on queue
+  currentNode=pop(&robot->unchecked);
+  //if (!currentNode) push_queue(robot->unchecked, robot->map.node[][])
+
   currentNode = &robot->map.node[curx][cury];     //TODO pop from queue?
   //TODO is the current position at the first position in queue?
   printf("[DEBUG]\tcurrently calculating position [%02i][%02i]\n",curx,cury);
