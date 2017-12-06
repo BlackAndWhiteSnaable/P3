@@ -1,6 +1,6 @@
 \chapter{Movement}\label{ch:move}
 For our robot to be able to show the results of path finding,
-it needed to be able to move. BlaBla
+it needed to be able to move.
 
 We decided to move only along a simple 2D grid-like structure,
 therefore wheels were the easiest solution.
@@ -17,33 +17,31 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 \end{figure}
 
 Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360 degrees rotation. This determines the step angle to be 90 degrees.
-The main components of a stepper motor are represented in the image below, and they consist of stators, windings(phases), and rotor.
+The main components of a stepper motor are represented in figure \ref{fig:main_components}, and they consist of stators, windings(phases), and rotor.
 The part that moves, is the rotor, which can be magnetized or not, depending on the type of stepper motor.
-\todo[inline]{draw arrows on the figure instead?}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.5\textwidth]{figures/move/motor2.png}
 	\caption{Main Components}
+	\label{fig:main_components}
 \end{figure}
 
-By applying a voltage across one of the windings, current will start flowing through it. By using the right-hand rule, the direction of the magnetic flux can be determined. This is represented in figure \ref{fig:flux}.
+By applying a voltage across one of the windings, current will start flowing through it. By using the right-hand rule, the direction of the magnetic flux can be determined. The flux will want to travel through the path that has the least resistance. This determines the rotor to change its position to minimize resistance. This is shown in figure \ref{fig:flux}.
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.6\textwidth]{figures/move/motor3.png}
+	\subfloat[High Resistance]{%
+		\includegraphics[width=0.4\textwidth]{figures/move/motor3.png}%
+		}%
+	\hfill
+	\subfloat[Low Resistance]{%
+		\includegraphics[width=0.4\textwidth]{figures/move/motor4.png}
+	}
 	\caption{Direction of Magnetic Flux}
-	\label{fig:flux} 
+	\label{fig:flux}
 \end{figure}
 
-The flux will want to travel through the path that has the least resistance. This determines the rotor to change its position to minimize resistance. This is shown in figure \ref{fig:flux2}.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.5\textwidth]{figures/move/motor4.png}
-	\caption{Direction of Magnetic Flux 2}
-	\label{fig:flux2}
-\end{figure}
 \subsection{Types of Stepper Motors}
 \subsubsection{Permanent Magnet Motor}
 This type of stepper motor has a magnetized rotor. Each winding, will be subdivided into two, to better understand how to motor functions. Figure \ref{fig:bas_struct} represents the windings, and how they are distributed inside a stepper motor.
@@ -57,7 +55,7 @@ This type of stepper motor has a magnetized rotor. Each winding, will be subdivi
     \subfloat[Winding]{%
         \includegraphics[width=0.4\textwidth]{figures/move/motor6.png}%
         }%
-    \caption{Basic structure of a motor}
+    \caption{Basic Structure of a Motor}
     \label{fig:bas_struct} 
 \end{figure}
 
@@ -65,20 +63,20 @@ The resolution of the motor can be improved in two ways, either by increasing th
 
 
 \begin{figure}[htp]
-    \hfill
+    \centering
     \subfloat[Increased Pole Pairs]{%
-        \includegraphics[width=0.2\textwidth]{figures/move/motor7.png}%
+        \includegraphics[width=0.4\textwidth]{figures/move/motor7.png}%
         }%
     \hfill%
     \subfloat[Increased Number of Winding]{%
-        \includegraphics[width=0.2\textwidth]{figures/move/motor8.png}%
+        \includegraphics[width=0.4\textwidth]{figures/move/motor8.png}%
         }%
-	\hfill%
 	\hfill%
 	\caption{Increased resolution}
 	\label{fig:inc_res}
 \end{figure}
 
+\newpage
 To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is shown in the images below, with the corresponding phase energized.
 
 \begin{figure}[htp]
