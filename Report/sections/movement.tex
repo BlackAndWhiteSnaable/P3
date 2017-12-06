@@ -281,7 +281,7 @@ Unipolar stepper motors allow current flow in only one direction through the win
 
 Bipolar stepper motors, allow current to flow in both directions through the windings, so the need of a center wire to provide a voltage disappears. However, the circuit needed to drive a bipolar stepper motor is more complicated. Bipolar stepper motors driving boards exist to make it easier for a person to program the motor. Bipolar stepper motors are used in applications that require high torque at low speeds.
 \newpage
-Figure \ref{fig:unipolar_stepping} better explains the operating method of both types of stepper motors. 
+Figure \ref{fig:unipolar_stepping} better explains the operating method of unipolar stepper motors. 
 
 \begin{figure}[htp] 
     \centering
@@ -309,7 +309,7 @@ Figure \ref{fig:unipolar_stepping} better explains the operating method of both 
 \end{figure}
 
 As seen in Figure \ref{fig:unipolar_stepping}, each step only uses half of the winding, determining the polarity of the stator poles. The voltage is always applied at the same wire two wires.
-
+\newpage
 Note that the bipolar configuration as shown in Figure \ref{fig:bipolar_stepping} allows the current to flow in both directions, but the voltage and ground continuously switch positions. This makes bipolar stepper motors a bit more complicated to drive, but as previously stated, motor driver boards simplify the task.
 
 \begin{figure}[htp] 
@@ -336,70 +336,65 @@ Note that the bipolar configuration as shown in Figure \ref{fig:bipolar_stepping
   	\caption{Bipolar Motor Spinning}
   	\label{fig:bipolar_stepping}
 \end{figure}
-
+%\section{Tri-State Buffer}\label{sec:buffer}
 \newpage
 \section{Wheels}\label{sec:wheels}
-We wanted the robot to be capable of moving in eight directions from every position.
-One solution for this would have been for the robot to turn every time it needed to change direction,
-but since our goal was to test and time our path finding algorithm,
-this was highly impractical.
-One of our group members had worked with small wheel-based robots before,
-and remembered omni-wheels.
+The robot should be able to move in eight directions from every position. By using traditional wheels, the robot should be able to steer to the desired direction, thus changing orientation. This would have been a difficult task rising a number of problems. Our solution is to use omni-wheels instead. A standard wheel and an omni-wheel are shown in Figure \ref{fig:wheels}.
+
+Omni-wheels look like traditional wheels, but their contact area consists of smaller wheels that are able to move freely. By mounting the wheels in pairs, with the shafts crossing at a 90$^\circ$ angle, we are able to move the robot in any of the eight direction without needing to change the orientation of the robot.
+
 \begin{figure}[htp]
 	\centering
-	\hfill
 	\subfloat[Standard Wheel]{
-		\includegraphics[width=0.2\textwidth]{figures/move/omni_wheel}
+		\includegraphics[width=0.26\textwidth]{figures/move/regular_wheel}
 	}
 	\hfill
 	\subfloat[Omni-Wheel]{
-		\includegraphics[width=0.2\textwidth]{figures/move/omni_wheel}
+		\includegraphics[width=0.26\textwidth]{figures/move/omni_wheel}
 	}
-	\hfill
-	\label{fig:omni}
-	\caption{different wheels}
+	\caption{Wheels}
+	\label{fig:wheels}
 \end{figure}
-Omni-wheels are wheels,
-whose contact area consists of smaller wheels.
-Those smaller wheels are able to spin freely,
-with very little force needed.
-If mounted in two pairs,
-with the axes crossing at a 90 degree angle, \todo{find degree symbol}
-one pair controls all forces along the x-axis,
-and the other one along the y-axis.
-
 \begin{figure}[htp]
-    \centering
+	\begin{center}
     \subfloat[North]{
-    	\includegraphics[width=0.24\textwidth]{figures/move/vector_addition_North}
+    	\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_North}
     }
-    \subfloat[East]{
-    	\includegraphics[width=0.24\textwidth]{figures/move/vector_addition_East}
+    \subfloat[West]{
+    	\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_East}
     }
+    \end{center}
+    \begin{center}
     \subfloat[South]{
-    	\includegraphics[width=0.24\textwidth]{figures/move/vector_addition_South}
+   		\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_South}
     }
-  	\subfloat[West]{
-  		\includegraphics[width=0.24\textwidth]{figures/move/vector_addition_West}
+  	\subfloat[East]{
+ 		\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_West}
 	}
-	
-	
+	\end{center}
+	\begin{center}
     \subfloat[North-East]{
-    	\includegraphics[width=0.24\textwidth]{figures/move/wheel_vectors_NE}
+    	\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_NE}
     }
     \subfloat[South-East]{
-    	\includegraphics[width=0.24\textwidth]{figures/move/wheel_vectors_SE}
+   		\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_SE}
     }
+    \end{center}
+    \begin{center}
     \subfloat[South-West]{
-    	\includegraphics[width=0.24\textwidth]{figures/move/wheel_vectors_SW}
+    	\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_SW}
     }
   	\subfloat[North-West]{
-  		\includegraphics[width=0.24\textwidth]{figures/move/wheel_vectors_NW}
+  		\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_NW}
 	}
-  	\caption{forces from multiple wheels added together}
+	\end{center}
+  	\caption{Forces from Multiple Wheels Added Together}
+  	\label{fig:forces}
 \end{figure}
-%\missingfigure{a figure of the forces in different directions added together}
+Figure \ref{fig:forces} shows in which direction each motor has to spin in order for the robot to move in one of the eight directions. It can also be observed that no two opposite motors spin in different directions. This has also made our task of programming the motors easier. 
+ 
 
+\clearpage
 \section{Direction Control}\label{sec:direction}
 To control the direction of the robot,
 we had to control which wheels turn how many degrees.
@@ -447,7 +442,7 @@ we figured out that we only need 8 configurations of motor pairs.
 	\hline
 \end{tabular}
 \end{center}
-\newpage
+
 
 \begin{figure}[htp]
 	\centering
