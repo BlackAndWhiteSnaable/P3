@@ -187,72 +187,81 @@ Hybrid stepper motors borrow characteristics both the previous ones. Figure \ref
 	\label{fig:hybrid_components}
 \end{figure}
 
-It is important to notice two additional things. The first, is that the teeth on the rotor are not aligned but are interleaved, as shown in the picture below. The second, is the placement of the stator teeth in respect to those of the rotor, represented in the second picture.
+It is important to notice two additional things. The first, is that the teeth on the rotor are not aligned but are interleaved. The second, is the placement of the stator teeth in respect to those of the rotor. Both can be observed in Figure \ref{fig:stepper}.
 
 \begin{figure}[htp]
-    \centering
-    \subfloat[Interleaved Teeth]{
-        \includegraphics[width=0.4\textwidth]{figures/move/motor28.png}
-        }
-    \hfill
-    \subfloat[Stepper Motor Inside]{
-        \includegraphics[width=0.4\textwidth]{figures/move/motor29.png}
-        }
+    \centering%
+    \subfloat[Interleaved Teeth]{%
+        \includegraphics[width=0.4\textwidth]{figures/move/motor28.png}%
+        }%
+    \hfill%
+    \subfloat[Stepper Motor Inside]{%
+        \includegraphics[width=0.3\textwidth]{figures/move/motor29.png}%
+        }%
+    \caption{Hybrid Stepper Motor}
+    \label{fig:stepper}
 \end{figure}
+\newpage
+Figure \ref{fig:stepper}, the windings with numbers 1 and 5 are completely aligned with the teeth of the rotor. Windings number 3 and 7 are completely unaligned, while the others are half aligned. This results in higher precision and higher torque offered by the hybrid stepper motor, depending on the stepping method used.
 
-It can be observed in the second picture, the windings with numbers 1 and 5 are completely aligned with the teeth of the rotor. Windings number 3 and 7 are completely unaligned, while the others are half aligned. This results in higher precision and higher torque offered by the hybrid stepper motor, depending on the stepping method used.
-
-The picture below represents the front view of the hybrid stepper motor together with the configuration of the two windings.
+Figure \ref{fig:hybrid_stepper} the front view of the hybrid stepper motor together with the configuration of the two windings.
 
 \begin{figure}[htp]
-    \centering
-    \subfloat[Front View Stepper Motor]{
-        \includegraphics[width=0.4\textwidth]{figures/move/motor30.png}
+    \centering%
+    \subfloat[Front View Stepper Motor]{%
+        \includegraphics[width=0.4\textwidth]{figures/move/motor30.png}%
         }
-    \hfill
+    \hfill%
     \subfloat[Winding Configuration]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor31.png}
-        }
+        \includegraphics[width=0.4\textwidth]{figures/move/motor31.png}%
+        }%
+    \caption{Hybrid Stepper Motor Configuration}%
+    \label{fig:hybrid_stepper}
 \end{figure}
 
 It is important to notice that, even though the motor has only two windings, each individual winding energizes 4 stator poles.
 
-The pictures below represent the way this motor operates.
+Figures \ref{fig:hybrid_first_step},  \ref{fig:hybrid_second_step}, \ref{fig:hybrid_third_step} represent the way this motor operates.
 
 \begin{center}
-	\includegraphics[width=0.9\textwidth]{figures/move/motor32}
-	\captionof{figure}{Something}
+	\includegraphics[width=0.8\textwidth]{figures/move/motor32}
+	\captionof{figure}{First Step}
+	\label{fig:hybrid_first_step}
 \end{center}
-
+\newpage
 By applying a voltage to both windings, the current flow can be controlled, thereby controlling the polarity of each stator pole, thus controlling the direction of the motor. Notice that, initially, poles A and A’ are completely aligned, and poles B and B’ are half aligned. 
 
 \begin{center}
-	\includegraphics[width=0.9\textwidth]{figures/move/motor33}
-	\captionof{figure}{Something}
+	\includegraphics[width=0.8\textwidth]{figures/move/motor33}
+	\captionof{figure}{Second Step}
+	\label{fig:hybrid_second_step}
 \end{center}
 
 Next step involves changing the direction of the current in winding A by applying a voltage at the other end of the winding. Even though only the current in winding A has been changed, all stator poles are aligned differently. Poles A and A’ are now half aligned, and poles B and B’ are completely aligned.
 
 \begin{center}
-	\includegraphics[width=0.9\textwidth]{figures/move/motor34}
-	\captionof{figure}{Something}
+	\includegraphics[width=0.8\textwidth]{figures/move/motor34}
+	\captionof{figure}{Third Step}
+	\label{fig:hybrid_third_step}
 \end{center}
-
+\newpage
 Now, changing the direction of the current in winding B, changes the polarity of the stator poles B and B', again, determining a change in the alignment of all stator poles. A and A’ are now completely aligned, and stator poles B and B’ are half aligned. The positions of the stator poles now correspond to those of the first step.
 
 \begin{center}
-	\includegraphics[width=0.9\textwidth]{figures/move/motor35}
-	\captionof{figure}{Something}
+	\includegraphics[width=0.8\textwidth]{figures/move/motor35}
+	\captionof{figure}{Forth Step}
+	\label{fig:hybrid_forth_step}
 \end{center}
 
 
 Finally, again changing the direction of the current in winding A, determines the rotor to move another step. Notice the alignment of the stator poles. A and A’ are half aligned, while B and B’ are fully aligned. By changing the direction of the current in winding B, the motor arrives in the initial state, thus repeating the sequence.
+\newpage
 
 \subsection{Unipolar And Bipolar Stepper Motors}
 
 Another classification of stepper motors, is depending on the way the windings are configurated. Even though, nowadays, almost every stepper is both. Meaning that unipolar and bipolar, are rather modes in which the stepper motor can be driven. Exception being, stepper motors which have only four wires coming out of them, corresponding to bipolar stepper motors.
-\newpage
-The pictures below represent the configuration of the windings in both unipolar and bipolar stepper motors. 
+
+Figure \ref{fig:windings} below represent the configuration of the windings in both unipolar and bipolar stepper motors. 
 
 
 \begin{figure}[htp] 
@@ -264,14 +273,15 @@ The pictures below represent the configuration of the windings in both unipolar 
     \subfloat[Unipolar]{%
         \includegraphics[width=0.4\textwidth]{figures/move/motor37.png}
         }
-    \caption{Something}
+    \caption{Winding Configuration}
+    \label{fig:windings}
 \end{figure}
 
-Unipolar stepper motors allow current flow in only one direction through the winding, so a center wire has been added, that provides a voltage and determines the stator poles do either be of north or south polarity. Unipolar stepper motors are widely used in applications that require high torque at high speed.
+Unipolar stepper motors allow current flow in only one direction through the winding, so a center wire has been added, that provides a voltage and determines the stator poles to either be of north or south polarity. Unipolar stepper motors are widely used in applications that require high torque at high speed.
 
 Bipolar stepper motors, allow current to flow in both directions through the windings, so the need of a center wire to provide a voltage disappears. However, the circuit needed to drive a bipolar stepper motor is more complicated. Bipolar stepper motors driving boards exist to make it easier for a person to program the motor. Bipolar stepper motors are used in applications that require high torque at low speeds.
-
-The pictures below are intended to better explain the operating method of both types of stepper motors. 
+\newpage
+Figure \ref{fig:unipolar_stepping} better explains the operating method of both types of stepper motors. 
 
 \begin{figure}[htp] 
     \centering
@@ -286,11 +296,7 @@ The pictures below are intended to better explain the operating method of both t
     \subfloat[$3\textsuperscript{rd}$ Step]{
     	\includegraphics[width=0.3\textwidth]{figures/move/motor40.png}
     	}
-\end{figure}
-
-\newpage
-\begin{figure}[htp]
-  	\centering 
+  	\hfill
   	\subfloat[$4\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.3\textwidth]{figures/move/motor41.png}
   		}
@@ -298,10 +304,14 @@ The pictures below are intended to better explain the operating method of both t
   	\subfloat[$5\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.3\textwidth]{figures/move/motor42.png}
   		}
-  	\caption{Spinning Steps}
+  	\caption{Unipolar Motor Stepping}
+  	\label{fig:unipolar_stepping}
 \end{figure}
 
-As seen in the pictures above, each step only uses half of the winding, determining the polarity of the stator poles. The voltage is always applied at the same wire two wires.
+As seen in Figure \ref{fig:unipolar_stepping}, each step only uses half of the winding, determining the polarity of the stator poles. The voltage is always applied at the same wire two wires.
+
+Note that the bipolar configuration as shown in Figure \ref{fig:bipolar_stepping} allows the current to flow in both directions, but the voltage and ground continuously switch positions. This makes bipolar stepper motors a bit more complicated to drive, but as previously stated, motor driver boards simplify the task.
+
 \begin{figure}[htp] 
     \centering
     \subfloat[$1\textsuperscript{st}$ Step]{
@@ -315,21 +325,19 @@ As seen in the pictures above, each step only uses half of the winding, determin
     \subfloat[$3\textsuperscript{rd}$ Step]{
     	\includegraphics[width=0.3\textwidth]{figures/move/motor45.png}
     	}
-\end{figure}
-\newpage
-\begin{figure}[htp]
-   	\centering
+   	\hfill
    	\subfloat[$4\textsuperscript{th}$ Step]{
-  		\includegraphics[width=0.3\textwidth]{figures/move/motor41.png}
+  		\includegraphics[width=0.3\textwidth]{figures/move/motor46.png}
   		}
   	\hfill
   	\subfloat[$5\textsuperscript{th}$ Step]{
-  		\includegraphics[width=0.3\textwidth]{figures/move/motor42.png}
+  		\includegraphics[width=0.3\textwidth]{figures/move/motor47.png}
   		}
-  	\caption{Spinning Steps}
+  	\caption{Bipolar Motor Spinning}
+  	\label{fig:bipolar_stepping}
 \end{figure}
-Note that the bipolar configuration allows the current to flow in both directions, but the voltage and ground continuously switch positions. This makes bipolar stepper motors a bit more complicated to drive, but as previously stated, motor driver boards simplify the task.
 
+\newpage
 \section{Wheels}\label{sec:wheels}
 We wanted the robot to be capable of moving in eight directions from every position.
 One solution for this would have been for the robot to turn every time it needed to change direction,
