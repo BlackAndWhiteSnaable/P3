@@ -60,7 +60,7 @@ void path_set_neighbors(Robot *robot) {
       if (!(robot->map.node[i][j].walls & SW)) robot->map.node[i][j].sw=&robot->map.node[i-1][j+1];
       if (!(robot->map.node[i][j].walls & NW)) robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];
 
-      printf("[%2i][%2i] has been linked\n",i,j);
+      //printf("[%2i][%2i] has been linked\n",i,j);
     }
   }
 }
