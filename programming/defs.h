@@ -25,7 +25,7 @@ typedef struct {
 typedef struct Node {
   Point position;               // Nodes own x,y position on node map
   struct Node *n,*e,*s,*w;      // Pointers to neighbors vertical/horizontal
-  struct Node *nw,*ne,*se,*sw;  // Pointers to neighbors diagonal
+  struct Node *ne,*se,*sw,*nw;  // Pointers to neighbors diagonal
   struct Node *parent;          // Pointer to parent node
   unsigned char walls;          // Hex value for the 8 walls
   int movecost;                 // Steps needed to get here
@@ -34,8 +34,8 @@ typedef struct Node {
 typedef struct {
   Point start;
   Point finish;
-  Point size; // Size is amount of segments in the map
-  //Point num_nodes; // number of nodes in the map
+  Point size;     // Size is amount of characters in the textfile
+  Point nSize;    //size of the nodemap
   unsigned char **segments; // 2D array of the map data from text file (user input)
   Nodes **node; // 2D array of each node's 8 neighbours represented in a hex value
 } Maps;
@@ -60,7 +60,7 @@ Function declarations
 
 // Robot
 void go();
-Robot *init_robot();
+Robot *robot_init();
 
 // Map
 void map_load(Robot *robot);
@@ -70,6 +70,7 @@ void map_update(Robot *robot, char hex);
 void node_map_load(Robot *robot); // node/map?
 int robot_finished(Robot *robot);
 void test_node_array(Robot *robot);
+void map_print_node(Nodes *node);
 
 // Scan
 unsigned char scan();

@@ -48,6 +48,7 @@ void print_queue(Queue *head) {
             i++;
         }
     }
+    printf("\n");
 }
 
 // remove one element from head of queue

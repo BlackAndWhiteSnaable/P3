@@ -3,10 +3,6 @@
 // Scan surroundings at current position and compare with map segment
 // If it differs, update map, then save map to file and recalculate path
 void map_check(Robot *robot) {
-  // TODO just realized this is no longer a hex value, to we need to fetch hex
-  // value instead. This is done by taking the walls hex value from node map
-  // at current robot position
-
   char scan_segment = scan();
   char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
 
@@ -59,9 +55,9 @@ void map_save(Robot *robot) {
   //
   // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
   // a 5x5 array must be used to hold the values
+
+
 void map_load(Robot *robot) {
-  // for first 2 lines all characters into an array = string (skip for now)
-  //
   // for map segments read character by character into array (forget size and malloc to begin with?)
   // where 1st character is stored in [0][0] next in [0][1] and so on
   // first character on next line in [1][0]
@@ -69,17 +65,10 @@ void map_load(Robot *robot) {
   // when that is stored then we can always print out that map again
   // first node/position will be at 1,1 next at 1,4
 
-  // Open file
-  // *myfile is a pointer to a FILE object
+  // Open file in read mode
   FILE *myfile = fopen(MAP_FILENAME, "r");
 
   // Count number of lines and number of characters per line (last line)
-  //
-  // Reading the file twice is seems like a good method for now,
-  // it is quick for small files and does not take up unnescesarry memory.
-  //
-  // Other options could be to call malloc/realloc for each character
-  // or to have a buffer large enough to hold map data of any size.
   int rows = 1;       // Counts newlines, 1 because last line has no \n
   int cols = 0;       // Counts characters in each line
   int c;              // Holds each character as it is read from file
@@ -87,7 +76,7 @@ void map_load(Robot *robot) {
   while ((c = fgetc(myfile)) != EOF) { // Read file character by character
     if (c == '\n') {
       rows++;       // Count the line
-      cols = 0;     // Reset character counter
+      cols = 0;     // Reset character counter (only count on last line)
     } else {
       cols++;       // Count each character, except newlines
     }
@@ -98,21 +87,19 @@ void map_load(Robot *robot) {
 
   // Allocate memory for the 2D array with size of rows and cols
   // malloc() allocates single block of memory
-  // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
   // sizeof() returns size in bytes of the object representation of type
   unsigned char **array; // Pointer to array
   array = malloc(rows * sizeof(char*));
   for (int i = 0; i < rows; i++) array[i] = calloc(cols, sizeof(char));
 
   // Store the pointer to the 2D array in map struct
-  // Data can now be written to the allocated array through the struct
   robot->map.segments = array;
 
   // Save map size (rows and cols) in struct
   robot->map.size.x = cols;
   robot->map.size.y = rows;
 
-  // Fill map struct with map data from file
+  // Fill map array with map data from file
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       c = fgetc(myfile);                // Read next character from file
@@ -135,7 +122,6 @@ void map_load(Robot *robot) {
   }
   fclose(myfile);
 
-  // printf
   for (int i = 0; i < rows; i++) {
     printf("[INFO]\t");
     for (int j = 0; j < cols; j++) {
@@ -153,14 +139,14 @@ void map_load(Robot *robot) {
 void node_map_load(Robot *robot) {
   // From the map size the amount of nodes in the map can be calculated
   // TODO save in node struct
-  int num_nodes_x = (robot->map.size.y-1)/2;
-  int num_nodes_y = (robot->map.size.x-1)/2;
+  robot->map.nSize.x = (robot->map.size.x-1)/2;
+  robot->map.nSize.y = (robot->map.size.y-1)/2;
 
   // Declare node map of correct size
   Nodes **array;
-  array = malloc(num_nodes_x * sizeof(Nodes*));
-  for(int i=0; i<num_nodes_x; i++) {
-    array[i] = malloc(num_nodes_y * sizeof(Nodes));
+  array = malloc(robot->map.nSize.x * sizeof(Nodes*));
+  for(int i=0; i<robot->map.nSize.x; i++) {
+    array[i] = malloc(robot->map.nSize.y * sizeof(Nodes));
   }
 
   // Store the pointer to the nodes in map struct
@@ -195,20 +181,6 @@ void node_map_load(Robot *robot) {
       robot->map.node[(i-1)/2][(j-1)/2].position.y = (j-1)/2;
     }
   }
-/*
-    for (int i=0; i<num_nodes_x; i++) {
-      for (int j=0; j<num_nodes_y; j++) {
-        robot->map.node[i][j] = (robot->map.node[i-1][j+0] < 0 || ) ? address of node north to it : NULL;
-      }
-    }
-*/
-      // TODO
-      // find neighbors to current node (like segments but only nodes that don't have walss in the way)
-      //
-      //
-      // see http://www.growingwiththeweb.com/2012/06/a-pathfinding-algorithm.html
-      // and wiki
-
 }
 
 // Input for walls is a hex value eg. FF means walls all around
@@ -297,3 +269,19 @@ In theory this should work (at least in my head).
 
 -------------------------
 */
+
+//[DEV] prints every element from a Node
+void map_print_node(Nodes *node){
+  printf("[INFO]\tNode information [%02i][%02i]:\n",node->position.x,node->position.y);
+  printf("[INFO]\tParent\t\tmovecost\tNeighbors\n");
+  printf("[INFO]\t%p\t%i\t\t",node->parent,node->movecost);
+  if (node->n) printf("N 0x%x\n\t\t\t\t\t",node->n->walls);
+  if (node->e) printf("S 0x%x\n\t\t\t\t\t",node->e->walls);
+  if (node->s) printf("E 0x%x\n\t\t\t\t\t",node->s->walls);
+  if (node->w) printf("W 0x%x\n\t\t\t\t\t",node->w->walls);
+
+  //TODO reference by position
+  if (node->parent){
+    printf("\n[INFO]\tParent is [%02i][%02i]\n\n",node->parent->position.x,node->parent->position.y);
+  } else printf("\n[INFO]\tStart Node is [%02i][%02i]\n\n",node->position.x,node->position.y);
+}
