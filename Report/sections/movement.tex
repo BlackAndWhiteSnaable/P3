@@ -392,62 +392,61 @@ Omni-wheels look like traditional wheels, but their contact area consists of sma
   	\label{fig:forces}
 \end{figure}
 Figure \ref{fig:forces} shows in which direction each motor has to spin in order for the robot to move in one of the eight directions. It can also be observed that no two opposite motors spin in different directions. This has also made our task of programming the motors easier. 
- 
-
+\clearpage
+\section{Tri-State Buffer}
+\clearpage
+\section{Motor Drive Boards}\label{sec:driver_boards}
 \clearpage
 \section{Direction Control}\label{sec:direction}
-To control the direction of the robot,
-we had to control which wheels turn how many degrees.
+To determine the direction of the robot, we had to determine which wheels turn what number of steps. 
 
-One option for this would have been to control each motor individually,
-for this we would have needed four individually controllable stepper motors,
-and four times four control outputs from our microcontroller.
-This solution also meant precise timing between the four motors was needed,
-in order to not generate any rotation.
+One option would have been to control each motor individually. This required a significant number of pins needed for stepping the motors, and precise timing between the four motors, considering that, in some instances all motors should move at the same time.
 
-We decided to look for a solution using less output pins,
-and without the danger of rotation.
+We decided to use tri-state buffers instead. This would drastically lower the number of pins needed, and would make for a more precise and advanced way of driving the motors.
 
-By analysing the requirements for our directional control,
-we figured out that we only need 8 configurations of motor pairs.
+Table \ref{table:directions} explains which pairs need to be activated or not, and their rotation, in order to achieve the desired movement.
+
 \begin{center}
-\begin{tabular}{|l|l|l|}
-	\hline
-	Direction & Pair A & Pair B	\\
-	\hline
-	North & forward & forward \\
-	East 	& forward & backward \\
-	South & backward & backward \\
-	West 	& backward & forward \\
-	\hline
-	North-East & forward & off \\
-	South-East & off & backward \\
-	South-West & backward & off\\
-	North-West & off & forward \\
-	\hline
-\end{tabular}
-\begin{tabular}{|l|c|c|c|c|}
-	\hline
-	Direction & Aflip & Aon & Bflip & Bon \\
-	\hline
-	North & 0 & 1 & 0 & 1 \\
-	East 	& 0 & 1 & 1 & 1 \\
-	South & 1 & 1 & 1 & 1 \\
-	West 	& 1 & 1 & 0 & 1 \\
-	\hline
-	North-East & 0 & 1 & 1 & 0 \\
-	South-East & 1 & 0 & 0 & 1 \\
-	South-West & 1 & 1 & 1 & 0 \\
-	North-West & 1 & 0 & 1 & 1 \\
-	\hline
-\end{tabular}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		Direction & Pair A & Pair B	\\
+		\hline
+		North & forward & forward \\
+		East 	& forward & backward \\
+		South & backward & backward \\
+		West 	& backward & forward \\
+		\hline
+		North-East & forward & off \\
+		South-East & off & backward \\
+		South-West & backward & off\\
+		North-West & off & forward \\
+		\hline
+	\end{tabular}
+	\begin{tabular}{|l|c|c|c|c|}
+		\hline
+		Direction & Aon & Aflip & Bon & Bflip \\
+		\hline
+		North & 1 & 0 & 1 & 0 \\
+		East 	& 1 & 0 & 1 & 1 \\
+		South & 1 & 1 & 1 & 1 \\
+		West 	& 1 & 1 & 1 & 0 \\
+		\hline
+		North-East & 1 & 0 & 0 & 1 \\
+		South-East & 0 & 1 & 1 & 0 \\
+		South-West & 1 & 1 & 0 & 1 \\
+		North-West & 0 & 1 & 1 & 1 \\
+		\hline
+	\end{tabular}
+	\captionof{table}{Directions}
+	\label{table:directions}
 \end{center}
+
 
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.9\textwidth]{figures/move/direction_choice}
-	\caption{motor control circuit}
+	\caption{Motor Control Circuit}
 	\label{fig:mot_ctrl}
 \end{figure}
 
