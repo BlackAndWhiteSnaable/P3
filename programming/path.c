@@ -108,6 +108,7 @@ void path_set_neighbors(Robot *robot) {
 
 ///calculates the path from the current position
 void path_calculate(Robot *robot) {
+  //--------------------------------- SETUP-----------------------------------//
   //declare all variable needed in scope
   int curx,cury;          //to keep track of your food/position on the map
                           //should not be necessary, but would clean up the code
@@ -120,11 +121,6 @@ void path_calculate(Robot *robot) {
   curx = robot->pos.x;
   cury = robot->pos.y;
 
-  //[DEV] checks where robot is
-  if (curx==robot->map.start.x && cury==robot->map.start.y){
-    printf("\n[DEV]\tRobot is at start position [%02i][%02i]\n",curx,cury);
-  } else printf("\n[DEV]\tRobot is at position [%02i][%02i]\n",curx,cury);
-
   //pushes current node onto stack after setting movecost to 0
   if (robot->map.node[curx][cury].movecost != 0){
     robot->map.node[curx][cury].movecost = 0;
@@ -132,32 +128,32 @@ void path_calculate(Robot *robot) {
   push_queue(&robot->unchecked, &robot->map.node[curx][cury]);
 
 
-  //check whether queue is empty, if yes, push start on queue
-  currNode=pop(&robot->unchecked);
-  if (!currNode){
-    printf("[WARNING]\tQueue was empty, putting robot position\n");
-    currNode = &robot->map.node[curx][cury];
-  } else printf("[DEV]\tCurrent node popped\n");
+  if (!(currNode=pop(&robot->unchecked))){ printf("[ALERT]"); return;}
 
-  while (curx!=robot->map.finish.x && cury!=robot->map.finish.y){   //do until we reach the finish
+  //----------------------------------CALC------------------------------------//
+  int deadcount=0;
+  do{   // until we reach the finish
     if (currNode==NULL){
       printf("[WARNING]\tsomething went wrong\n");
       break;
-    }/*
-    printf("\n[DEV]\tCurrently calculating at [%02i][%02i]\n",curx,cury);
-    printf("[DEV]\tCurrent node has movecost %i\n",currNode->movecost);
-    printf("[DEV]\tCurrent neighbors:\n");
+    }
+    deadcount++;                  //catching infinite loops
+    if (deadcount>=(robot->map.nSize.x)*(robot->map.nSize.y)){
+        printf("[ERROR]\tEVERYTHING WENT WRONG\n"); return;
+    }
+    curx = currNode->position.x;
+    cury = currNode->position.y;
 
-    */
-    //explaining the if once
+    /*explaining the if once
     //checks whether the neighbor exists, then if movecost is smaller
       //updates neighbor movecost
       //updates neighbor parent
       //remove parent as neighbor
       //prints neighbor (debugging)
       //pushes neighbor on queue
-    //
+    */
 
+    //------------------------------------STRAIGHTS-------------------------//
     if (currNode->n && (currNode->n->movecost > currNode->movecost+10)){
       currNode->n->movecost = currNode->movecost+10;
       currNode->n->parent = currNode;
@@ -187,20 +183,62 @@ void path_calculate(Robot *robot) {
       push_queue(&robot->unchecked, currNode->w);
     }
 
+    //------------------------------------DIAGONALS-------------------------//
+    if (currNode->ne && (currNode->ne->movecost > currNode->movecost+14)){
+      currNode->ne->movecost = currNode->movecost+14;
+      currNode->ne->parent = currNode;
+      currNode->ne->sw = NULL;
+      //map_print_node(currNode->n);
+      push_queue(&robot->unchecked, currNode->ne);
+    }
+    if (currNode->se && (currNode->se->movecost > currNode->movecost+14)){
+      currNode->se->movecost = currNode->movecost+14;
+      currNode->se->parent = currNode;
+      currNode->se->w = NULL;
+      //map_print_node(currNode->se);
+      push_queue(&robot->unchecked, currNode->se);
+    }
+    if (currNode->sw && (currNode->sw->movecost > currNode->movecost+14)){
+      currNode->sw->movecost = currNode->movecost+14;
+      currNode->sw->parent = currNode;
+      currNode->sw->n = NULL;
+      //map_print_node(currNode->sw);
+      push_queue(&robot->unchecked, currNode->sw);
+    }
+    if (currNode->nw && (currNode->nw->movecost > currNode->movecost+14)){
+      currNode->nw->movecost = currNode->movecost+14;
+      currNode->nw->parent = currNode;
+      currNode->nw->e = NULL;
+      //map_print_node(currNode->nw);
+      push_queue(&robot->unchecked, currNode->nw);
+    }
 
-    //printf("[INFO]\tNode computed!\n");
+
     push_stack(&robot->checked, currNode);
-    //print_stack(robot->checked);
-    //print_queue(robot->unchecked);
+    printf("[INFO]\tNode [%2d][%2d] computed!\n",curx,cury);
 
     currNode = pop(&robot->unchecked);
-    curx = currNode->position.x;
-    cury = currNode->position.y;
-  }
-
+  //}
+  }while ((curx!=robot->map.finish.y)||(cury!=robot->map.finish.x));
 
   printf("\n[INFO]\tDone calculating path!\n");
-  print_stack(robot->checked);
-  print_queue(robot->unchecked);
+  //print_stack(robot->checked);
+  //print_queue(robot->unchecked);
+
+  //TODO calculate the movements out of the stack
+  //pop from stack until start is reached
+  do{
+    currNode = pop(&robot->checked);
+    map_print_node(currNode);
+    curx = robot->pos.x;
+    cury = robot->pos.y;
+    do{
+
+    } while (0);
+  } while (currNode->movecost!=0);  //start node has movecost 0
+  //currNode=pop(robot->checked);
+
+    //pop until parent is reached
+
   printf("\n[DEV]\tThis is how far I am programming --Daniel\n\n\n");
 }

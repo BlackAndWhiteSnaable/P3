@@ -272,16 +272,47 @@ In theory this should work (at least in my head).
 
 //[DEV] prints every element from a Node
 void map_print_node(Nodes *node){
-  printf("[INFO]\tNode information [%02i][%02i]:\n",node->position.x,node->position.y);
+  int ownX, ownY;
+  int parX, parY;
+  char move=0;
+
+  ownX = node->position.x; ownY = node->position.y;
+  if (node->parent){
+    parX = node->parent->position.x;
+    parY = node->parent->position.y;
+  }
+
+  //printf("[INFO]\tNode information [%2i][%2i]:\n",ownX, ownY);
+  /*
   printf("[INFO]\tParent\t\tmovecost\tNeighbors\n");
   printf("[INFO]\t%p\t%i\t\t",node->parent,node->movecost);
-  if (node->n) printf("N 0x%x\n\t\t\t\t\t",node->n->walls);
-  if (node->e) printf("S 0x%x\n\t\t\t\t\t",node->e->walls);
-  if (node->s) printf("E 0x%x\n\t\t\t\t\t",node->s->walls);
-  if (node->w) printf("W 0x%x\n\t\t\t\t\t",node->w->walls);
+  if (node->n) printf("N  0x%02x\n\t\t\t\t\t",node->n->walls);
+  if (node->e) printf("E  0x%02x\n\t\t\t\t\t",node->e->walls);
+  if (node->s) printf("S  0x%02x\n\t\t\t\t\t",node->s->walls);
+  if (node->w) printf("W  0x%02x\n\t\t\t\t\t",node->w->walls);
 
-  //TODO reference by position
+  if (node->ne) printf("NE 0x%02x\n\t\t\t\t\t",node->ne->walls);
+  if (node->se) printf("SE 0x%02x\n\t\t\t\t\t",node->se->walls);
+  if (node->sw) printf("SW 0x%02x\n\t\t\t\t\t",node->sw->walls);
+  if (node->nw) printf("NW 0x%02x\n\t\t\t\t\t",node->nw->walls);
+
+  */
   if (node->parent){
-    printf("\n[INFO]\tParent is [%02i][%02i]\n\n",node->parent->position.x,node->parent->position.y);
-  } else printf("\n[INFO]\tStart Node is [%02i][%02i]\n\n",node->position.x,node->position.y);
+    printf("\n[INFO]\tParent is [%2i][%2i]\n",parX ,parY);
+    printf("[INFO]\tMoving here from parent:\n");
+    //adds all movements together
+    if (ownX<parX) move+=N;       //Something north
+    if (ownY>parY) move+=E;       //Something east
+    if (ownX>parX) move+=S;       //Something south
+    if (ownY<parY) move+=W;       //Something west
+
+    //checks for two movements
+    if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){
+      if (move==N+E) move=NE;     //North and East
+      else if (move==S+E) move=SE;//South and East
+      else if (move==S+W) move=SW;//South and West
+      else if (move==N+W) move=NW;//North and West
+    }
+    printf("[INFO]\t\t\t0x%02x\n\n",move);
+  } else printf("\n[INFO]\tNode [%2i][%2i] has no parent\n\n",ownX ,ownY);
 }
