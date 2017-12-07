@@ -189,21 +189,21 @@ void path_calculate(Robot *robot) {
     if (currNode->se && (currNode->se->movecost > currNode->movecost+14)){
       currNode->se->movecost = currNode->movecost+14;
       currNode->se->parent = currNode;
-      currNode->se->w = NULL;
+      currNode->se->nw = NULL;
       //map_print_node(currNode->se);
       push_queue(&robot->unchecked, currNode->se);
     }
     if (currNode->sw && (currNode->sw->movecost > currNode->movecost+14)){
       currNode->sw->movecost = currNode->movecost+14;
       currNode->sw->parent = currNode;
-      currNode->sw->n = NULL;
+      currNode->sw->ne = NULL;
       //map_print_node(currNode->sw);
       push_queue(&robot->unchecked, currNode->sw);
     }
     if (currNode->nw && (currNode->nw->movecost > currNode->movecost+14)){
       currNode->nw->movecost = currNode->movecost+14;
       currNode->nw->parent = currNode;
-      currNode->nw->e = NULL;
+      currNode->nw->se = NULL;
       //map_print_node(currNode->nw);
       push_queue(&robot->unchecked, currNode->nw);
     }
