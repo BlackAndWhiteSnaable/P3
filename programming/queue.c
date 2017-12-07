@@ -45,7 +45,7 @@ void print_queue(Queue *head) {
 
         for (cur = head; cur != NULL; cur = cur->next)
         {
-            printf("%d. Queue element is node[%d][%d] with movecost: %d\n", i, cur->node->position.x, cur->node->position.y, cur->node->movecost);
+            printf("[INFO]\t%d. Queue element is node[%d][%d] with movecost: %d\n", i, cur->node->position.x, cur->node->position.y, cur->node->movecost);
             i++;
         }
     }
@@ -56,7 +56,7 @@ void print_queue(Queue *head) {
 Nodes *pop(Queue **head)
 {
     if (!*head) {
-        printf("[INFO]\tNothing to pop, queue is empty\n");
+        printf("[WARN]\tNothing to pop, queue is empty\n");
 
         return NULL;
     } else {
