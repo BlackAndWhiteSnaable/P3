@@ -36,7 +36,7 @@ void push_queue(Queue **head, Nodes *new_node)
 void print_queue(Queue *head) {
     if(!head)
     {
-        printf("Print what? Queue is empty\n");
+        printf("[WARN]\tPrint what? Queue is empty\n");
     }
     else
     {

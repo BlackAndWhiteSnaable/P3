@@ -98,11 +98,12 @@ void path_set_neighbors(Robot *robot) {
 
       //map_print_node(&robot->map.node[i][j]);
 
-      //printf("[INFO]\t[%2i][%2i] has been linked\n\n\n",i,j);
+      //printf("[INFO]\t[%2i][%2i] has been linked\n",i,j);
     }
   //printf("\n");
   }
-  robot->map.node[robot->map.start.x][robot->map.start.y].movecost = 0;
+  //set movecost for the current position to 0
+  robot->map.node[robot->pos.x][robot->pos.y].movecost = 0;
   printf("[INFO]\tDone linking nodes to neighbors\n");
 }
 
@@ -117,28 +118,22 @@ void path_calculate(Robot *robot) {
   //make sure that all nodes have the correct neighbors
   path_set_neighbors(robot);
 
-  //start calculating from current position, not start
+  //start calculating from current position
   curx = robot->pos.x;
   cury = robot->pos.y;
-
-  //pushes current node onto stack after setting movecost to 0
-  if (robot->map.node[curx][cury].movecost != 0){
-    robot->map.node[curx][cury].movecost = 0;
-  }
   push_queue(&robot->unchecked, &robot->map.node[curx][cury]);
-
-
-  if (!(currNode=pop(&robot->unchecked))){ printf("[ALERT]"); return;}
+  currNode =pop(&robot->unchecked);
 
   //----------------------------------CALC------------------------------------//
   int deadcount=0;
+  printf("\n\n[INFO]\tstarted path calculation\n\n");
   do{   // until we reach the finish
     if (currNode==NULL){
-      printf("[WARNING]\tsomething went wrong\n");
+      printf("[WARN]\tsomething went wrong\n");
       break;
     }
-    deadcount++;                  //catching infinite loops
-    if (deadcount>=(robot->map.nSize.x)*(robot->map.nSize.y)){
+    //catching infinite loops
+    if (deadcount++>=(robot->map.nSize.x)*(robot->map.nSize.y)){
         printf("[ERROR]\tEVERYTHING WENT WRONG\n"); return;
     }
     curx = currNode->position.x;
@@ -222,9 +217,10 @@ void path_calculate(Robot *robot) {
   }while ((curx!=robot->map.finish.y)||(cury!=robot->map.finish.x));
 
   printf("\n[INFO]\tDone calculating path!\n");
-  //print_stack(robot->checked);
-  //print_queue(robot->unchecked);
+  print_stack(robot->checked);
+  print_queue(robot->unchecked);
 
+  /*
   //TODO calculate the movements out of the stack
   //pop from stack until start is reached
   do{
@@ -236,6 +232,7 @@ void path_calculate(Robot *robot) {
 
     } while (0);
   } while (currNode->movecost!=0);  //start node has movecost 0
+  */
   //currNode=pop(robot->checked);
 
     //pop until parent is reached

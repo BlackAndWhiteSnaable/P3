@@ -282,21 +282,19 @@ void map_print_node(Nodes *node){
     parY = node->parent->position.y;
   }
 
-  //printf("[INFO]\tNode information [%2i][%2i]:\n",ownX, ownY);
-  /*
+  printf("[INFO]\tNode information [%2i][%2i]:\n",ownX, ownY);
   printf("[INFO]\tParent\t\tmovecost\tNeighbors\n");
   printf("[INFO]\t%p\t%i\t\t",node->parent,node->movecost);
-  if (node->n) printf("N  0x%02x\n\t\t\t\t\t",node->n->walls);
-  if (node->e) printf("E  0x%02x\n\t\t\t\t\t",node->e->walls);
-  if (node->s) printf("S  0x%02x\n\t\t\t\t\t",node->s->walls);
-  if (node->w) printf("W  0x%02x\n\t\t\t\t\t",node->w->walls);
+  if (node->n) printf("N  0x%02x\n[INFO]\t\t\t\t\t",node->n->walls);
+  if (node->e) printf("E  0x%02x\n[INFO]\t\t\t\t\t",node->e->walls);
+  if (node->s) printf("S  0x%02x\n[INFO]\t\t\t\t\t",node->s->walls);
+  if (node->w) printf("W  0x%02x\n[INFO]\t\t\t\t\t",node->w->walls);
 
-  if (node->ne) printf("NE 0x%02x\n\t\t\t\t\t",node->ne->walls);
-  if (node->se) printf("SE 0x%02x\n\t\t\t\t\t",node->se->walls);
-  if (node->sw) printf("SW 0x%02x\n\t\t\t\t\t",node->sw->walls);
-  if (node->nw) printf("NW 0x%02x\n\t\t\t\t\t",node->nw->walls);
+  if (node->ne) printf("NE 0x%02x\n[INFO]\t\t\t\t\t",node->ne->walls);
+  if (node->se) printf("SE 0x%02x\n[INFO]\t\t\t\t\t",node->se->walls);
+  if (node->sw) printf("SW 0x%02x\n[INFO]\t\t\t\t\t",node->sw->walls);
+  if (node->nw) printf("NW 0x%02x\n[INFO]\t\t\t\t\t",node->nw->walls);
 
-  */
   if (node->parent){
     printf("\n[INFO]\tParent is [%2i][%2i]\n",parX ,parY);
     printf("[INFO]\tMoving here from parent:\n");
