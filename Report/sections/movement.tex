@@ -6,7 +6,7 @@ We decided to move only along a simple 2D grid-like structure,
 therefore wheels were the easiest solution.
 \todo{we need to make this flow nicer into the next section}
 
-\section{Motors}\label{sec:motors}
+\section{Stepper Motors}\label{sec:motors}
 A stepper motor is a motor that moves one step at a time, with its step defined by a step angle.
 
 \begin{figure}[ht]
@@ -18,11 +18,11 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 
 Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360 degrees rotation. This determines the step angle to be 90 degrees.
 The main components of a stepper motor are represented in Figure \ref{fig:main_components}, and they consist of stators, windings(phases), and rotor.
-The part that moves, is the rotor, which can be magnetized or not, depending on the type of stepper motor.
+Attached to the output axle is the rotor, depending on the type of motor it can be magnetized.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/move/motor2.png}
+	\includegraphics[width=0.3\textwidth]{figures/move/motor2.png}
 	\caption{Main Components}
 	\label{fig:main_components}
 \end{figure}
@@ -44,7 +44,7 @@ By applying a voltage across one of the windings, current will start flowing thr
 
 \subsection{Types of Stepper Motors}
 \subsubsection{Permanent Magnet Motor}
-This type of stepper motor has a magnetized rotor. Each winding, will be subdivided into two, to better understand how to motor functions. Figure \ref{fig:bas_struct} represents the windings, and how they are distributed inside a stepper motor.
+This type of stepper motor has a magnetized rotor. Each winding will be subdivided into two, to better understand how to motor functions. Figure \ref{fig:bas_struct} represents the windings, and how they are distributed inside a stepper motor.
 
 \begin{figure}[htp]
     \centering
@@ -77,7 +77,7 @@ The resolution of the motor can be improved in two ways, either by increasing th
 \end{figure}
 
 \newpage
-To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phase energized.
+To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phases energized.
 
 \begin{figure}[htp]
     \begin{center}
@@ -120,7 +120,9 @@ To rotate the motor, simply apply a voltage across the windings in a sequence. A
 \end{figure}
 
 \subsubsection{Variable Reluctance Motor}
-This type of motor, uses a rotor that is not magnetized, and has a number of teeth as seen in Figure \ref{fig:var_rel_components}. The windings are configured differently, as depicted in the second figure, all having a common voltage source but with each end being separate. They usually have 3 or 5 windings. Greater precision can be achieved by adding more teeth to the rotor.
+This type of motor, uses a rotor that is not magnetized, and has a number of teeth as seen in Figure \ref{fig:var_rel_components}. The windings are configured differently, as depicted in \ref{fig:var_rel_components}(b), all having a common voltage source but separate ground connections.
+They usually have 3 or 5 windings.
+Greater precision can be achieved by adding more teeth to the rotor.
 
 \begin{figure}[htp]
     \centering%
@@ -136,40 +138,42 @@ This type of motor, uses a rotor that is not magnetized, and has a number of tee
 \end{figure}
 \newpage
 
-To spin the motor, each winding is energized one at a time, and the rotor rotates in such a way, to minimize reluctance. Some of the differences, between this type of stepper motor and the permanent magnet motor, are that, in order to spin the motor in a direction, the windings have to be energized in a reverse sequence, as depicted in Figure \ref{fig:stepping_var_rel}. In addition, the step angle is actually half of the one of a permanent magnet motor with the same number of windings is.
+To spin the motor, each winding is energized one at a time, and the rotor rotates to minimize reluctance as explained before.
+Some of the differences, between this type of stepper motor and the permanent magnet motor, are that, in order to spin the motor in a direction, the windings have to be energized in a reverse sequence as opposed to the direction of the spin, as depicted in Figure \ref{fig:stepping_var_rel}.
 
+In addition, variable reluctance motors have twice the precision of permanent magnet motors with the same amount of windings.
 \begin{figure}[htp]
     \begin{center}
-    \subfloat[$1\textsuperscript{st}$ Step]{
+    \subfloat{
         \includegraphics[width=0.2\textwidth]{figures/move/motor19.png}
         }
     \hfill
-    \subfloat[$2\textsuperscript{nd}$ Step]{
+    \subfloat{
         \includegraphics[width=0.2\textwidth]{figures/move/motor20.png}
         }
     \hfill
-    \subfloat[$3\textsuperscript{rd}$ Step]{
+    \subfloat{
     	\includegraphics[width=0.2\textwidth]{figures/move/motor21.png}
     	}
   	\hfill
-  	\subfloat[$4\textsuperscript{th}$ Step]{
+  	\subfloat{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor22.png}
   		}
 	\end{center}
 	\begin{center}
-    \subfloat[$1\textsuperscript{st}$ Step Winding]{
+    \subfloat[$1\textsuperscript{st}$ Step]{
         \includegraphics[width=0.2\textwidth]{figures/move/motor23.png}
         }
     \hfill
-    \subfloat[$2\textsuperscript{nd}$ Step Winding]{
+    \subfloat[$2\textsuperscript{nd}$ Step]{
         \includegraphics[width=0.2\textwidth]{figures/move/motor24.png}
         }
     \hfill
-    \subfloat[$3\textsuperscript{rd}$ Step Winding]{
+    \subfloat[$3\textsuperscript{rd}$ Step]{
     	\includegraphics[width=0.2\textwidth]{figures/move/motor25.png}
     	}
   	\hfill
-  	\subfloat[$4\textsuperscript{th}$ Winding]{
+  	\subfloat[$4\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor26.png}
   		}
   	\caption{Stepping Variable Reluctance Motor}
@@ -178,12 +182,13 @@ To spin the motor, each winding is energized one at a time, and the rotor rotate
 \end{figure}
 \newpage
 \subsubsection{Hybrid Stepper Motor}
-Hybrid stepper motors borrow characteristics both the previous ones. Figure \ref{fig:hybrid_components} shows the two of the main components of the hybrid stepper motor. On the left side, the stator can be seen consisting of 8 poles. On the right side, is represented the rotor. The rotor consists of two sets of teeth, corresponding for the two poles, north and south, respectively.
+Hybrid stepper motors borrow characteristics from both previously mentioned types.
 
+Figure \ref{fig:hybrid_components} shows the two the main components of the hybrid stepper motor. On the left side, the stator can be seen consisting of 8 poles. On the right side the rotor. The rotor consists of two sets of teeth, corresponding to the two poles, north and south.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{figures/move/motor27.png}
-	\caption{Stator And Rotor}
+	\caption{Stator and Rotor}
 	\label{fig:hybrid_components}
 \end{figure}
 
@@ -203,23 +208,6 @@ It is important to notice two additional things. The first, is that the teeth on
 \end{figure}
 \newpage
 Figure \ref{fig:stepper}, the windings with numbers 1 and 5 are completely aligned with the teeth of the rotor. Windings number 3 and 7 are completely unaligned, while the others are half aligned. This results in higher precision and higher torque offered by the hybrid stepper motor, depending on the stepping method used.
-
-Figure \ref{fig:hybrid_stepper} the front view of the hybrid stepper motor together with the configuration of the two windings.
-
-\begin{figure}[htp]
-    \centering%
-    \subfloat[Front View Stepper Motor]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor30.png}%
-        }
-    \hfill%
-    \subfloat[Winding Configuration]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor31.png}%
-        }%
-    \caption{Hybrid Stepper Motor Configuration}%
-    \label{fig:hybrid_stepper}
-\end{figure}
-
-It is important to notice that, even though the motor has only two windings, each individual winding energizes 4 stator poles.
 
 Figures \ref{fig:hybrid_first_step},  \ref{fig:hybrid_second_step}, \ref{fig:hybrid_third_step} represent the way this motor operates.
 
@@ -259,7 +247,11 @@ Finally, again changing the direction of the current in winding A, determines th
 
 \subsection{Unipolar And Bipolar Stepper Motors}
 
-Another classification of stepper motors, is depending on the way the windings are configurated. Even though, nowadays, almost every stepper is both. Meaning that unipolar and bipolar, are rather modes in which the stepper motor can be driven. Exception being, stepper motors which have only four wires coming out of them, corresponding to bipolar stepper motors.
+Another classification of stepper motors, is depending on the way the windings are configured.
+Even though, nowadays, almost every stepper is both.
+Meaning that unipolar and bipolar, are rather modes in which the stepper motor can be driven.
+Exception being, stepper motors which have only four wires coming out of them, corresponding to bipolar stepper motors.
+\todo{rewrite from the perspective of bipolar first, then difference to unipolar. Then pros/cons}
 
 Figure \ref{fig:windings} below represent the configuration of the windings in both unipolar and bipolar stepper motors. 
 
@@ -267,11 +259,11 @@ Figure \ref{fig:windings} below represent the configuration of the windings in b
 \begin{figure}[htp] 
     \centering
     \subfloat[Bipolar]{
-        \includegraphics[width=0.4\textwidth]{figures/move/motor36.png}
+        \includegraphics[width=0.4\textwidth]{figures/move/motor37.png}
         }
     \hfill
     \subfloat[Unipolar]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor37.png}
+        \includegraphics[width=0.4\textwidth]{figures/move/motor36.png}
         }
     \caption{Winding Configuration}
     \label{fig:windings}
@@ -308,7 +300,8 @@ Figure \ref{fig:unipolar_stepping} better explains the operating method of unipo
   	\label{fig:unipolar_stepping}
 \end{figure}
 
-As seen in Figure \ref{fig:unipolar_stepping}, each step only uses half of the winding, determining the polarity of the stator poles. The voltage is always applied at the same wire two wires.
+\todo{only keep bipolar in detail, because that's what we are using}
+As seen in Figure \ref{fig:unipolar_stepping}, each step only uses half of the winding, determining the polarity of the stator poles. The voltage is always applied at the same two wires.
 \newpage
 Note that the bipolar configuration as shown in Figure \ref{fig:bipolar_stepping} allows the current to flow in both directions, but the voltage and ground continuously switch positions. This makes bipolar stepper motors a bit more complicated to drive, but as previously stated, motor driver boards simplify the task.
 
@@ -393,7 +386,11 @@ Omni-wheels look like traditional wheels, but their contact area consists of sma
 \end{figure}
 Figure \ref{fig:forces} shows in which direction each motor has to spin in order for the robot to move in one of the eight directions. It can also be observed that no two opposite motors spin in different directions. This has also made our task of programming the motors easier. 
 \clearpage
-\section{Tri-State Buffer}To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers. Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed. This has allowed us to connect more than one input to a motor to achieve the desired movement.
+\section{Tri-State Buffer}
+\todo[inline]{make subsection of direction control}
+To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers.
+Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed.
+This has allowed us to connect more than one input to a motor to achieve the desired movement.
 
 A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better illustrates that concept.
 \begin{figure}[htp]
@@ -499,7 +496,8 @@ There are 4 types of Tri-State buffers which are further described in the figure
 	\captionof{table}{Truth Table}
 \end{minipage}
 
-\section{Motor Drive Boards}\label{sec:driver_boards}
+\section{Motor Driver Boards}\label{sec:driver_boards}
+\todo[inline]{make subsection of motors}
 We used motor driver boards in order to drive the motors. They provide a simple interface between the microcontroller and the motors, and make for a better alternative than directly driving the motors from the microcontroller.
 \begin{figure}[htp]
 	\centering
