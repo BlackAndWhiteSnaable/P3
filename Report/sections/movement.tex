@@ -414,7 +414,6 @@ A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} bett
 When the buffer is enabled, its output corresponds to its input, either 0 or 1, "High" or "Low". However when the buffer is a into its third state, its output is disabled, opening the circuit between the buffer and what’s coming after. That does not mean its output corresponds to a logic “Low", but instead it corresponds to a state of high impedance in which the output is disconnected from the rest of the circuit. 
 
 There are 4 types of Tri-State buffers which are further described in the figures and tables below.
-\newpage
 
 \vspace{10mm}
 
@@ -500,8 +499,13 @@ There are 4 types of Tri-State buffers which are further described in the figure
 	\captionof{table}{Truth Table}
 \end{minipage}
 
-\clearpage
 \section{Motor Drive Boards}\label{sec:driver_boards}
+We used motor driver boards in order to drive the motors. They provide a simple interface between the microcontroller and the motors, and make for a better alternative than directly driving the motors from the microcontroller.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[scale=0.5]{figures/move/driver_board}
+	\caption{Driver Board}
+\end{figure}
 \clearpage
 \section{Direction Control}\label{sec:direction}
 To determine the direction of the robot, we had to determine which wheels turn what number of steps. 
