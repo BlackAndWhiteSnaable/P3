@@ -220,19 +220,22 @@ void path_calculate(Robot *robot) {
   print_stack(robot->checked);
   print_queue(robot->unchecked);
 
-  /*
+
   //TODO calculate the movements out of the stack
   //pop from stack until start is reached
+  Nodes *parent;
   do{
     currNode = pop(&robot->checked);
     map_print_node(currNode);
-    curx = robot->pos.x;
-    cury = robot->pos.y;
+    curx = currNode->parent->position.x;
+    cury = currNode->parent->position.y;
     do{
-
-    } while (0);
+      printf("[DEV]\tfinding parent in stack\n");
+      parent = pop(&robot->checked);
+      map_print_node(parent);
+    } while ((parent->position.x!=curx)||(parent->position.y!=cury));
   } while (currNode->movecost!=0);  //start node has movecost 0
-  */
+
   //currNode=pop(robot->checked);
 
     //pop until parent is reached
