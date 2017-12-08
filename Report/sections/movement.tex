@@ -330,20 +330,29 @@ Note that the bipolar configuration as shown in Figure \ref{fig:bipolar_stepping
   	\label{fig:bipolar_stepping}
 \end{figure}
 %\section{Tri-State Buffer}\label{sec:buffer}
-\newpage
-\section{Wheels}\label{sec:wheels}
-The robot should be able to move in eight directions from every position. By using traditional wheels, the robot should be able to steer to the desired direction, thus changing orientation. This would have been a difficult task rising a number of problems. Our solution is to use omni-wheels instead. A standard wheel and an omni-wheel are shown in Figure \ref{fig:wheels}.
 
-Omni-wheels look like traditional wheels, but their contact area consists of smaller wheels that are able to move freely. By mounting the wheels in pairs, with the shafts crossing at a 90$^\circ$ angle, we are able to move the robot in any of the eight direction without needing to change the orientation of the robot.
+\section{Wheels}\label{sec:wheels}
+The robot should be able to move in eight directions from every position.
+By using traditional wheels, the robot would need to be able to steer to the desired direction, thus changing orientation.
+This would have been a difficult task raising a number of problems.
+Our solution is to use omni-wheels instead.
+A standard wheel and an omni-wheel are shown in Figure \ref{fig:wheels}.
+
+The key difference between omni-wheels and traditional wheels is their contact area.
+For omni-wheels it consists of smaller wheels that are able to move freely sideways,
+thus not generating any friction.
+
+By mounting the wheels in pairs, with the shafts crossing at a 90$^\circ$ angle, we are able to move the robot in any direction without needing to change the orientation of the robot.
+This is achieved through rotating the pairs as shown in figure \ref{fig:forces}.
 
 \begin{figure}[htp]
 	\centering
 	\subfloat[Standard Wheel]{
-		\includegraphics[width=0.26\textwidth]{figures/move/regular_wheel}
+		\includegraphics[width=0.2\textwidth]{figures/move/regular_wheel}
 	}
-	\hfill
+	\hspace{0.2\textwidth}
 	\subfloat[Omni-Wheel]{
-		\includegraphics[width=0.26\textwidth]{figures/move/omni_wheel}
+		\includegraphics[width=0.2\textwidth]{figures/move/omni_wheel}
 	}
 	\caption{Wheels}
 	\label{fig:wheels}
@@ -351,150 +360,42 @@ Omni-wheels look like traditional wheels, but their contact area consists of sma
 \begin{figure}[htp]
 	\begin{center}
     \subfloat[North]{
-    	\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_North}
+    	\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_North}
     }
-    \subfloat[West]{
-    	\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_East}
+    \subfloat[East]{
+    	\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_East}
     }
-    \end{center}
-    \begin{center}
     \subfloat[South]{
-   		\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_South}
+   		\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_South}
     }
-  	\subfloat[East]{
- 		\includegraphics[width=0.3\textwidth]{figures/move/vector_addition_West}
+  	\subfloat[West]{
+ 		\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_West}
 	}
 	\end{center}
 	\begin{center}
     \subfloat[North-East]{
-    	\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_NE}
+    	\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_NE}
     }
     \subfloat[South-East]{
-   		\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_SE}
+   		\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_SE}
     }
-    \end{center}
-    \begin{center}
     \subfloat[South-West]{
-    	\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_SW}
+    	\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_SW}
     }
   	\subfloat[North-West]{
-  		\includegraphics[width=0.3\textwidth]{figures/move/wheel_vectors_NW}
+  		\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_NW}
 	}
 	\end{center}
   	\caption{Forces from Multiple Wheels Added Together}
   	\label{fig:forces}
 \end{figure}
-Figure \ref{fig:forces} shows in which direction each motor has to spin in order for the robot to move in one of the eight directions. It can also be observed that no two opposite motors spin in different directions. This has also made our task of programming the motors easier. 
-\clearpage
-\section{Tri-State Buffer}
-\todo[inline]{make subsection of direction control}
-To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers.
-Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed.
-This has allowed us to connect more than one input to a motor to achieve the desired movement.
-
-A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better illustrates that concept.
-\begin{figure}[htp]
-	\begin{center}
-	\subfloat[Disabled]{
-		\includegraphics[width=0.4\textwidth]{figures/move/motor48}
-		}
-	\hfill
-	\subfloat[Enabled]{
-		\includegraphics[width=0.4\textwidth]{figures/move/motor49}
-		}
-	\caption{Tri-State Buffer Switch Analogy}
-	\label{fig:tristate}
-	\end{center}
-\end{figure}
 
 
-When the buffer is enabled, its output corresponds to its input, either 0 or 1, "High" or "Low". However when the buffer is a into its third state, its output is disabled, opening the circuit between the buffer and what’s coming after. That does not mean its output corresponds to a logic “Low", but instead it corresponds to a state of high impedance in which the output is disconnected from the rest of the circuit. 
+It can also be observed that no two opposite motors spin in different directions,
+because this would lead to a rotation, which is undesired for us.
+This has also made our task of programming the motors more simple.
+%section direction control
 
-There are 4 types of Tri-State buffers which are further described in the figures and tables below.
-
-\vspace{10mm}
-
-\begin{minipage}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{figures/move/motor50}
-	\captionof{figure}{Tri-State Buffer}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-	\centering
-	\begin{tabular}{|l|l|l|}
-	\hline
-	\multicolumn{3}{|l|}{Truth Table} \\ \hline
-	Enable      & In      & Out       \\ \hline
-	0           & 0       & Hi-Z      \\ \hline
-	0           & 1       & Hi-Z      \\ \hline
-	1           & 0       & 0         \\ \hline
-	1           & 1       & 1         \\ \hline
-	\end{tabular}
-	\captionof{table}{Truth Table}
-\end{minipage}
-
-\vspace{10mm}
-
-\begin{minipage}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{figures/move/motor51}
-	\captionof{figure}{Inverting Tri-State Buffer}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-	\centering
-	\begin{tabular}{|l|l|l|}
-	\hline
-	\multicolumn{3}{|l|}{Truth Table} \\ \hline
-	Enable      & In      & Out       \\ \hline
-	0           & 0       & Hi-Z      \\ \hline
-	0           & 1       & Hi-Z      \\ \hline
-	1           & 0       & 1         \\ \hline
-	1           & 1       & 0         \\ \hline
-	\end{tabular}
-	\captionof{table}{Truth Table}
-\end{minipage}
-
-\vspace{10mm}
-
-\begin{minipage}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{figures/move/motor52}
-	\captionof{figure}{Tri-State Buffer}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-	\centering
-	\begin{tabular}{|l|l|l|}
-	\hline
-	\multicolumn{3}{|l|}{Truth Table} \\ \hline
-	Enable      & In      & Out       \\ \hline
-	0           & 0       & 0   	   \\ \hline
-	0           & 1       & 1	      \\ \hline
-	1           & 0       & Hi-Z      \\ \hline
-	1           & 1       & Hi-Z      \\ \hline
-	\end{tabular}
-	\captionof{table}{Truth Table}
-\end{minipage}
-
-\vspace{10mm}
-
-\begin{minipage}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{figures/move/motor53}
-	\captionof{figure}{Inverting Tri-State Buffer}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-	\centering
-	\begin{tabular}{|l|l|l|}
-	\hline
-	\multicolumn{3}{|l|}{Truth Table} \\ \hline
-	Enable      & In      & Out       \\ \hline
-	0           & 0       & 1	      \\ \hline
-	0           & 1       & 0	      \\ \hline
-	1           & 0       & Hi-Z      \\ \hline
-	1           & 1       & Hi-Z      \\ \hline
-	\end{tabular}
-	\captionof{table}{Truth Table}
-\end{minipage}
 
 \section{Motor Driver Boards}\label{sec:driver_boards}
 \todo[inline]{make subsection of motors}
@@ -504,15 +405,49 @@ We used motor driver boards in order to drive the motors. They provide a simple 
 	\includegraphics[scale=0.5]{figures/move/driver_board}
 	\caption{Driver Board}
 \end{figure}
-\clearpage
 \section{Direction Control}\label{sec:direction}
-To determine the direction of the robot, we had to determine which wheels turn what number of steps. 
+To decide the direction of the robot, we had to control which wheels turn what number of steps. 
 
-One option would have been to control each motor individually. This required a significant number of pins needed for stepping the motors, and precise timing between the four motors, considering that, in some instances all motors should move at the same time.
+One option would have been to control each motor individually.
+This required four pins for each motor to step the motors,
+and precise timing between the four motors.
+Imprecise timing could introduce unintended rotation.
 
-We decided to use tri-state buffers instead. This would drastically lower the number of pins needed, and would make for a more precise and advanced way of driving the motors.
+We decided to build our own circuit using tri-state buffers instead.
+The circuit will be explained after a short explanation of tri-state buffers.
+%This would drastically lower the number of pins needed, and would make for a more precise and advanced way of driving the motors.
 
-Table \ref{table:directions} explains which pairs need to be activated or not, and their rotation, in order to achieve the desired movement.
+\subsection{Tri-State Buffer}
+\todo{maybe change where (subsection of direction control)}
+To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers.
+Fewer pins make it easier to port this part of the robot to a smaller $\mu$C with fewer pins for a final product.
+
+Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed.
+This allowed us to manipulate the input to the motors dynamically.
+
+A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better illustrates that concept.
+\begin{figure}[htp]
+	\begin{center}
+	\subfloat[Disabled]{
+		\includegraphics[width=0.3\textwidth]{figures/move/motor48}
+		}
+	\hspace{2cm}
+	\subfloat[Enabled]{
+		\includegraphics[width=0.3\textwidth]{figures/move/motor49}
+		}
+	\caption{Tri-State Buffer Switch Analogy}
+	\label{fig:tristate}
+	\end{center}
+\end{figure}
+
+
+When the buffer is enabled, its output corresponds to its input, either 0 or 1, "High" or "Low".
+However when the buffer is a in its third state, its output is disabled, opening the circuit between the buffer and the next component.
+That does not mean its output corresponds to a logic “Low", but instead it is in a state of high impedance in which the output is disconnected from the rest of the circuit.
+
+\subsection{Control Circuit}\label{sub:circuit}
+\todo{introduce circuit before}
+Table \ref{table:directions} explains which pairs need to be activated, and their rotational direction, in order to achieve the desired movement.
 
 \begin{center}
 	\begin{tabular}{|l|l|l|}
