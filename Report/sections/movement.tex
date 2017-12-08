@@ -393,7 +393,113 @@ Omni-wheels look like traditional wheels, but their contact area consists of sma
 \end{figure}
 Figure \ref{fig:forces} shows in which direction each motor has to spin in order for the robot to move in one of the eight directions. It can also be observed that no two opposite motors spin in different directions. This has also made our task of programming the motors easier. 
 \clearpage
-\section{Tri-State Buffer}
+\section{Tri-State Buffer}To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers. Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed. This has allowed us to connect more than one input to a motor to achieve the desired movement.
+
+A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better illustrates that concept.
+\begin{figure}[htp]
+	\begin{center}
+	\subfloat[Disabled]{
+		\includegraphics[width=0.4\textwidth]{figures/move/motor48}
+		}
+	\hfill
+	\subfloat[Enabled]{
+		\includegraphics[width=0.4\textwidth]{figures/move/motor49}
+		}
+	\caption{Tri-State Buffer Switch Analogy}
+	\label{fig:tristate}
+	\end{center}
+\end{figure}
+
+
+When the buffer is enabled, its output corresponds to its input, either 0 or 1, "High" or "Low". However when the buffer is a into its third state, its output is disabled, opening the circuit between the buffer and what’s coming after. That does not mean its output corresponds to a logic “Low", but instead it corresponds to a state of high impedance in which the output is disconnected from the rest of the circuit. 
+
+There are 4 types of Tri-State buffers which are further described in the figures and tables below.
+\newpage
+
+\vspace{10mm}
+
+\begin{minipage}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{figures/move/motor50}
+	\captionof{figure}{Tri-State Buffer}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+	\centering
+	\begin{tabular}{|l|l|l|}
+	\hline
+	\multicolumn{3}{|l|}{Truth Table} \\ \hline
+	Enable      & In      & Out       \\ \hline
+	0           & 0       & Hi-Z      \\ \hline
+	0           & 1       & Hi-Z      \\ \hline
+	1           & 0       & 0         \\ \hline
+	1           & 1       & 1         \\ \hline
+	\end{tabular}
+	\captionof{table}{Truth Table}
+\end{minipage}
+
+\vspace{10mm}
+
+\begin{minipage}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{figures/move/motor51}
+	\captionof{figure}{Inverting Tri-State Buffer}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+	\centering
+	\begin{tabular}{|l|l|l|}
+	\hline
+	\multicolumn{3}{|l|}{Truth Table} \\ \hline
+	Enable      & In      & Out       \\ \hline
+	0           & 0       & Hi-Z      \\ \hline
+	0           & 1       & Hi-Z      \\ \hline
+	1           & 0       & 1         \\ \hline
+	1           & 1       & 0         \\ \hline
+	\end{tabular}
+	\captionof{table}{Truth Table}
+\end{minipage}
+
+\vspace{10mm}
+
+\begin{minipage}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{figures/move/motor52}
+	\captionof{figure}{Tri-State Buffer}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+	\centering
+	\begin{tabular}{|l|l|l|}
+	\hline
+	\multicolumn{3}{|l|}{Truth Table} \\ \hline
+	Enable      & In      & Out       \\ \hline
+	0           & 0       & 0   	   \\ \hline
+	0           & 1       & 1	      \\ \hline
+	1           & 0       & Hi-Z      \\ \hline
+	1           & 1       & Hi-Z      \\ \hline
+	\end{tabular}
+	\captionof{table}{Truth Table}
+\end{minipage}
+
+\vspace{10mm}
+
+\begin{minipage}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{figures/move/motor53}
+	\captionof{figure}{Inverting Tri-State Buffer}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+	\centering
+	\begin{tabular}{|l|l|l|}
+	\hline
+	\multicolumn{3}{|l|}{Truth Table} \\ \hline
+	Enable      & In      & Out       \\ \hline
+	0           & 0       & 1	      \\ \hline
+	0           & 1       & 0	      \\ \hline
+	1           & 0       & Hi-Z      \\ \hline
+	1           & 1       & Hi-Z      \\ \hline
+	\end{tabular}
+	\captionof{table}{Truth Table}
+\end{minipage}
+
 \clearpage
 \section{Motor Drive Boards}\label{sec:driver_boards}
 \clearpage
