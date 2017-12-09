@@ -41,15 +41,21 @@ typedef struct {
 } Maps;
 
 typedef struct element {
-    Nodes *node;      // Pointer to the map node
+  Nodes *node;      // Pointer to the map node
 	struct element *next; // next element in queue
 } Queue, Stack;
+
+typedef struct move_element {
+  char movement;
+	struct move_element *next; // next element in queue
+} MoveStack;
 
 typedef struct {
   Point pos;
   Maps map;
   Queue *unchecked; // Head of queue for unchecked nodes
   Stack *checked; // Head of stack for checked nodes
+  MoveStack *movement;  //Head of stack for movement
 } Robot;
 
 
@@ -77,6 +83,8 @@ unsigned char scan();
 
 // Move
 void move_next(Robot *robot);
+void push_move_stack(MoveStack **head, char new_move);
+void print_move_stack(MoveStack *head);
 
 // Priority queue and stack
 void push_queue(Queue **head, Nodes *new_node);  // add element on the stack

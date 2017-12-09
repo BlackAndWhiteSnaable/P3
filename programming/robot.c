@@ -23,6 +23,7 @@ Robot *robot_init() {
   // First queue and stack element must be initialized to NULL
   robot->unchecked = NULL;
   robot->checked = NULL;
+  robot->movement = NULL;
 
   //TODO give values to everything, even if they are only 0   --Daniel
   return robot;

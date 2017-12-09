@@ -29,6 +29,8 @@ void go() {
   //---------------------------------RUNNING ---------------------------------//
   path_calculate(robot);  //calculate path
 
+  print_move_stack(robot->movement);
+
   /*
   // While robot has not reached the finish position
   while (!robot_finished(robot)) {

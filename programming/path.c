@@ -255,9 +255,10 @@ void path_calculate_movement(Robot *robot){
     }
     printf("[DEV]\tmoving direction: 0x%02x\n",move);
     //------------------------Save To Movement Stack------------------------//
+    push_move_stack(&robot->movement, move);
     //TODO
     while (((parNode=pop(&robot->checked))->position.x!=parX)||
-           (parNode->position.y!=parY)){printf(".");}
+           (parNode->position.y!=parY)){}
     currNode=parNode;
   }
 }
