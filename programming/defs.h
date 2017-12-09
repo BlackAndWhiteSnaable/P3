@@ -89,6 +89,7 @@ Nodes *pop(Queue **head); // removes element from top of queue or stack
 void path_test(Robot *robot);
 void path_set_neighbors(Robot *robot);
 void path_calculate(Robot *robot);
+void path_calculate_movement(Robot *robot);
 
 // Debugging and print to screen
 void robot_print(Robot *robot);

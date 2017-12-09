@@ -110,7 +110,7 @@ void path_set_neighbors(Robot *robot) {
 ///calculates the path from the current position
 void path_calculate(Robot *robot) {
   //--------------------------------- SETUP-----------------------------------//
-  //declare all variable needed in scope
+  //declare all variables needed in scope
   int curx,cury;          //to keep track of your food/position on the map
                           //should not be necessary, but would clean up the code
   Nodes *currNode;        //the Node currently looked at
@@ -127,7 +127,8 @@ void path_calculate(Robot *robot) {
   //----------------------------------CALC------------------------------------//
   int deadcount=0;
   printf("\n\n[INFO]\tstarted path calculation\n\n");
-  do{   // until we reach the finish
+  // until we reach the finish
+  while ((curx!=robot->map.finish.y)||(cury!=robot->map.finish.x)){
     if (currNode==NULL){
       printf("[WARN]\tsomething went wrong\n");
       break;
@@ -213,32 +214,50 @@ void path_calculate(Robot *robot) {
     printf("[INFO]\tNode [%2d][%2d] computed!\n",curx,cury);
 
     currNode = pop(&robot->unchecked);
-  //}
-  }while ((curx!=robot->map.finish.y)||(cury!=robot->map.finish.x));
+  }
 
   printf("\n[INFO]\tDone calculating path!\n");
-  print_stack(robot->checked);
-  print_queue(robot->unchecked);
 
+  path_calculate_movement(robot);
+}
 
-  //TODO calculate the movements out of the stack
+///calculates the movement stack out of the checked stack.
+///give pointer to a robot struct
+void path_calculate_movement(Robot *robot){
   //pop from stack until start is reached
-  Nodes *parent;
-  do{
-    currNode = pop(&robot->checked);
-    map_print_node(currNode);
-    curx = currNode->parent->position.x;
-    cury = currNode->parent->position.y;
-    do{
-      printf("[DEV]\tfinding parent in stack\n");
-      parent = pop(&robot->checked);
-      map_print_node(parent);
-    } while ((parent->position.x!=curx)||(parent->position.y!=cury));
-  } while (currNode->movecost!=0);  //start node has movecost 0
+  //-------------------------------- VARIABLES--------------------------------//
+  int deadcount=0;
+  int parX=0,parY=0;
+  int ownX=0,ownY=0;
+  char move=0;
+  Nodes *currNode = NULL, *parNode = NULL;
+  //----------------------------LOOP THROUGH STACK----------------------------//
+  currNode=pop(&robot->checked);
+  while(currNode->movecost!=0){ //start has movecost 0
+    deadcount++;
+    ownX = currNode->position.x;
+    ownY = currNode->position.y;
+    parX = currNode->parent->position.x;
+    parY = currNode->parent->position.y;
+    //----------------------- Generate Movement Stack-----------------------//
+    //adds all movements together
+    if (ownX<parX) move+=N;       //Something North
+    if (ownY>parY) move+=E;       //Something East
+    if (ownX>parX) move+=S;       //Something South
+    if (ownY<parY) move+=W;       //Something West
 
-  //currNode=pop(robot->checked);
-
-    //pop until parent is reached
-
-  printf("\n[DEV]\tThis is how far I am programming --Daniel\n\n\n");
+    //checks for two movements
+    if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){
+      if      (move==N+E) move=NE;//North and East
+      else if (move==S+E) move=SE;//South and East
+      else if (move==S+W) move=SW;//South and West
+      else if (move==N+W) move=NW;//North and West
+    }
+    printf("[DEV]\tmoving direction: 0x%02x\n",move);
+    //------------------------Save To Movement Stack------------------------//
+    //TODO
+    while (((parNode=pop(&robot->checked))->position.x!=parX)||
+           (parNode->position.y!=parY)){printf(".");}
+    currNode=parNode;
+  }
 }

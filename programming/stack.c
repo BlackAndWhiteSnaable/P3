@@ -35,7 +35,10 @@ void print_stack(Stack *head)
     for (cur = head; cur != NULL; cur = cur->next)
     {
       printf("//------------------%2d. Stack element------------------//\n",i);
-      map_print_node(cur->node);
+      printf("[DEV]\tposition [%2d][%2d]",cur->node->position.x,cur->node->position.y);
+      if (cur->node->parent) printf("\tparent [%2d][%2d]\n",cur->node->parent->position.x,cur->node->parent->position.y);
+      else printf("\n");
+      //map_print_node(cur->node);
       i++;
     }
   }

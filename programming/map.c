@@ -109,13 +109,13 @@ void map_load(Robot *robot) {
       if (c == 'A') {
         robot->map.start.x = (j-1)/2;
         robot->map.start.y = (i-1)/2;
-        printf("[INFO]\tStart position:  [%02d][%02d]\n", robot->map.start.x, robot->map.start.y);
+        printf("[INFO]\tStart position:  [%2d][%2d]\n", robot->map.start.x, robot->map.start.y);
       }
 
       if (c == 'B') {
         robot->map.finish.x = (j-1)/2;
         robot->map.finish.y = (i-1)/2;
-        printf("[INFO]\tFinish position: [%02d][%02d]\n", robot->map.finish.x, robot->map.finish.y);
+        printf("[INFO]\tFinish position: [%2d][%2d]\n", robot->map.finish.x, robot->map.finish.y);
       }
     }
     fgetc(myfile); // Skip last character in the line (newline)
