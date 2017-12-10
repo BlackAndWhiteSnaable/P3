@@ -4,41 +4,43 @@ to a given destination ('B'),
 on a given map.
 
 There are different approaches to find the best path,
-and different qualifiers for is considered best.
+and different ideas what the best path is.
 
-We chose to define best as shortest time,
-because in a real world application time is the most crucial resource in rescue.
+In the case of rescue, where time is very crucial to success,
+the quickest path has to be considered best. \cite{Zipes2506}
+
 In other applications 'best' could also mean shortest distance, least expensive (toll roads),
 most convenient or any number of other qualifiers.
 
 Since our robot has approximately equal movement speed in all used directions,
-the shortest distance path will be very close to the shortest time path.
-Since our robot only operates on a very limited map,
-the shortest distance was also easiest to evaluate.
+the shortest distance path can be approximated as the shortest time path.
 
 We chose to start implementing Dijkstra's shortest path algorithm,
-since it is fairly simple to understand
-and can be used as a baseline for better, more complicated algorithms,
-like A*.
+since it is fairly simple to understand and can be used as a baseline for better,
+more complicated algorithms, like A*.
 
-\section{Dijkstra}
-The first step in Dijkstra's algorithm is to reduce the map to the necessary minimum.
-After this reduction, the map only consists of \emph{nodes} and \emph{edges}.
-An edge connects two nodes together and has one integer \emph{travel cost}.
+\section{Graphs}
+The first step in most algorithms is to reduce the map to the necessary minimum.
+After this reduction, the map only consists of \emph{nodes} and \emph{edges},
+organized in a graph.
+An edge connects two nodes together and has a \emph{distance}.
 In this integer is stored how much it costs to traverse along that edge,
-measured in the metric that should get optimized (in our case distance).
+measured in the metric that should get optimized (in our case distance and time).
 
-A node has a \emph{name}, an integer \emph{travel cost} and a reference to another node \emph{parent}.
+A node has a \emph{name}, a \emph{cost to reach} and a reference to another node \emph{parent}.
 The name is used as an identifier,
-travel cost sums the travelling costs of all edges along the current shortest path
-and parent refers to what node is the previous in that path.
+cost to reach sums the travelling costs to get here on the currently shortest path from the start
+and parent refers to what node is previous in that path.
 
-\cite{Pound2017}
+Two nodes also have a special characteristic,
+the previously named starting position and the finish position.
+
 
 \begin{figure}[htp]
     \centering
     \subfloat[grid graph]{
         \includegraphics[width=0.24\textwidth]{figures/path/graph_grid}
+        \label{sub:grid}
     }
     \subfloat[circular graph]{
         \includegraphics[width=0.24\textwidth]{figures/path/graph_circular}
@@ -50,21 +52,30 @@ and parent refers to what node is the previous in that path.
   		\includegraphics[width=0.24\textwidth]{figures/path/graph_unstructured}
 	}
   	\caption{different representations of the same graph}
+  	\label{fig:graphs}
 \end{figure}
 
-%There also exists a list of all nodes, sorted by their travel cost, from low to high.
+Such a graph can be represented in any way,
+as long as none of the described characteristics change.
+Figure \ref{fig:graphs} shows four different representations of the same graph (with omitted number values).
 
-Dijkstra's approach now is to look at the facts we already know:
-The shortest path from A to A
-and the costs to get to any of A's neighbours.
+Since our prototype is running on a grid-like map,
+the graph shown in figure \ref{sub:grid} is our preferred representation.
+For the algorithm however, it doesn't matter.
+\\\\
 
-Those values then get added to and stored  inside the neighbours' travel cost with A as the parent.
+\section{Dijkstra}\label{sec:dijkstra}
+Dijkstra's algorithm now looks on the node with the lowest cost to reach
+Dijkstra's approach now is to look at the node that is easiest to reach,
+and not computed yet.
+
+Those values then get added to and stored  inside the neighbours' distance with A as the parent.
 Now the starting node gets marked as done
-and the node with the lowest travel cost gets selected
+and the node with the lowest distance gets selected
 as the starting point for the next round of calculations
 
 \todo{do we want this next paragraph?}
-Since the only known travel cost before runtime is the starting node (being 0),
+Since the only known distance before runtime is the starting node (being 0),
 this is always where calculations start.
 
 This algorithm can be implemented recursively,
@@ -103,18 +114,15 @@ and the MSN corresponding to NE, SE, SW and NW.
 		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0x01\\
 		0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0x02\\
 		0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0x03\\
-		0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0x\\
+		0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0x0E\\
 		\hline
-		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
-		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
-		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
-		1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0x\\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0x10\\
+		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0x20\\
+		0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0x42\\
+		1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0xFF\\
 		\hline
 	\end{tabular}
 \end{center}
 
-%\missingfigure{maybe a table would be better. hex values for directions}
-
-
-\todo{fix citation stuff}
+Just some random cites, to see how it works.
 \cite{Madsen2010}, \cite{Oetiker2010} and \cite{Mittelbach2005}.
