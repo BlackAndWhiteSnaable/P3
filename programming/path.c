@@ -241,6 +241,7 @@ void path_calculate_movement(Robot *robot){
     parY = currNode->parent->position.y;
     //----------------------- Generate Movement Stack-----------------------//
     //adds all movements together
+    move=0;
     if (ownX<parX) move+=N;       //Something North
     if (ownY>parY) move+=E;       //Something East
     if (ownX>parX) move+=S;       //Something South

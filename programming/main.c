@@ -29,7 +29,10 @@ void go() {
   //---------------------------------RUNNING ---------------------------------//
   path_calculate(robot);  //calculate path
 
-  print_move_stack(robot->movement);
+  print_move_stack(&robot->movement);
+  unsigned char stackmove;
+  stackmove = pop_move(&robot->movement);
+  printf("[DEV]\tpopped from movement stack: 0x%02x\n",stackmove);
 
   /*
   // While robot has not reached the finish position

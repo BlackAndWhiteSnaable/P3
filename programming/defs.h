@@ -83,8 +83,9 @@ unsigned char scan();
 
 // Move
 void move_next(Robot *robot);
-void push_move_stack(MoveStack **head, char new_move);
-void print_move_stack(MoveStack *head);
+void push_move_stack(MoveStack **head, unsigned char new_move);
+void print_move_stack(MoveStack **head);
+unsigned char pop_move(MoveStack **head);
 
 // Priority queue and stack
 void push_queue(Queue **head, Nodes *new_node);  // add element on the stack
