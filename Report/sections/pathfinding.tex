@@ -63,32 +63,56 @@ Since our prototype is running on a grid-like map,
 the graph shown in figure \ref{sub:grid} is our preferred representation.
 For the algorithm however, it doesn't matter.
 \\\\
+\section{Brute-Force}\label{sec:brute}
+Brute-force is generally an algorithm,
+that only relies on computational power,
+instead of clever design.
+For path-finding that would mean looking at all possible paths,
+and evaluating which one is the shortest.
+Brute-force algorithms can be implemented to search depth first (DFS), or breadth first (BFS).
+
+\section{Flood Fill}\label{sec:fill}
+Flood fill is looking at all neighbour nodes from the start,
+and looking at all their neighbours.
+This process then gets repeated until the finish node is reached.
+The name comes from visualising the algorithm,
+which looks fairly similar to a liquid being spilled on a map.
+%flood fill can be seen in figure something later
+\cite{Jaimini2017}
+
 
 \section{Dijkstra}\label{sec:dijkstra}
-Dijkstra's algorithm now looks on the node with the lowest cost to reach
-Dijkstra's approach now is to look at the node that is easiest to reach,
-and not computed yet.
+Dijkstra's algorithm is a small improvement on the flood-fill algorithm explained earlier.
+It takes into account the distances between two nodes,
+when deciding which node to look at next.
+Thus prioritising the easier to reach nodes, when going to the next iteration.
 
+This is done by storing all nodes in a priority queue,
+where they are sorted by their distance, lowest first.
+Every time the algorithm needs a new node to evaluate its neighbours,
+it takes the first element from that list.
+
+This approach is a huge benefit for maps,
+where distances between nodes vary widely.
+In our case distances are one of two possibilities, either $1$ or $ \sqrt{2} $.
+Thus making this effectively one implementation of a flood-fill search,
+with the benefit, that only one addition needs to be done to implement A*,
+which gets explained in section \ref{sec:astar}.
+\\\\
 Those values then get added to and stored  inside the neighbours' distance with A as the parent.
 Now the starting node gets marked as done
 and the node with the lowest distance gets selected
 as the starting point for the next round of calculations
 
-\todo{do we want this next paragraph?}
-Since the only known distance before runtime is the starting node (being 0),
-this is always where calculations start.
-
-This algorithm can be implemented recursively,
-with the starting point being the node with the lowest value
-and the breaking condition of the starting pint being equal to the destination.
-
-It can also be implemented to loop a given amount of times,
-iterating through all existing nodes.
+\section{A*}\label{sec:astar}
+nothing here yet
 
 \section{Pathfinding on a grid}
 Pathfinding on a grid is slightly different to pathfinding on a regular map,
 because all nodes tend to have the same amount of neighbours,
 and all edges have the same or similar costs.
+Figure \ref{fig:graph_cost} shows the similarities between several connections on a grid-based graph.
+because of this, the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.24\textwidth]{figures/path/graph_values}
