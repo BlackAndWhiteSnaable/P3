@@ -80,7 +80,6 @@ which looks fairly similar to a liquid being spilled on a map.
 %flood fill can be seen in figure something later
 \cite{Jaimini2017}
 
-
 \section{Dijkstra}\label{sec:dijkstra}
 Dijkstra's algorithm is a small improvement on the flood-fill algorithm explained earlier.
 It takes into account the distances between two nodes,
@@ -88,9 +87,28 @@ when deciding which node to look at next.
 Thus prioritising the easier to reach nodes, when going to the next iteration.
 
 This is done by storing all nodes in a priority queue,
-where they are sorted by their distance, lowest first.
+where they are sorted by their cost to reach, lowest first.
+
+The cost to reach gets calculated iteratively,
+by adding the cost to reach of the current node together with the travel cost to its neighbour.
+If that value is smaller than the cost to reach currently stored in that neighbour,
+the old value gets overwritten.
+This process is shown in figures \ref{sub:dijk1} through \ref{sub:dijk5}
 Every time the algorithm needs a new node to evaluate its neighbours,
 it takes the first element from that list.
+
+\begin{figure}
+	\begin{center}
+		\foreach \dijk in {1,2,3,4,5}
+		{
+			\subfloat[\dijk. Step]{
+				\includegraphics[width=0.17775\textwidth]{figures/path/dijk_\dijk}
+				\label{sub:dijk\dijk}
+			}
+		}
+		\caption{Dijkstra's algorithm on a simple map}
+	\end{center}
+\end{figure}
 
 This approach is a huge benefit for maps,
 where distances between nodes vary widely.
@@ -98,14 +116,11 @@ In our case distances are one of two possibilities, either $1$ or $ \sqrt{2} $.
 Thus making this effectively one implementation of a flood-fill search,
 with the benefit, that only one addition needs to be done to implement A*,
 which gets explained in section \ref{sec:astar}.
-\\\\
-Those values then get added to and stored  inside the neighbours' distance with A as the parent.
-Now the starting node gets marked as done
-and the node with the lowest distance gets selected
-as the starting point for the next round of calculations
 
 \section{A*}\label{sec:astar}
-nothing here yet
+A* uses Dijkstra's algorithm as a baseline,
+but adds a heuristic to each node.
+
 
 \section{Pathfinding on a grid}
 Pathfinding on a grid is slightly different to pathfinding on a regular map,
@@ -119,7 +134,6 @@ because of this, the Dijkstra algorithm is losing its major advantage over a sim
 	\caption{3x3 grid with edge costs}
 	\label{fig:graph_cost}
 \end{figure}
-%\missingfigure{closeup of a grid map, with values}
 
 
 \section{Our implementation}
