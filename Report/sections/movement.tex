@@ -15,20 +15,22 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 	\label{fig:angle} 
 \end{figure}
 
-Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360 degrees 
-rotation. This determines the step angle to be 90 degrees.
+Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360$^\circ$ 
+rotation. This determines the step angle to be 90$^\circ$.
+
 The main components of a stepper motor are represented in Figure \ref{fig:main_components}, and 
 they consist of stators, windings(phases), and rotor.
 Attached to the output axle is the rotor, depending on the type of motor it can be magnetized.
-
-\begin{figure}[ht]
+\newpage
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.3\textwidth]{figures/move/motor2.png}
 	\caption{Main Components}
 	\label{fig:main_components}
 \end{figure}
 
-By applying a voltage across one of the windings, current will start flowing through it. By using 
+
+By applying a voltage across one of the windings, current will start flowing through it. Using 
 the right-hand rule, the direction of the magnetic flux can be determined. The flux will want to 
 travel through the path that has the least resistance. This determines the rotor to change its 
 position to minimize resistance. This is shown in Figure \ref{fig:flux}.
@@ -90,46 +92,39 @@ shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phases ener
 
 \begin{figure}[htp]
     \begin{center}
-    \subfloat[$1\textsuperscript{st}$ Step]{
-        \includegraphics[width=0.2\textwidth]{figures/move/motor9.png}
-        }
+    \includegraphics[width=0.2\textwidth]{figures/move/motor9.png}    
     \hfill
-    \subfloat[$2\textsuperscript{nd}$ Step]{
-        \includegraphics[width=0.2\textwidth]{figures/move/motor10.png}
-        }
+    \includegraphics[width=0.2\textwidth]{figures/move/motor10.png}
     \hfill
-    \subfloat[$3\textsuperscript{rd}$ Step]{
-    	\includegraphics[width=0.2\textwidth]{figures/move/motor11.png}
-    	}
+    \includegraphics[width=0.2\textwidth]{figures/move/motor11.png}
   	\hfill
-  	\subfloat[$4\textsuperscript{th}$ Step]{
-  		\includegraphics[width=0.2\textwidth]{figures/move/motor12.png}
-  		}
+  	\includegraphics[width=0.2\textwidth]{figures/move/motor12.png}
     \end{center}
-    
+\end{figure}
+\vspace{-10mm}
+\begin{figure}[htp]
     \begin{center}
-    \subfloat[$1\textsuperscript{st}$ Step Winding]{
+    \subfloat[$1\textsuperscript{st}$ Step]{
         \includegraphics[width=0.2\textwidth]{figures/move/motor13.png}
         }
     \hfill
-    \subfloat[$2\textsuperscript{nd}$ Step Winding]{
+    \subfloat[$2\textsuperscript{nd}$ Step]{
         \includegraphics[width=0.2\textwidth]{figures/move/motor14.png}
         }
     \hfill
-    \subfloat[$3\textsuperscript{rd}$ Step Winding]{
+    \subfloat[$3\textsuperscript{rd}$ Step]{
     	\includegraphics[width=0.2\textwidth]{figures/move/motor15.png}
     	}
   	\hfill
-  	\subfloat[$4\textsuperscript{th}$ Winding]{
+  	\subfloat[$4\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor16.png}
   		}
   	\caption{Stepping a Permanent Magnet Motor}
   	\label{fig:stepping_perm_magn}
     \end{center}
 \end{figure}
-
 \subsubsection{Variable Reluctance Motor}
-This type of motor, uses a rotor that is not magnetized, and has a number of teeth as seen in 
+This type of motor uses a rotor that is not magnetized, and has a number of teeth as seen in 
 Figure \ref{fig:var_rel_components}. The windings are configured differently, as depicted in 
 \ref{fig:var_rel_components}(b), all having a common voltage source but separate ground 
 connections.
@@ -160,21 +155,13 @@ In addition, variable reluctance motors have twice the precision of permanent ma
 the same amount of windings.
 \begin{figure}[htp]
     \begin{center}
-    \subfloat{
-        \includegraphics[width=0.2\textwidth]{figures/move/motor19.png}
-        }
+    \includegraphics[width=0.2\textwidth]{figures/move/motor19.png}
     \hfill
-    \subfloat{
-        \includegraphics[width=0.2\textwidth]{figures/move/motor20.png}
-        }
+    \includegraphics[width=0.2\textwidth]{figures/move/motor20.png}
     \hfill
-    \subfloat{
-    	\includegraphics[width=0.2\textwidth]{figures/move/motor21.png}
-    	}
+    \includegraphics[width=0.2\textwidth]{figures/move/motor21.png}
   	\hfill
-  	\subfloat{
-  		\includegraphics[width=0.2\textwidth]{figures/move/motor22.png}
-  		}
+  	\includegraphics[width=0.2\textwidth]{figures/move/motor22.png}
 	\end{center}
 	\begin{center}
     \subfloat[$1\textsuperscript{st}$ Step]{
@@ -232,7 +219,8 @@ of the rotor. Windings number 3 and 7 are completely unaligned, while the others
 This results in higher precision and higher torque offered by the hybrid stepper motor, depending 
 on the stepping method used.
 
-Figures \ref{fig:hybrid_first_step},  \ref{fig:hybrid_second_step}, \ref{fig:hybrid_third_step} 
+Figures \ref{fig:hybrid_first_step},  \ref{fig:hybrid_second_step}, \ref{fig:hybrid_third_step},
+\ref{fig:hybrid_forth_step} 
 represent the way this motor operates.
 
 \begin{center}
@@ -366,10 +354,6 @@ The key difference between omni-wheels and traditional wheels is their contact a
 For omni-wheels it consists of smaller wheels that are able to move freely sideways,
 thus not generating any friction.
 
-%By mounting the wheels in pairs, with the shafts crossing at a 90$^\circ$ angle, we are able to 
-%move the robot in any direction without needing to change the orientation of the robot.
-%This is achieved through rotating the pairs as shown in figure \ref{fig:forces}.
-
 \begin{figure}[htp]
 	\centering
 	\subfloat[Standard Wheel]{
@@ -382,6 +366,9 @@ thus not generating any friction.
 	\caption{Wheels}
 	\label{fig:wheels}
 \end{figure}
+By mounting the wheels in pairs, with the shafts crossing at a 90$^\circ$ angle, we are able to 
+move the robot in any direction without needing to change the orientation of the robot.
+This is achieved through rotating the pairs as shown in figure \ref{fig:forces}.
 \begin{figure}[htp]
 	\begin{center}
     \subfloat[North]{
@@ -397,6 +384,7 @@ thus not generating any friction.
  		\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_West}
 	}
 	\end{center}
+	\vspace{-5mm}
 	\begin{center}
     \subfloat[North-East]{
     	\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_NE}
@@ -411,6 +399,7 @@ thus not generating any friction.
   		\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_NW}
 	}
 	\end{center}
+	\vspace{-5mm}
   	\caption{Forces from Multiple Wheels Added Together}
   	\label{fig:forces}
 \end{figure}
@@ -418,7 +407,6 @@ thus not generating any friction.
 It can also be observed that no two opposite motors spin in different directions,
 because this would lead to a rotation, which is undesired for us.
 This has also made our task of programming the motors more simple.
-%section direction control
 
 \section{Direction Control}\label{sec:direction}
 To decide the direction of the robot, we had to control which wheels turn what number of steps. 
