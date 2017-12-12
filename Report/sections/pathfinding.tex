@@ -2,6 +2,7 @@
 Pathfinding is generally the process of finding a path from a given starting point ('A')
 to a given destination ('B'),
 on a given map.
+Handling the map is explained in chapter \ref{ch:map}.
 
 There are different approaches to find the best path,
 and different ideas what the best path is.
@@ -13,30 +14,34 @@ In other applications 'best' could also mean shortest distance, least expensive 
 most convenient or any number of other qualifiers.
 
 Since our robot has approximately equal movement speed in all used directions,
-the shortest distance path can be approximated as the shortest time path.
+the shortest time path can be approximated as the shortest distance path.
 
 We chose to start implementing Dijkstra's shortest path algorithm,
 since it is fairly simple to understand and can be used as a baseline for better,
-more complicated algorithms, like A*.
+more complex algorithms, like A*.
+
+This chapter will explain the basics of different path finding approaches,
+going more into detail on the ones we chose to implement for testing.
 
 \section{Graphs}
 The first step in most algorithms is to reduce the map to the necessary minimum.
 After this reduction, the map only consists of \emph{nodes} and \emph{edges},
-organized in a graph.
+organized in a \emph{graph}.
+
 An edge connects two nodes together and has a \emph{distance}.
 In this integer is stored how much it costs to traverse along that edge,
-measured in the metric that should get optimized (in our case distance and time).
+measured in the metric that should get optimized (in our case distance and approximate time).
 
 A node has a \emph{name}, a \emph{cost to reach} and a reference to another node \emph{parent}.
 The name is used as an identifier,
-cost to reach sums the travelling costs to get here on the currently shortest path from the start
-and parent refers to what node is previous in that path.
+cost to reach sums the travelling costs to get here on the currently shortest path from the start.
+Parent refers to what node is previous in that path.
 
 Two nodes also have a special characteristic,
 the previously named starting position and the finish position.
 
 
-\begin{figure}[htp]
+\begin{figure}[h!tp]
     \centering
     \subfloat[grid graph]{
         \includegraphics[width=0.24\textwidth]{figures/path/graph_grid}
@@ -57,10 +62,12 @@ the previously named starting position and the finish position.
 
 Such a graph can be represented in any way,
 as long as none of the described characteristics change.
-Figure \ref{fig:graphs} shows four different representations of the same graph (with omitted number values).
+Figure \ref{fig:graphs} shows four equivalent representations of the same graph.
+We chose to omit any numbers for simplicity.
 
 Since our prototype is running on a grid-like map,
-the graph shown in figure \ref{sub:grid} is our preferred representation.
+the graph shown in figure \ref{sub:grid} is our preferred representation,
+since it is the easiest to relate to the real world for a human.
 For the algorithm however, it doesn't matter.
 \\\\
 \section{Brute-Force}\label{sec:brute}
@@ -69,12 +76,15 @@ that only relies on computational power,
 instead of clever design.
 For path-finding that would mean looking at all possible paths,
 and evaluating which one is the shortest.
-Brute-force algorithms can be implemented to search depth first (DFS), or breadth first (BFS).
+Brute-force algorithms can be implemented as a depth first search (DFS), or breadth first search(BFS).
 
 \section{Flood Fill}\label{sec:fill}
 Flood fill is looking at all neighbour nodes from the start,
 and looking at all their neighbours.
 This process then gets repeated until the finish node is reached.
+Because the algorithm expands first in breadth,
+this is a BFS-algorithm.
+
 The name comes from visualising the algorithm,
 which looks fairly similar to a liquid being spilled on a map.
 %flood fill can be seen in figure something later
@@ -94,10 +104,11 @@ by adding the cost to reach of the current node together with the travel cost to
 If that value is smaller than the cost to reach currently stored in that neighbour,
 the old value gets overwritten.
 This process is shown stepwise in figures \ref{sub:dijk1} through \ref{sub:dijk5}.
+
 Every time the algorithm needs a new node to evaluate its neighbours,
 it takes the first element from that list.
 
-\begin{figure}
+\begin{figure}[h!]
 	\begin{center}
 		\foreach \dijk in {1,2,3,4,5}
 		{
@@ -107,8 +118,27 @@ it takes the first element from that list.
 			}
 		}
 		\caption{Dijkstra's algorithm on a simple map}
+		\label{fig:dijksteps}
 	\end{center}
 \end{figure}
+%
+\begin{table}[h!]
+\caption{Colour guide for figure \ref{fig:dijksteps}}
+\centering
+\begin{tabular}{|l|r|r|}
+	\hline%-------------------------------------------------------
+			&Nodes					&Edges				\\
+	\hline%-------------------------------------------------------
+	Colour 	& Function				&Function			\\
+	\hline%-------------------------------------------------------
+	Red		&						&Currently evaluated\\
+	Orange 	& Current Node			&					\\
+	Green	& Evaluated Neighbour	&					\\
+	White	& not active yet		&					\\
+	Black	& Shortest Path found	&unused in step		\\
+	\hline%-------------------------------------------------------
+\end{tabular}
+\end{table}
 
 This approach is a huge benefit for maps,
 where distances between nodes vary widely.
