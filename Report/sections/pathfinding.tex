@@ -123,7 +123,8 @@ it takes the first element from that list.
 		\label{fig:dijksteps}
 	\end{center}
 \end{figure}
-%
+% puts the table closer to the figure
+\vspace{-0.75cm}
 \begin{table}[h!]
 \caption{Colour guide for figure \ref{fig:dijksteps}}
 \centering
@@ -145,7 +146,7 @@ it takes the first element from that list.
 \end{tabular}
 \end{table}
 
-This approach is a huge benefit for maps,
+This approach has a huge benefit for maps,
 where distances between nodes vary widely.
 In our case distances are one of two possibilities, either $1$ or $ \sqrt{2} $.
 Thus making this effectively one implementation of a flood-fill search,
@@ -156,6 +157,9 @@ which gets explained in section \ref{sec:astar}.
 A* uses Dijkstra's algorithm as a baseline,
 but adds another value to each node.
 This value often gets called \emph{heuristic}.
+Just like in Dijkstra, the cost to reach gets calculated iteratively,
+with the same iteration method.
+But in A* there is also another 
 
 
 
