@@ -104,6 +104,8 @@ by adding the cost to reach of the current node together with the travel cost to
 If that value is smaller than the cost to reach currently stored in that neighbour,
 the old value gets overwritten.
 This process is shown stepwise in figures \ref{sub:dijk1} through \ref{sub:dijk5}.
+Observe how the value for the finish node changes in almost every step,
+until the finish node is the current node.
 
 Every time the algorithm needs a new node to evaluate its neighbours,
 it takes the first element from that list.
@@ -125,17 +127,20 @@ it takes the first element from that list.
 \begin{table}[h!]
 \caption{Colour guide for figure \ref{fig:dijksteps}}
 \centering
-\begin{tabular}{|l|r|r|}
+\begin{tabular}{|l|p{2.5cm}|p{2.5cm}|}
 	\hline%-------------------------------------------------------
-			&Nodes					&Edges				\\
+	\multirow{2}{*}{Colour}	& \multicolumn{2}{c|}{Function}		\\
+		 	& Nodes					&Edges						\\
 	\hline%-------------------------------------------------------
-	Colour 	& Function				&Function			\\
+	Red		&						&Used in current evaluation	\\
 	\hline%-------------------------------------------------------
-	Red		&						&Currently evaluated\\
-	Orange 	& Current Node			&					\\
-	Green	& Evaluated Neighbour	&					\\
-	White	& not active yet		&					\\
-	Black	& Shortest Path found	&unused in step		\\
+	Orange 	& Current Node			&							\\
+	\hline%-------------------------------------------------------
+	Green	& Evaluated Neighbour	&							\\
+	\hline%-------------------------------------------------------
+	White	& Not active yet		&							\\
+	\hline%-------------------------------------------------------
+	Black  &Shortest Path already found&Not used in current step\\
 	\hline%-------------------------------------------------------
 \end{tabular}
 \end{table}
