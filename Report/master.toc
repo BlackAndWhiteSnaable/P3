@@ -26,9 +26,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Permanent Magnet Motor}{5}{subsubsection*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Variable Reluctance Motor}{6}{subsubsection*.17}
+\contentsline {subsubsection}{Variable Reluctance Motor}{6}{subsubsection*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Hybrid Stepper Motor}{8}{subsubsection*.20}
+\contentsline {subsubsection}{Hybrid Stepper Motor}{8}{subsubsection*.21}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.2}Unipolar And Bipolar Stepper Motors}{11}{subsection.2.1.2}
 \defcounter {refsection}{0}\relax 
@@ -58,16 +58,16 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.3}Flood Fill}{22}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.4}Dijkstra}{22}{section.5.4}
+\contentsline {section}{\numberline {5.4}Dijkstra}{23}{section.5.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.5}A*}{23}{section.5.5}
+\contentsline {section}{\numberline {5.5}A*}{24}{section.5.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.6}Pathfinding on a grid}{23}{section.5.6}
+\contentsline {section}{\numberline {5.6}Pathfinding on a grid}{24}{section.5.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.7}Our implementation}{23}{section.5.7}
+\contentsline {section}{\numberline {5.7}Our implementation}{24}{section.5.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Conclusion}{25}{chapter.6}
+\contentsline {chapter}{\numberline {6}Conclusion}{27}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliography}{27}{chapter*.35}
+\contentsline {chapter}{Bibliography}{29}{chapter*.37}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Appendix A name}{29}{appendix.A}
+\contentsline {chapter}{\numberline {A}Appendix A name}{31}{appendix.A}
