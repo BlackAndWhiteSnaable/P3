@@ -26,28 +26,22 @@ Report/sections/build/
 
 *.pdn
 
-*.out
+Report/master-blx\.bib
 
-*.gz
+Report/master\.aux
 
-*.aux
+Report/master\.bbl
 
-*.toc
+Report/master\.blg
 
-*.tdo
+Report/master\.toc
 
-Report/master\.pdf
+Report/master\.tdo
+
+Report/master\.synctex\.gz
 
 Report/master\.run\.xml
 
-Report/master\.dvi
+Report/master\.pdf
 
-*.db
-
-Report/master-blx\.bib
-
-*.bbl
-
-*.blg
-
-*.db
+Report/master\.out

@@ -16,18 +16,25 @@ int main() {
 *******************/
 // Executes robot behavior instructions
 void go() {
-  Robot *robot;    // Declare empty pointer to a struct of type Robot
-  robot = init_robot();   // Allocate structs and return the address to pointer
+  //----------------------------------SETUP ----------------------------------//
+  Robot *robot;           // Declare empty pointer to a struct of type Robot
+  robot = robot_init();   // Allocate structs and return the address to pointer
 
-  map_load(robot);        // Load map data from file into structs and set current pos to map start pos
-  node_map_load(robot);
-  //path_calculate(robot);  // Calculate shortest path from msp start to finish
+  map_load(robot);        // Load map data from file
+  node_map_load(robot);   // load map into node array
+  //--------------------------------------------------------------------------//
 
-  path_set_neighbors(robot);
-  path_calculate(robot);
+  robot_print(robot);     //print the status of the robot
+
+  //---------------------------------RUNNING ---------------------------------//
+  path_calculate(robot);  //calculate path
+
+  print_move_stack(&robot->movement);
+  unsigned char stackmove;
+  stackmove = pop_move(&robot->movement);
+  printf("[DEV]\tpopped from movement stack: 0x%02x\n",stackmove);
+
   /*
-
-
   // While robot has not reached the finish position
   while (!robot_finished(robot)) {
     robot_print(robot);
@@ -53,19 +60,5 @@ void go() {
       printf("Node in robot->map.node[%d][%d].walls = 0x%02X\n", i, j, robot->map.node[i][j].walls);
     }
   }
-
-  // Path and priority queue testing
   */
-  path_test(robot);
-}
-
-//TODO Initialize default settings for robot on startup
-Robot *init_robot() {
-  // Dynamically allocate robot struct in memory and return pointer
-  Robot *robot = malloc(sizeof(Robot));
-
-  //robot->unchecked=NULL;
-
-  //TODO give values to everything, even if they are only 0   --Daniel
-  return robot;
 }
