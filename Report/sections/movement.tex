@@ -467,20 +467,18 @@ thoroughly. The reason for this, was that we wanted to test the movement system 
 microcontroller in the beginning, specifically the MSP430, which had fewer pins available.
 
 
-Figure \ref{fig:mot_ctrl} represents a schematic of the movement circuit. We have used 6 Tri-State 
-buffers, 4 active high, and 2 active low. 
-%Table \ref{table:directions} explains which pairs need to be activated, and their rotational 
-%direction, in order to achieve the desired movement.
+Figure \ref{fig:mot_ctrl} represents a schematic of the movement circuit. We have used six Tri-State 
+buffers, four active high, and two active low. 
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.9\textwidth]{figures/move/direction_choice}
+	\includegraphics[width=0.8\textwidth]{figures/move/direction_choice}
 	\caption{Motor Control Circuit}
 	\label{fig:mot_ctrl}
 \end{figure}
 
-The 4 wires coming from the microcontroller, labeled '1', '2', '3' and '4' correspond to the stepping sequence.
-They are each connected to 2 Tri-State Buffer corresponding to each pair of motors. One pair of motors consists 
-of 2 motors. The pairs are represented in Figure \ref{fig:motor_pairs_location}.
+The four wires coming from the microcontroller, labeled '1', '2', '3' and '4' correspond to the stepping sequence.
+They are each connected to two Tri-State buffers corresponding to each pair of motors. One pair of motors consists 
+of two motors. The pairs are represented in Figure \ref{fig:motor_pairs_location}.
 
 \begin{figure}[htp]
 	\centering
@@ -488,30 +486,40 @@ of 2 motors. The pairs are represented in Figure \ref{fig:motor_pairs_location}.
 	\caption{Motor Pairs}
 	\label{fig:motor_pairs_location}
 \end{figure}
+
 \clearpage
-The first two Tri-State buffers, decide whether the pair is needed for moving in a specific 
-direction. When moving diagonally, only when pair of motors is needed at a time. Deciding 
-which direction the motors should spin in, is up to the following 2 Tri-State buffers, 
-one active-low and one active-high. Giving a ‘High’ signal, activates the active-high 
-buffer, and deactivates the active-low buffer. Giving a ‘Low’ signal, activates the 
-active-low buffer, and deactivates the active-high buffer. 
+The first two Tri-State buffers, decide whether the pair is needed for moving in 
+a specific direction. The input pins, labeled ‘A Enable’ and ‘B Enable’ go to the 
+two Tri-State buffers connected to each motor pair. 
 
-When spinning in one direction, the two opposite motors that make a pair, spin in opposite 
-directions. For example, when moving North-East, only Pair A moves. Motor labeled A spins 
-counter-clockwise, and motor labeled A’ moves clockwise. This was a necessity, considering the 
-placement of the wheels on the robot, and it was done by wiring one motor the other way around in 
-respect to the other.
+Afterwards, each buffer that enables the pair of motors 
+is connected to two buffers that decide the direction, one active-high and one active-low. 
+‘A Direction' decides the direction for ‘Pair A’, while ‘B Direction’ decides the direction 
+for ‘Pair B’.
 
-When spinning in one direction, the two opposite motors that make a pair, spin in opposite 
-directions. This is achieved by wiring the motors in reverse. Figure \ref{fig:reverse_wiring}
-represents the wiring of the motors.
+For example, when moving North-East, only ‘Pair A’ is needed. ‘A Enable’ will have a ‘High’ 
+signal while ‘B Enable’ will have a ‘Low’ signal. Next, by applying a ‘Low’ signal to ‘A Direction’, 
+reverses the wiring of the motors determining the robot move North-East. 
+
+Note that, when moving a specific direction, the opposing motors that form a pair, spin in different
+directions. One spins clockwise, while the other spins counter-clockwise. This was necessary, and was
+achieved by wiring one motor in reverse as shown in Figure \ref{fig:reverse_wiring}.
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=\textwidth]{figures/move/motor_pairs_cedar.png}
+	\includegraphics[width=0.8\textwidth]{figures/move/motor_pairs_cedar.png}
 	\caption{Motor Wiring in Reverse}
 	\label{fig:reverse_wiring}
 \end{figure}
-\begin{center}
+
+It is important to specify, that the robot moves in said directions using the same 
+programming only by maintaining the same
+orientation as in Figure \ref{fig:motor_pairs_location}.
+
+Tables \ref{tab:directions} and \ref{tab:directions_signal} represent the configurations 
+required for moving in any of the eight directions.
+\begin{table}[htp]
+	\centering
+	\caption{Directions}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		Direction & Pair A & Pair B	\\
@@ -527,21 +535,27 @@ represents the wiring of the motors.
 		North-West & off & forward \\
 		\hline
 	\end{tabular}
+	\label{tab:directions}
+\end{table}
+
+\begin{table}[htp]
+	\centering
+	\caption{Direction Signals}
 	\begin{tabular}{|l|c|c|c|c|}
 		\hline
-		Direction & Aon & Aflip & Bon & Bflip \\
+		Direction & A Enable & A Direction & B Enable & B Direction \\
 		\hline
 		North & 1 & 0 & 1 & 0 \\
 		East 	& 1 & 0 & 1 & 1 \\
 		South & 1 & 1 & 1 & 1 \\
 		West 	& 1 & 1 & 1 & 0 \\
 		\hline
-		North-East & 1 & 0 & 0 & 1 \\
-		South-East & 0 & 1 & 1 & 0 \\
-		South-West & 1 & 1 & 0 & 1 \\
-		North-West & 0 & 1 & 1 & 1 \\
+		North-East & 1 & 0 & 0 & x \\
+		South-East & 0 & x & 1 & 0 \\
+		South-West & 1 & 1 & 0 & x \\
+		North-West & 0 & x & 1 & 1 \\
 		\hline
 	\end{tabular}
-	\captionof{table}{Directions}
-	\label{table:directions}
-\end{center}
+	\label{tab:directions_signal}
+\end{table}
+\vfill
