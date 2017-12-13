@@ -489,6 +489,13 @@ of 2 motors. The pairs are represented in Figure \ref{fig:motor_pairs_location}.
 	\label{fig:motor_pairs_location}
 \end{figure}
 \clearpage
+The first two Tri-State buffers, decide whether the pair is needed for moving in a specific 
+direction. When moving diagonally, only when pair of motors is needed at a time. Deciding 
+which direction the motors should spin in, is up to the following 2 Tri-State buffers, 
+one active-low and one active-high. Giving a ‘High’ signal, activates the active-high 
+buffer, and deactivates the active-low buffer. Giving a ‘Low’ signal, activates the 
+active-low buffer, and deactivates the active-high buffer. 
+
 When spinning in one direction, the two opposite motors that make a pair, spin in opposite 
 directions. For example, when moving North-East, only Pair A moves. Motor labeled A spins 
 counter-clockwise, and motor labeled A’ moves clockwise. This was a necessity, considering the 
