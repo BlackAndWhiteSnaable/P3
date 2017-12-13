@@ -1,7 +1,8 @@
 \chapter{Movement}\label{ch:move}
 For our robot to be able to show the results of path finding,
 it needed to be able to move. We decided to move only along a simple 2D grid-like structure,
-therefore wheels were the easiest solution.
+therefore wheels were the easiest solution. The following chapter aims to provide information about
+components and theory needed for building the movement system of the robot.
 
 
 
@@ -17,11 +18,11 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 
 Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360$^\circ$ 
 rotation. This determines the step angle to be 90$^\circ$.
-
+\newpage
 The main components of a stepper motor are represented in Figure \ref{fig:main_components}, and 
 they consist of stators, windings(phases), and rotor.
 Attached to the output axle is the rotor, depending on the type of motor it can be magnetized.
-\newpage
+
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.3\textwidth]{figures/move/motor2.png}
@@ -292,16 +293,19 @@ bipolar stepper motors.
     \label{fig:windings}
 \end{figure}
 
-Bipolar stepper motors allow current to flow in both directions through the windings, meaning the 
-need for a center wire to provide a voltage disappears. However, the circuit needed to drive a 
-bipolar stepper motor becomes more complicated. We use stepper motor driver boards to make the task 
-easier. 
+Bipolar stepper motors have one winding per phase. To energize the first phase, voltage needs to 
+be applied to lead 1, and lead 2 needs to be connected to ground. Stepping the motor, 
+involves energizing one phase, then the second, then the first phase again with reverse
+polarity, meaning the voltage source and the ground must be switched between each other(lead 1 – 
+ground, lead 2 – voltage source). Afterwards, the second winding is energized with reverse 
+polarity. This makes driving them more difficult. We use driver boards to make the task easier. 
 
-Unipolar stepper motors allow current flow in only one direction through the winding, so a center 
-wire has been added, that provides a voltage and determines the stator poles to either be of north 
-or south polarity. 
-
-
+Unipolar stepper motors allow current flow in only one direction through the winding, unlike 
+bipolar stepper motors. Because of that, a center wire has been added to each winding corresponding 
+to leads 3 and 6. All the other leads are connected to ground. Outside the motor, each lead 
+connected to ground is connected to a transistor first. To step the motor, apply voltage to 
+the corresponding transistor to connect the lead to ground and allow current flow 
+through that winding.  
 \newpage
 Note that the bipolar configuration as shown in Figure \ref{fig:bipolar_stepping} allows the 
 current to flow in both directions, but the voltage and ground continuously switch positions. This 
@@ -407,7 +411,7 @@ This is achieved through rotating the pairs as shown in figure \ref{fig:forces}.
 It can also be observed that no two opposite motors spin in different directions,
 because this would lead to a rotation, which is undesired for us.
 This has also made our task of programming the motors more simple.
-
+\newpage
 \section{Direction Control}\label{sec:direction}
 To decide the direction of the robot, we had to control which wheels turn what number of steps. 
 
