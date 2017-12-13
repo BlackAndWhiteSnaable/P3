@@ -5,7 +5,7 @@
 % - System diagram (what we want to build):
 % Daniel has already made a nice diagram of this
 
-% Robot control:
+% Robot control: (maybe after pathfinding?)
 % Theory:
 % - functionality
 % - step/control sequence
@@ -25,7 +25,7 @@
 
 % I can use \subsection and \subsubsection :)
 
-\chapter{Map handling}
+\chapter{Map Handling}
 \label{ch:map} % chapter label
 The rescue robot should be able follow a given path from start to finish, based on a predefined map.
 A map provides useful information about whether areas of the map are accessible or not. This is an important element in path-finding.
@@ -40,7 +40,8 @@ but also allow easy user input.
 %The pathfinding algorihtm implemented in this project is further described in chapter \ref{ch:path}.
 
 \newpage
-\section{Map requirements}\label{ch:map_requirements}
+\section{Map requirements}
+\label{ch:map_requirements}
 Maps can be found in a lot of different styles,
 varying in how they represent specific informations.
 Those styles often depend on the purpose of the map.
@@ -82,7 +83,6 @@ as well as some areas that have been delimited from.
 		\hline
 		Data to be included & Data to delimit from \\ 
 		\hline
-		\hline
 		Map dimensions 		& \parbox[t]{0.4\textwidth}{Differences in height\\(levels, stairs etc.)}\\
 		\hline
 		Start position 		& Door openings \\
@@ -101,9 +101,17 @@ as well as some areas that have been delimited from.
 
 \begin{figure}[h!tp]
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/map/2d-array.png}%
-    \caption{2D array}
-    \label{fig:2d-array}
+    \subfloat[Section of AAU Esbjerg]{%
+        \includegraphics[width=0.4\textwidth]{figures/map/2d-map-coordinates.png}%
+        \label{sub:orient}
+        }%
+    \hspace{0.1\textwidth}
+    \subfloat[School layout example]{%
+        \includegraphics[width=0.4\textwidth]{figures/map/2d-map-array.png}%
+        \label{sub:evac}
+        }%
+    \caption{Examples of different maps}
+    \label{fig:floor_plans}
 \end{figure}
 %https://i.stack.imgur.com/tFdLk.gif
 
@@ -116,11 +124,11 @@ Explain how to store wall as hex value?\\
 \begin{figure}[htp]
     \centering
     \subfloat[ASCII]{%
-        \includegraphics{figures/map/5x5map.png}%
+        \includegraphics[resolution=96]{figures/map/5x5map_ascii.png}%
     }
     \hspace{0.2\textwidth}
     \subfloat[UTF8]{%
-        \includegraphics{figures/map/5x5map.png}%
+        \includegraphics[resolution=96]{figures/map/5x5map_utf8.png}%
     }
     \caption{5x5 map}
     \label{fig:5x5map}
@@ -128,8 +136,7 @@ Explain how to store wall as hex value?\\
 
 \section{Check map}
 \label{sec:map_check} % section label
-Remember we have a chapter dedicated to scan.
-
+Remember we have a chapter dedicated to scan.\linebreak
 Based on scenario things might have dramatically changed, even to the point of map being useless. Explain how map is updated.
 
 \section{Implementation}
