@@ -1,16 +1,19 @@
 \chapter{Pathfinding}
 \section*{Dijkstra}\label{app:dijkstra}
 
+\subsection*{Code}\label{app:code}
+\lstinputlisting[language=C]{code/path.c}
+
+\newpage
+\subsection*{Algorithm}
+\vspace{-0.5cm}
+
 \begin{figure}[h!tp]
 		\centering
 		\foreach \dijk in {1,2,3,4,5}
 		{
 			\subfloat[\dijk. Step]{
-				\includegraphics[width=0.45\textwidth]{figures/path/dijk_\dijk}
+				\includegraphics[width=0.4\textwidth]{figures/path/dijk_\dijk}
 			}
 		}
 \end{figure}
-\newpage
-
-\section*{Code}\label{app:code}
-\lstinputlisting[language=C]{code/path.c}
