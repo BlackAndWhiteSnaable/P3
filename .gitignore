@@ -25,3 +25,23 @@ Report/sections/build/
 *.layout
 
 *.pdn
+
+Report/master-blx\.bib
+
+Report/master\.aux
+
+Report/master\.bbl
+
+Report/master\.blg
+
+Report/master\.toc
+
+Report/master\.tdo
+
+Report/master\.synctex\.gz
+
+Report/master\.run\.xml
+
+Report/master\.pdf
+
+Report/master\.out
