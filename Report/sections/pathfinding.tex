@@ -108,7 +108,7 @@ Observe how the value for the finish \emph{node} changes in almost every step,
 until the finish \emph{node} is the current \emph{node}.
 
 Every time the algorithm needs a new \emph{node} to evaluate its neighbours,
-it takes the first element from that list.
+it takes the first element from that list. \cite{Pound2017}
 
 \begin{figure}[h!]
 	\begin{center}
@@ -161,6 +161,11 @@ Just like in Dijkstra, the \emph{cost to reach} gets calculated iteratively,
 with the same iteration method.
 But in A* there is also another 
 
+But in A* there is also another value added to that sum,
+this value is often called \emph{heuristic}.
+It is used to point the algorithm towards the finish node,
+and is often the \emph{Euclidean Distance} distance from each node to the finish.
+\cite{PoundStar}
 
 
 \section{Pathfinding on a grid}
