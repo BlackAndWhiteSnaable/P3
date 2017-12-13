@@ -458,10 +458,52 @@ That does not mean its output corresponds to a logic “Low", but instead it is 
 impedance in which the output is disconnected from the rest of the circuit.
 \newpage
 \subsection{Control Circuit}\label{sub:circuit}
-\todo{introduce circuit before}
-Table \ref{table:directions} explains which pairs need to be activated, and their rotational 
-direction, in order to achieve the desired movement.
+Initially, we have thought of a movement system, which required 16 pins to accommodate moving in 
+all directions. Giving the motors needed for moving in one direction, the stepping sequence at the 
+same time was a must, and that was also a reason for needing 16 pins. 
 
+Having a limited number of pins available, has forced us to think of the movement system very 
+thoroughly. The reason for this, was that we wanted to test the movement system on a different 
+microcontroller in the beginning, specifically the MSP430, which had fewer pins available.
+
+
+Figure \ref{fig:mot_ctrl} represents a schematic of the movement circuit. We have used 6 Tri-State 
+buffers, 4 active high, and 2 active low. 
+%Table \ref{table:directions} explains which pairs need to be activated, and their rotational 
+%direction, in order to achieve the desired movement.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{figures/move/direction_choice}
+	\caption{Motor Control Circuit}
+	\label{fig:mot_ctrl}
+\end{figure}
+
+The 4 wires coming from the microcontroller, labeled '1', '2', '3' and '4' correspond to the stepping sequence.
+They are each connected to 2 Tri-State Buffer corresponding to each pair of motors. One pair of motors consists 
+of 2 motors. The pairs are represented in Figure \ref{fig:motor_pairs_location}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.2\textwidth]{figures/move/Motor_pairs_location.jpg}
+	\caption{Motor Pairs}
+	\label{fig:motor_pairs_location}
+\end{figure}
+\clearpage
+When spinning in one direction, the two opposite motors that make a pair, spin in opposite 
+directions. For example, when moving North-East, only Pair A moves. Motor labeled A spins 
+counterclockwise, and motor labeled A’ moves clockwise. This was a necessity, considering the 
+placement of the wheels on the robot, and it was done by wiring one motor the other way around in 
+respect to the other one.
+
+When spinning in one direction, the two opposite motors that make a pair, spin in opposite 
+direction. This is achieved by wiring the motors in reverse. Figure \ref{fig:reverse_wiring}
+represents the wiring of the motors.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/move/motor_pairs_cedar.png}
+	\caption{Motor Wiring in Reverse}
+	\label{fig:reverse_wiring}
+\end{figure}
 \begin{center}
 	\begin{tabular}{|l|l|l|}
 		\hline
@@ -496,14 +538,3 @@ direction, in order to achieve the desired movement.
 	\captionof{table}{Directions}
 	\label{table:directions}
 \end{center}
-
-
-
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=0.9\textwidth]{figures/move/direction_choice}
-	\caption{Motor Control Circuit}
-	\label{fig:mot_ctrl}
-\end{figure}
-
-We decided to use 6 tri-state buffers as shown in figure \ref{fig:mot_ctrl}.
