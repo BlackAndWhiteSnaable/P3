@@ -28,84 +28,82 @@
 \chapter{Map handling}
 \label{ch:map} % chapter label
 The rescue robot should be able follow a given path from start to finish, based on a predefined map.
-A map provides useful information about whether areas of the map are accessible or not. This is an important element in path-finding. Map data can be given to the robot prior to its physical presences at a location. Once the robot is at the starting point, it has to rely on its sensors for updated information about the surroundings.
+A map provides useful information about whether areas of the map are accessible or not. This is an important element in path-finding.
+Map data can be given to the robot prior to its physical presence at a location. Once the robot is at the starting point, it has to rely on its sensors for updated information about the surroundings.
 
 A structured way of storing the required map data for different maps was designed. 
-The goal was to not only make it readable by the microcontroller, 
-but also user-friendly enough to let a person design different maps for testing purposes of this project.
+The goal was to not only make it readable by the microcontroller,
+but also allow easy user input.
 
-Existing pathfinding algorithms such as Diekstra and A* was studied, 
-in order to understand what input data such algorithms typically would require. 
-The pathfinding algorihtm implemented in this project is further described in chapter \ref{ch:path}. 
+%Existing pathfinding algorithms such as Dijkstra and A* was studied, 
+%in order to understand what input data such algorithms typically would require. 
+%The pathfinding algorihtm implemented in this project is further described in chapter \ref{ch:path}.
+
 \newpage
-
 \section{Map requirements}
 \label{ch:map_requirements}
-Maps come in many different shapes and sizes. 
-These can sometimes prove to be hard for humans to interpret correctly, and possibly even harder for computers.
-Two different examples of floor plans can be seen in figure \ref{fig:floor_plans}.
+Maps can be found in a lot of different styles,
+varying in how they represent specific informations.
+Those styles often depend on the purpose of the map.
 
-\begin{figure}[htp]
+Figure \ref{sub:orient} shows a map for casual orientation purposes,
+while \ref{sub:evac} shows a standardized evacuation plan.
+
+\begin{figure}[h!tp]
     \centering
-    \caption{Examples of floor plans for different maps}
     \subfloat[Section of AAU Esbjerg]{%
-        \includegraphics[width=0.48\textwidth]{figures/map/floorplan_aau.png}%
+        \includegraphics[width=0.4\textwidth]{figures/map/floorplan_aau.png}%
+        \label{sub:orient}
         }%
-    \hfill%
+    \hspace{0.1\textwidth}
     \subfloat[School layout example]{%
-        \includegraphics[width=0.48\textwidth]{figures/map/floorplan_school.png}%
+        \includegraphics[width=0.4\textwidth]{figures/map/floorplan_school.png}%
+        \label{sub:evac}
         }%
+    \caption{Examples of different maps}
     \label{fig:floor_plans}
 \end{figure}
 % https://www.edrawsoft.com/school-layout-example.php
 
-Such maps are often very visual, providing a lot of detail and information to the human reader.
-The way the information is structured differently, makes it very hard to be interpreted by a single program.
+Such maps are often very visual, providing a lot of detailed information to the reader.
+The way the information is represented differently,
+makes it very hard to be interpreted automatically.
 
-For this project it was decided that a simplified map would be sufficient.
-A map must provide certain information that could easily be interpreted by the micro controller.
+A map must provide necessary information,
+in a way that can be interpreted by the micro controller.
+For this project we decided that a simplified map, would be sufficient.
 
-Table \ref{table:map_data} shows the chosen data the map should include, as well as some areas that has been delimited from. 
-It is assessed that the delimited parts are interesting areas of extra considerations, 
-but unnecessary in order to work with the basic principles of path-finding.
+Table \ref{table:map_data} shows the data the map should include,
+as well as some areas that have been delimited from.
 
-\begin{center}
-	\begin{tabular}{|l|}
+\begin{table}[h!]
+	\centering
+	\caption{Map data}
+	\begin{tabular}{|p{0.4\textwidth}||p{0.4\textwidth}|}
 		\hline
-		Data to be included \\ 
+		Data to be included & Data to delimit from \\ 
 		\hline
-		Map dimensions \\
-		Start position \\
-		Finish position \\
-		Walls \\
-		Objects (?) \\
+		\hline
+		Map dimensions 		& \parbox[t]{0.4\textwidth}{Differences in height\\(levels, stairs etc.)}\\
+		\hline
+		Start position 		& Door openings \\
+		\hline
+		Finish position 	& \parbox[t]{0.4\textwidth}{Ground surface\\(slipping, traction)} \\
+		\hline
+		Walls 				& Objects\\
 		\hline
 	\end{tabular}
-	\begin{tabular}{|l|}
-		\hline
-		Data to delimit from \\ 
-		\hline
-		Differences in height (plans, stairs etc.) \\
-		Door openings \\
-		Ground surface (slipping, traction) \\
-		Objects (?) \\
-		Other (?) \\
-		\hline
-	\end{tabular}
-	\captionof{table}{Map data}
 	\label{table:map_data}
-\end{center}
+\end{table}
 
 
 \section{Map coordinates}
 \label{sec:map_coordinates} % section label
 
-\begin{figure}[htp]
+\begin{figure}[h!tp]
     \centering
+    \includegraphics[width=0.5\textwidth]{figures/map/2d-array.png}%
     \caption{2D array}
-    \subfloat[2D array]{%
-        \includegraphics[width=0.5\textwidth]{figures/map/2d-array.png}%
-        }%
     \label{fig:2d-array}
 \end{figure}
 %https://i.stack.imgur.com/tFdLk.gif
@@ -118,10 +116,14 @@ Explain how to store wall as hex value?\\
 \\
 \begin{figure}[htp]
     \centering
-    \caption{5x5 map}
-    \subfloat[5x5 map]{%
+    \subfloat[ASCII]{%
         \includegraphics{figures/map/5x5map.png}%
-        }%
+    }
+    \hspace{0.2\textwidth}
+    \subfloat[UTF8]{%
+        \includegraphics{figures/map/5x5map.png}%
+    }
+    \caption{5x5 map}
     \label{fig:5x5map}
 \end{figure}
 
