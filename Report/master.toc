@@ -66,7 +66,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.3}Flood Fill}{26}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.4}Dijkstra}{27}{section.5.4}
+\contentsline {section}{\numberline {5.4}Dijkstra}{26}{section.5.4}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.5}A*}{28}{section.5.5}
 \defcounter {refsection}{0}\relax 
@@ -76,6 +76,6 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {6}Conclusion}{31}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliography}{33}{chapter*.42}
+\contentsline {chapter}{Bibliography}{33}{chapter*.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Appendix A name}{35}{appendix.A}
+\contentsline {chapter}{\numberline {A}Pathfinding}{35}{appendix.A}
