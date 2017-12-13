@@ -99,7 +99,7 @@ This is done by storing all \emph{nodes} in a priority queue,
 where they are sorted by their \emph{cost to reach}, in ascending order.
 
 The \emph{cost to reach} gets calculated iteratively,
-by adding the \emph{cost to reach} of the current \emph{node} together with the travel cost to its neighbour.
+by adding the \emph{cost to reach} of the current \emph{node} together with \emph{distance} to its neighbour.
 If that value is smaller than the \emph{cost to reach} currently stored in that neighbour,
 the old value gets overwritten.
 This process is shown stepwise in Figures \ref{sub:dijk1} through \ref{sub:dijk5}.
@@ -108,14 +108,14 @@ Observe how the value for the finish \emph{node} changes in almost every step,
 until the finish \emph{node} is the current \emph{node}.
 
 Every time the algorithm needs a new \emph{node} to evaluate its neighbours,
-it takes the first element from that list.
+it takes the first element from that list. \cite{Pound2017}
 
 \begin{figure}[h!]
 	\begin{center}
 		\foreach \dijk in {1,2,3,4,5}
 		{
 			\subfloat[\dijk. Step]{
-				\includegraphics[width=0.175\textwidth]{figures/path/dijk_\dijk}
+				\includegraphics[width=0.175\textwidth]{figures/path/dijk_\dijk.pdf}
 				\label{sub:dijk\dijk}
 			}
 		}
@@ -155,26 +155,53 @@ which gets explained in Section \ref{sec:astar}.
 
 \section{A*}\label{sec:astar}
 A* uses Dijkstra's algorithm as a baseline,
-but adds another value to each \emph{node}.
-This value often gets called \emph{heuristic}.
+but adds one more step in calculating.
 Just like in Dijkstra, the \emph{cost to reach} gets calculated iteratively,
 with the same iteration method.
-But in A* there is also another 
-
+But in A* there is also another value added to that sum,
+this value is often called \emph{heuristic}.
+It is used to point the algorithm towards the finish node,
+and is often the \emph{Euclidean Distance} distance from each node to the finish.
+\cite{PoundStar}
+The \emph{Euclidean Distance},
+is the distance as the crow flies.
+It can be calculated with help of the Pythagorean Theorem:
+\begin{example}{Pythagorean Theorem used for Euclidean Distance}
+  \label{ex:pyth_eucl}
+  \begin{equation}
+	\sqrt{|A_{X}-B_{X}|^{2}+|A_{Y}-B_{Y}|^{2}}
+  \end{equation}
+\end{example}
 
 
 \section{Pathfinding on a grid}
 Pathfinding on a grid is slightly different to pathfinding on a regular map,
 Because all \emph{nodes} tend to have the same amount of neighbours,
-and all \emph{edges} have the same or similar costs.
+and all \emph{edges} have the same or similar \emph{distances}.
+In our case \emph{distance} varies between $1$ and $\sqrt{2}$,
+the former in the case of vertical or horizontal movement,
+the latter for diagonal movement.
 Figure \ref{fig:graph_cost} shows the similarities between several connections on a grid-based graph.
 because of this, the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.24\textwidth]{figures/path/graph_values}
-	\caption{3x3 grid with edge costs}
+	\includegraphics[width=0.5\textwidth]{figures/path/graph_values}
+	\caption{Graph with Labelled Edges}
 	\label{fig:graph_cost}
 \end{figure}
+
+
+
+On a grid, it makes little sense to use the \emph{euclidean distance}.
+Because movement is very restricted,
+and can only be a multiple of the possible \emph{distances}.
+Here it could make more sense to use the \emph{Manhattan Distance}.
+\begin{example}{Manhattan Distance}
+  \label{ex:pyth_eucl}
+  \begin{equation}
+	|X_{A}-X_{B}|+|Y_{A}-Y_{B}|
+  \end{equation}
+\end{example}
 
 
 \section{Our implementation}
