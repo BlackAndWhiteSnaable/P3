@@ -42,6 +42,8 @@ Report/master\.run\.xml
 
 Report/master\.dvi
 
+*.db
+
 Report/master-blx\.bib
 
 *.bbl
