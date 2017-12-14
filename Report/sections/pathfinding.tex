@@ -176,12 +176,13 @@ It can be calculated with help of the Pythagorean Theorem:
 
 \section{Pathfinding on a grid}
 Pathfinding on a grid is slightly different to pathfinding on a regular map,
-Because all \emph{nodes} tend to have the same amount of neighbours,
+because all \emph{nodes} tend to have the same amount of neighbours,
 and all \emph{edges} have the same or similar \emph{distances}.
-In our case \emph{distance} varies between $1$ and $\sqrt{2}$,
+
+In our case \emph{distances} vary between $1$ and $\sqrt{2}$,
 the former in the case of vertical or horizontal movement,
 the latter for diagonal movement.
-Figure \ref{fig:graph_cost} shows the similarities between several connections on a grid-based graph.
+Figure \ref{fig:graph_cost} shows the similarities between connections on a grid-based graph.
 because of this, the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 \begin{figure}[htp]
 	\centering
@@ -190,14 +191,14 @@ because of this, the Dijkstra algorithm is losing its major advantage over a sim
 	\label{fig:graph_cost}
 \end{figure}
 
-
-
 On a grid, it makes little sense to use the \emph{euclidean distance}.
 Because movement is very restricted,
 and can only be a multiple of the possible \emph{distances}.
-Here it could make more sense to use the \emph{Manhattan Distance}.
+Here it could make more sense to use the \emph{Manhattan Distance},
+because that actually represents the minimal possible path.
+The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{ex:manhattan}.
 \begin{example}{Manhattan Distance}
-  \label{ex:pyth_eucl}
+  \label{ex:manhattan}
   \begin{equation}
 	|X_{A}-X_{B}|+|Y_{A}-Y_{B}|
   \end{equation}
@@ -205,30 +206,44 @@ Here it could make more sense to use the \emph{Manhattan Distance}.
 
 
 \section{Our implementation}
-\todo[inline]{does this belong into sec:map-handle?}
-For our grid we chose to allow vertical, horizontal and diagonal movement,
-giving us 8 possible directions to move in from every \emph{node}.
-We decided to store those eight directions in one single byte,
-with the least significant nibble (LSN) corresponding to the four main directions (N,E,S,W),
-and the MSN corresponding to NE, SE, SW and NW.
+Since our map consists of \emph{nodes} with up to eight neighbors,
+as explained in Chapter \ref{ch:map},
+we decided to store this information in a single byte per \emph{node}.
+In this byte, the \emph{Least Significant Nibble (LSN)} represents the straight directions N,E,S,W.
+The \emph{Most Significant Nibble (MSN)} represents the diagonal directions NE,SE,SW,NW.
+Some example bytes can be seen in Table \ref{tab:wallbyte}.
 
+\begin{table}[h!]
+\caption{Examples of Bytes representing Walls}
 \begin{center}
 	\begin{tabular}{|*{8}{m{0.6cm}|}|l|}
-		\hline
-		N & E& S& W& NE& SE& SW& NW& byte\\
-		\hline
+		\hline%-------------------------------
+		NE& SE& SW& NW& N & E & S & W & byte\\
+		\hline%-------------------------------
 		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0x01\\
 		0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0x02\\
 		0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0x03\\
 		0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0x0E\\
-		\hline
+		\hline%-------------------------------
 		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0x10\\
 		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0x20\\
 		0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0x42\\
 		1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0xFF\\
-		\hline
+		\hline%-------------------------------
 	\end{tabular}
 \end{center}
+\label{tab:wallbyte}
+\end{table}
+
+Listing \ref{lst:defsHBytes} shows how we define the different directions in our program.
+
+\lstinputlisting
+[firstline=12,			%starts reading the file from line 12
+firstnumber=12,			%starts counting the lines in pdf from 12
+lastline=20,			%stops reading the file at line 20
+label=lst:defsHBytes,	%label
+caption={Definition of Directions in {\tt defs.h}}
+]{code/defs.h}
 
 Just some random cites, to see how it works.
 \cite{Madsen2010}, \cite{Oetiker2010} and \cite{Mittelbach2005}.
