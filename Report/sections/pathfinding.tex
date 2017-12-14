@@ -103,7 +103,7 @@ by adding the \emph{cost to reach} of the current \emph{node} together with \emp
 If that value is smaller than the \emph{cost to reach} currently stored in that neighbour,
 the old value gets overwritten.
 This process is shown stepwise in Figures \ref{sub:dijk1} through \ref{sub:dijk5}.
-Those figures are also available in Appendix \ref{app:dijkstra}.\\
+Those figures are also available in Appendix \ref{app:path}.\\
 Observe how the value for the finish \emph{node} changes in almost every step,
 until the finish \emph{node} is the current \emph{node}.
 
@@ -205,9 +205,12 @@ The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{e
 \end{example}
 
 
-\section{Our implementation}
+\section{Our implementation}\label{sec:path_implement}
+Our implementation of the path-finding algorithm relies heavily on our program written in C.
+Every function explained in this section can also be read in Appendix \ref{app:path}.
+
 Since our map consists of \emph{nodes} with up to eight neighbors,
-as explained in Chapter \ref{ch:map},
+as explained in Chapter \ref{ch:map}, \todo{does Troels explain this?}
 we decided to store this information in a single byte per \emph{node}.
 In this byte, the \emph{Least Significant Nibble (LSN)} represents the straight directions N,E,S,W.
 The \emph{Most Significant Nibble (MSN)} represents the diagonal directions NE,SE,SW,NW.
@@ -216,19 +219,19 @@ Some example bytes can be seen in Table \ref{tab:wallbyte}.
 \begin{table}[h!]
 \caption{Examples of Bytes representing Walls}
 \begin{center}
-	\begin{tabular}{|*{8}{m{0.6cm}|}|l|}
+	\begin{tabular}{|*{8}{m{1cm}|}|l|}
 		\hline%-------------------------------
 		NE& SE& SW& NW& N & E & S & W & byte\\
 		\hline%-------------------------------
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0x01\\
-		0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0x02\\
-		0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0x03\\
-		0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0x0E\\
+		path & path & path & path & path & path & path & WALL & 0x01\\
+		path & path & path & path & path & path & WALL & path & 0x02\\
+		path & path & path & path & path & path & WALL & WALL & 0x03\\
+		path & path & path & path & WALL & WALL & WALL & path & 0x0E\\
 		\hline%-------------------------------
-		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0x10\\
-		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0x20\\
-		0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0x42\\
-		1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0xFF\\
+		path & path & path & WALL & path & path & path & path & 0x10\\
+		path & path & WALL & path & path & path & path & path & 0x20\\
+		path & WALL & path & path & path & path & WALL & path & 0x42\\
+		WALL & WALL & WALL & WALL & WALL & WALL & WALL & WALL & 0xFF\\
 		\hline%-------------------------------
 	\end{tabular}
 \end{center}
@@ -244,6 +247,105 @@ lastline=20,			%stops reading the file at line 20
 label=lst:defsHBytes,	%label
 caption={Definition of Directions in {\tt defs.h}}
 ]{code/defs.h}
+%
+After reading the map from the input file,
+as explained in Section \ref{sec:map_implement}, \todo{does Troels describe this in ch:map?}
+all \emph{nodes} have to be set up for the pathfinding algorithm.
+We do this in the function {\tt path\_set\_neighbors}.
+Every \emph{node} gets linked to its neighbours by comparing the {\tt walls} value
+with the defined directions as shown in Listing \ref{lst:linking}.
 
-Just some random cites, to see how it works.
-\cite{Madsen2010}, \cite{Oetiker2010} and \cite{Mittelbach2005}.
+\lstinputlisting
+[firstline=9,			%starts reading the file from line 9
+firstnumber=9,
+lastline=20,			%stops reading the file at line 20
+label=lst:linking,	%label
+caption={Linking of straight Neighbours in {\tt path.c}}
+]{code/path.c}
+%
+The same function also initially sets the {\tt movecost}
+(\emph{cost to reach}) to 4095 ({\tt 0xFFF}) for all \emph{nodes},
+except for the starting \emph{node}.
+This effectively limits the map size we can handle, but can be expanded later on.
+And lets {\tt parent} point to {\tt NULL}.
+This can be seen in Listing \ref{lst:movecost}.
+
+\lstinputlisting
+[firstline=35,			%starts reading the file from line 35
+firstnumber=35,
+lastline=41,			%stops reading the file at line 41
+label=lst:movecost,	%label
+caption={Setting {\tt movecost} and {\tt parent} in {\tt path.c}}
+]{code/path.c}
+%
+After everything is set up,
+the path-finding algorithm can start.
+
+We implemented Dijkstra's algorithm in the function {\tt path\_calculate},
+shown in Listing \ref{lst:path}.
+Here we have two integers {\tt curx} and {\tt cury} to keep track of the position
+and a {\tt currNode} as our current \emph{node}.
+The algorithm loops through all \emph{nodes},
+until it reaches the finish \emph{node}.
+We implemented this as a {\tt while} loop.
+To prevent the algorithm from looping infinitely in case of a subtle error,
+we increment a counter {\tt deadcount} every iteration
+and check whether it surpasses the amount of \emph{nodes}.
+
+Inside the loop we check for every \emph{neighbour},
+whether a pointer to it exists
+and whether its \emph{cost to reach} is bigger than it would be from the current \emph{node}.
+In the case that both statements are true,
+we update \todo{overwrite?} the neighbours \emph{cost to reach}
+and \emph{parent}.
+
+We also remove the current \emph{node} as a neighbour,
+because we know the path back and forth cannot be shorter.
+This removes one lookup going through three pointers and involving one addition.
+
+\lstinputlisting
+[firstline=64,			%starts reading the file from line 64
+firstnumber=64,
+lastline=88,			%stops reading the file at line 88
+label=lst:path,	%label
+caption={Calculating the Path in {\tt path.c}}
+]{code/path.c}
+%
+After we looked through all neighbours of a \emph{node},
+it can be pushed onto the {\tt checked} stack.
+And the next node has to be popped from the {\tt unchecked} queue,
+before looping to the start of the {\tt while} again.
+This can be seen in Listing \ref{lst:node_calc}.
+
+\lstinputlisting
+[firstline=127,			%starts reading the file from line 64
+firstnumber=127,
+lastline=131,			%stops reading the file at line 88
+label=lst:node_calc,	%label
+caption={Pushing and Popping Nodes in {\tt path.c}}
+]{code/path.c}
+%
+After looking through all \emph{nodes} leading to the finish \emph{node},
+the full path is in the {\tt checked} stack.
+But also every other \emph{node} with a smaller \emph{cost to reach}.
+The top element on the stack is also the finish \emph{node},
+so the first movement gets described in the bottom of the stack.
+
+This means it is necessary to sort through the stack,
+and to only keep the necessary \emph{nodes}.
+While doing this we can immediately calculate the movements to be done,
+and put them on a new stack.
+Since the \emph{node}-stack had the finish \emph{node} at the top,
+the movement stack will have the finish movement at the bottom.
+
+We calculate the movements out of the coordinates of the \emph{nodes},
+in function {\tt path\_calculate\_movement} as can be seen in listing \ref{lst:move_calc}.
+
+
+\lstinputlisting
+[firstline=145,			%starts reading the file from line 64
+firstnumber=145,
+label=lst:move_calc,	%label
+caption={Pushing and Popping Nodes in {\tt path.c}}
+]{code/path.c}
+%
