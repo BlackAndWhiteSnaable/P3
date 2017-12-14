@@ -156,7 +156,7 @@ void path_calculate_movement(Robot *robot){
     if (ownX>parX) move+=S;         //Something South
     if (ownY<parY) move+=W;         //Something West
 
-    //checks for two movements (indicates diagonal movement)
+    //------------------Detect Diagonal Movement------------------//
     if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){
       if      (move==N+E) move=NE;  //North and East
       else if (move==S+E) move=SE;  //South and East
@@ -165,7 +165,7 @@ void path_calculate_movement(Robot *robot){
     }   //now we know the exact moving direction!
     //-------------------Save To Movement Stack-------------------//
     push_move_stack(&robot->movement, move);
-    //TODO
+    //------------------------ Find Parent------------------------//
     while (((parNode=pop(&robot->checked))->position.x!=parX)||
            (parNode->position.y!=parY)){}
     currNode=parNode;

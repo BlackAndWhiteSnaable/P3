@@ -318,9 +318,9 @@ before looping to the start of the {\tt while} again.
 This can be seen in Listing \ref{lst:node_calc}.
 
 \lstinputlisting
-[firstline=127,			%starts reading the file from line 64
+[firstline=127,			%starts reading the file from here
 firstnumber=127,
-lastline=131,			%stops reading the file at line 88
+lastline=131,			%stops reading the file at this line
 label=lst:node_calc,	%label
 caption={Pushing and Popping Nodes in {\tt path.c}}
 ]{code/path.c}
@@ -340,7 +340,11 @@ the movement stack will have the finish movement at the bottom.
 
 We calculate the movements out of the coordinates of the \emph{nodes},
 in function {\tt path\_calculate\_movement} as can be seen in listing \ref{lst:move_calc}.
-
+Movement can be seen as a vector,
+where a change in X coordinate shows movement along the North-South axis,
+and change in Y coordinate shows movement along the East-West axis.
+If only one axis changes, the resulting movement is straight,
+ff change happens on both axis, it is diagonal.
 
 \lstinputlisting
 [firstline=145,			%starts reading the file from line 64
