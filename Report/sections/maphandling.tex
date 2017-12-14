@@ -45,7 +45,6 @@ but also allow easy user input.
 Maps can be found in a lot of different styles,
 varying in how they represent specific informations.
 Those styles often depend on the purpose of the map.
-
 Figure \ref{sub:orient} shows a map for casual orientation purposes,
 while \ref{sub:evac} shows a standardized evacuation plan.
 
@@ -65,10 +64,9 @@ while \ref{sub:evac} shows a standardized evacuation plan.
 \end{figure}
 % https://www.edrawsoft.com/school-layout-example.php
 
-Such maps are often very visual, providing a lot of detailed information to the reader.
+Maps are often very visual, providing a lot of detailed information to the reader.
 The way the information is represented differently,
 makes it very hard to be interpreted automatically.
-
 A map must provide necessary information,
 in a way that can be interpreted by the micro controller.
 For this project we decided that a simplified map, would be sufficient.
@@ -98,38 +96,53 @@ as well as some areas that have been delimited from.
 
 \section{Map coordinates}
 \label{sec:map_coordinates} % section label
+During the theoretical development we often used hand-drawn 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
 
-\begin{figure}[h!tp]
+To convert an analog map into a digital representation, a 2D array was used as data structure for storing map information. A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 2D arrays and matrices are very similar, but differ in how elements are indexed. As seen in Figure \ref{sub:2d_array}, indexing for a 2D array starts with zero, and x- and y-axes for rows and columns (typically named i and j) are switched.  
+
+\begin{figure}[htp]
     \centering
-    \subfloat[Section of AAU Esbjerg]{%
-        \includegraphics[width=0.4\textwidth]{figures/map/2d-array.png}%{figures/map/2d-map-coordinates.png}%
-        \label{sub:orient}
-        }%
-    \hspace{0.1\textwidth}
-    \subfloat[School layout example]{%
+    \subfloat[2D grid map]{%
+        \includegraphics[width=0.4\textwidth]{figures/map/2d-map.png}%
+        \label{sub:2d_map}
+        }%  
+    \hspace{0.1\textwidth}  
+    \subfloat[2D array]{%
         \includegraphics[width=0.4\textwidth]{figures/map/2d-array.png}%
-        \label{sub:evac}
+        \label{sub:2d_array}
         }%
-    \caption{Examples of different maps}
+    \caption{Difference in indexing for a 2D grid map and a 2D array}
     \label{fig:floor_plans}
 \end{figure}
-\todo{i just made this into the same graphic, so it compiles}
+
 %https://i.stack.imgur.com/tFdLk.gif
+The differences in the indexing of the two discussed methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}.
+
+Since 2D arrays have rows first and columns second for indexing, we decided to switch the x- and y-axes in the programming part. This way the map sections stored in the 2D array can be accessed by an index style similar to the 2D grid map.
+\\
+map[i][j], where i = map column(n) and j = map row (n) 
+\todo{make some fancy code magic here}
+\\
+
+
 
 \section{Map design}
 \label{sec:map_design} % section label
+Subsections?\\
+- wall hex
+- malloc / dimensions
 Show the map + wiki\\
-Explain we made the map size dynamic to handle any map size
+Explain we made the map size dynamic to handle any map size\\
 Explain how to store wall as hex value?\\
 \\
 \begin{figure}[htp]
     \centering
     \subfloat[ASCII]{%
-        \includegraphics[width=0.3\textwidth]{figures/map/5x5map_ascii.png}%
+        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_ascii.png}%
     }
     \hspace{0.2\textwidth}
     \subfloat[UTF8]{%
-        \includegraphics[width=0.3\textwidth]{figures/map/5x5map_utf8.png}%
+        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_utf8.png}%
     }
     \caption{5x5 map}
     \label{fig:5x5map}
