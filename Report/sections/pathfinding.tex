@@ -10,7 +10,7 @@ and different ideas what the best path is.
 In the case of rescue, where time is very crucial to success,
 the quickest path has to be considered best. \cite{Zipes2506}
 
-In other applications 'best' could also mean shortest \emph{distance}, least expensive (toll roads),
+In other applications 'best' could also mean shortest distance, least expensive (toll roads),
 most convenient or any number of other qualifiers.
 
 Since our robot has approximately equal movement speed in all used directions,
@@ -206,10 +206,10 @@ The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{e
 
 
 \section{Our implementation}\label{sec:path_implement}
-Our implementation of the path-finding algorithm relies heavily on our program written in C.
+Our explanation of the implementation relies heavily on our program written in C.
 Every function explained in this section can also be read in Appendix \ref{app:path}.
 
-Since our map consists of \emph{nodes} with up to eight neighbors,
+Since our map consists of \emph{nodes} with up to eight neighbours,
 as explained in Chapter \ref{ch:map}, \todo{does Troels explain this?}
 we decided to store this information in a single byte per \emph{node}.
 In this byte, the \emph{Least Significant Nibble (LSN)} represents the straight directions N,E,S,W.
@@ -254,6 +254,11 @@ all \emph{nodes} have to be set up for the pathfinding algorithm.
 We do this in the function {\tt path\_set\_neighbors}.
 Every \emph{node} gets linked to its neighbours by comparing the {\tt walls} value
 with the defined directions as shown in Listing \ref{lst:linking}.
+Every direction that does not have a wall,
+gets linked as a pointer.
+If it has a wall, the pointer is set to {\tt NULL}.
+We only show the linking of the straight neighbours,
+because the diagonal neighbours work basically the same.
 
 \lstinputlisting
 [firstline=9,			%starts reading the file from line 9
@@ -265,9 +270,8 @@ caption={Linking of straight Neighbours in {\tt path.c}}
 %
 The same function also initially sets the {\tt movecost}
 (\emph{cost to reach}) to 4095 ({\tt 0xFFF}) for all \emph{nodes},
-except for the starting \emph{node}.
-This effectively limits the map size we can handle, but can be expanded later on.
-And lets {\tt parent} point to {\tt NULL}.
+except for the starting \emph{node},
+and lets {\tt parent} point to {\tt NULL}.
 This can be seen in Listing \ref{lst:movecost}.
 
 \lstinputlisting
@@ -288,13 +292,15 @@ and a {\tt currNode} as our current \emph{node}.
 The algorithm loops through all \emph{nodes},
 until it reaches the finish \emph{node}.
 We implemented this as a {\tt while} loop.
-To prevent the algorithm from looping infinitely in case of a subtle error,
-we increment a counter {\tt deadcount} every iteration
+
+To prevent the algorithm from looping infinitely,
+in case of a subtle error,
+we increment a counter {\tt deadcount} on every iteration
 and check whether it surpasses the amount of \emph{nodes}.
 
 Inside the loop we check for every \emph{neighbour},
 whether a pointer to it exists
-and whether its \emph{cost to reach} is bigger than it would be from the current \emph{node}.
+and whether its \emph{cost to reach} is higher than it would be from the current \emph{node}.
 In the case that both statements are true,
 we update \todo{overwrite?} the neighbours \emph{cost to reach}
 and \emph{parent}.
@@ -311,7 +317,7 @@ label=lst:path,	%label
 caption={Calculating the Path in {\tt path.c}}
 ]{code/path.c}
 %
-After we looked through all neighbours of a \emph{node},
+After looking through all neighbours of a \emph{node},
 it can be pushed onto the {\tt checked} stack.
 And the next node has to be popped from the {\tt unchecked} queue,
 before looping to the start of the {\tt while} again.
@@ -325,7 +331,7 @@ label=lst:node_calc,	%label
 caption={Pushing and Popping Nodes in {\tt path.c}}
 ]{code/path.c}
 %
-After looking through all \emph{nodes} leading to the finish \emph{node},
+When all \emph{nodes} leading to the finish \emph{node} have been checked,
 the full path is in the {\tt checked} stack.
 But also every other \emph{node} with a smaller \emph{cost to reach}.
 The top element on the stack is also the finish \emph{node},
@@ -333,7 +339,7 @@ so the first movement gets described in the bottom of the stack.
 
 This means it is necessary to sort through the stack,
 and to only keep the necessary \emph{nodes}.
-While doing this we can immediately calculate the movements to be done,
+While doing this we can immediately calculate the movements to be done
 and put them on a new stack.
 Since the \emph{node}-stack had the finish \emph{node} at the top,
 the movement stack will have the finish movement at the bottom.
@@ -344,7 +350,7 @@ Movement can be seen as a vector,
 where a change in X coordinate shows movement along the North-South axis,
 and change in Y coordinate shows movement along the East-West axis.
 If only one axis changes, the resulting movement is straight,
-ff change happens on both axis, it is diagonal.
+if change happens on both axes, it is diagonal.
 
 \lstinputlisting
 [firstline=145,			%starts reading the file from line 64
