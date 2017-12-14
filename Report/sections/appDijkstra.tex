@@ -3,7 +3,8 @@
 \section*{Dijkstra}
 
 \subsection*{Code}
-\lstinputlisting[language=C]{code/path.c}
+\lstinputlisting[language=C,caption={\tt defs.h}]{code/defs.h}
+\lstinputlisting[language=C,caption={\tt path.c}]{code/path.c}
 
 \newpage
 \subsection*{Algorithm}
@@ -13,8 +14,13 @@
 		\centering
 		\foreach \dijk in {1,2,3,4,5}
 		{
+		\centering
 			\subfloat[\dijk. Step]{
-				\includegraphics[width=0.4\textwidth]{figures/path/dijk_\dijk}
-			}
+				\includegraphics[
+				width=0.15\textheight,
+				angle=90
+				]{figures/path/dijk_\dijk}
+			}\\
 		}
+		\todo{check what side is outside, change angle}
 \end{figure}
