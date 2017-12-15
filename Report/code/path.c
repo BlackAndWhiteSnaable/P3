@@ -19,16 +19,16 @@ void path_set_neighbors(Robot *robot) {
         {robot->map.node[i][j].w=&robot->map.node[i][j-1];}
       else {robot->map.node[i][j].w=NULL;}
 
-      if (!(robot->map.node[i][j].walls & NE))
+      if (!(robot->map.node[i][j].walls & NE))  //NE exists
         {robot->map.node[i][j].ne=&robot->map.node[i-1][j+1];}
       else {robot->map.node[i][j].ne=NULL;}
-      if (!(robot->map.node[i][j].walls & SE))
+      if (!(robot->map.node[i][j].walls & SE))  //SE exists
         {robot->map.node[i][j].se=&robot->map.node[i+1][j+1];}
       else {robot->map.node[i][j].se=NULL;}
-      if (!(robot->map.node[i][j].walls & SW))
+      if (!(robot->map.node[i][j].walls & SW))  //SW exists
         {robot->map.node[i][j].sw=&robot->map.node[i+1][j-1];}
       else {robot->map.node[i][j].sw=NULL;}
-      if (!(robot->map.node[i][j].walls & NW))
+      if (!(robot->map.node[i][j].walls & NW))  //NW exists
         {robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];}
       else {robot->map.node[i][j].nw=NULL;}
 
@@ -65,7 +65,7 @@ void path_calculate(Robot *robot) {
     if (currNode==NULL){
       printf("[WARN]\tsomething went wrong, current node is NULL\n");
       break;
-    }
+    } //catches NULL pointers
     if (deadcount++>=(robot->map.nSize.x)*(robot->map.nSize.y)){
         printf("[ERROR]\tEVERYTHING WENT WRONG, looping\n"); return;
     } //catching infinite loops
@@ -152,9 +152,9 @@ void path_calculate_movement(Robot *robot){
     //----------------------Generate Movement---------------------//
     move=0;   //resets move, then adds all movements together
     if (ownX<parX) move+=N;         //Something North
+    else if (ownX>parX) move+=S;    //Something South
     if (ownY>parY) move+=E;         //Something East
-    if (ownX>parX) move+=S;         //Something South
-    if (ownY<parY) move+=W;         //Something West
+    else if (ownY<parY) move+=W;    //Something West
 
     //------------------Detect Diagonal Movement------------------//
     if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){

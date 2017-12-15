@@ -1,6 +1,6 @@
 \chapter{Pathfinding}\label{ch:path}
 Pathfinding is generally the process of finding a path from a starting point \emph{A}
-to a destination \emph{B},
+to a destination \emph{B}
 on a map.
 Handling the map is explained in Chapter \ref{ch:map}.
 
@@ -16,11 +16,11 @@ most convenient or any number of other qualifiers.
 Since our robot has approximately equal movement speed in all used directions,
 the shortest time path can be approximated as the shortest distance path.
 
-We chose to start implementing Dijkstra's shortest path algorithm,
+We chose to start with implementing Dijkstra's shortest path algorithm,
 since it is fairly simple to understand and can be used as a baseline for better,
 more complex algorithms, like A*.
 
-This chapter will explain the basics of different path finding approaches,
+This chapter will explain the basics of different path-finding approaches,
 going more into detail on the ones we chose to implement for testing.
 
 \section{Graphs}
@@ -155,7 +155,7 @@ which gets explained in Section \ref{sec:astar}.
 
 \section{A*}\label{sec:astar}
 A* uses Dijkstra's algorithm as a baseline,
-but adds one more step in calculating.
+but adds one more step to the calculation.
 Just like in Dijkstra, the \emph{cost to reach} gets calculated iteratively,
 with the same iteration method.
 But in A* there is also another value added to that sum,
@@ -163,9 +163,10 @@ this value is often called \emph{heuristic}.
 It is used to point the algorithm towards the finish node,
 and is often the \emph{Euclidean Distance} distance from each node to the finish.
 \cite{PoundStar}
+
 The \emph{Euclidean Distance},
 is the distance as the crow flies.
-It can be calculated with help of the Pythagorean Theorem:
+It can be calculated with help of the Pythagorean Theorem as shown in Example \ref{ex:pyth_eucl}.
 \begin{example}{Pythagorean Theorem used for Euclidean Distance}
   \label{ex:pyth_eucl}
   \begin{equation}
@@ -174,7 +175,7 @@ It can be calculated with help of the Pythagorean Theorem:
 \end{example}
 
 
-\section{Pathfinding on a grid}
+\section{Pathfinding on a Grid}
 Pathfinding on a grid is slightly different to pathfinding on a regular map,
 because all \emph{nodes} tend to have the same amount of neighbours,
 and all \emph{edges} have the same or similar \emph{distances}.
@@ -182,30 +183,35 @@ and all \emph{edges} have the same or similar \emph{distances}.
 In our case \emph{distances} vary between $1$ and $\sqrt{2}$,
 the former in the case of vertical or horizontal movement,
 the latter for diagonal movement.
+We decided to round the diagonal \emph{distances} to $14\simeq10*\sqrt{2}$ and
+the straight \emph{distances} to $10=10*1$.
+
 Figure \ref{fig:graph_cost} shows the similarities between connections on a grid-based graph.
-because of this, the Dijkstra algorithm is losing its major advantage over a simple flood fill.
+Because of the similar \emph{distances},
+the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{figures/path/graph_values.pdf}
 	\caption{Graph with Labelled Edges}
 	\label{fig:graph_cost}
 \end{figure}
-
+%
+\todo[inline]{talk about A* and lead into heuristics}
 On a grid, it makes little sense to use the \emph{euclidean distance}.
 Because movement is very restricted,
 and can only be a multiple of the possible \emph{distances}.
 Here it could make more sense to use the \emph{Manhattan Distance},
-because that actually represents the minimal possible path.
+because that actually represents a possible path.
 The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{ex:manhattan}.
 \begin{example}{Manhattan Distance}
   \label{ex:manhattan}
   \begin{equation}
-	|X_{A}-X_{B}|+|Y_{A}-Y_{B}|
+	|A_{X}-B_{X}|+|A_{Y}-B_{Y1}|
   \end{equation}
 \end{example}
 
 
-\section{Our implementation}\label{sec:path_implement}
+\section{Implementation}\label{sec:path_implement}
 Our explanation of the implementation relies heavily on our program written in C.
 Every function explained in this section can also be read in Appendix \ref{app:path}.
 
@@ -217,7 +223,8 @@ The \emph{Most Significant Nibble (MSN)} represents the diagonal directions NE,S
 Some example bytes can be seen in Table \ref{tab:wallbyte}.
 
 \begin{table}[h!]
-\caption{Examples of Bytes representing Walls}
+\caption{Examples of Bytes representing Walls\\{\scriptsize
+path gets stored as 0, WALL as 1}}
 \begin{center}
 	\begin{tabular}{|*{8}{m{1cm}|}|l|}
 		\hline%-------------------------------
@@ -225,7 +232,7 @@ Some example bytes can be seen in Table \ref{tab:wallbyte}.
 		\hline%-------------------------------
 		path & path & path & path & path & path & path & WALL & 0x01\\
 		path & path & path & path & path & path & WALL & path & 0x02\\
-		path & path & path & path & path & path & WALL & WALL & 0x03\\
+		path & path & path & path & path & WALL & WALL & WALL & 0x07\\
 		path & path & path & path & WALL & WALL & WALL & path & 0x0E\\
 		\hline%-------------------------------
 		path & path & path & WALL & path & path & path & path & 0x10\\
@@ -241,9 +248,9 @@ Some example bytes can be seen in Table \ref{tab:wallbyte}.
 Listing \ref{lst:defsHBytes} shows how we define the different directions in our program.
 
 \lstinputlisting
-[firstline=12,			%starts reading the file from line 12
-firstnumber=12,			%starts counting the lines in pdf from 12
-lastline=20,			%stops reading the file at line 20
+[firstline=11,			%starts reading the file from line 11
+firstnumber=11,			%starts counting the lines in pdf from 11
+lastline=18,			%stops reading the file at line 18
 label=lst:defsHBytes,	%label
 caption={Definition of Directions in {\tt defs.h}}
 ]{code/defs.h}
@@ -264,14 +271,14 @@ because the diagonal neighbours work basically the same.
 [firstline=9,			%starts reading the file from line 9
 firstnumber=9,
 lastline=20,			%stops reading the file at line 20
-label=lst:linking,	%label
+label=lst:linking,		%label
 caption={Linking of straight Neighbours in {\tt path.c}}
 ]{code/path.c}
 %
 The same function also initially sets the {\tt movecost}
 (\emph{cost to reach}) to 4095 ({\tt 0xFFF}) for all \emph{nodes},
 except for the starting \emph{node},
-and lets {\tt parent} point to {\tt NULL}.
+and points {\tt parent} to {\tt NULL}.
 This can be seen in Listing \ref{lst:movecost}.
 
 \lstinputlisting
@@ -321,7 +328,7 @@ After looking through all neighbours of a \emph{node},
 it can be pushed onto the {\tt checked} stack.
 And the next node has to be popped from the {\tt unchecked} queue,
 before looping to the start of the {\tt while} again.
-This can be seen in Listing \ref{lst:node_calc}.
+This is done in Listing \ref{lst:node_calc}.
 
 \lstinputlisting
 [firstline=127,			%starts reading the file from here
@@ -359,3 +366,5 @@ label=lst:move_calc,	%label
 caption={Pushing and Popping Nodes in {\tt path.c}}
 ]{code/path.c}
 %
+\section{Perspective}
+\todo[inline]{write about byte stuff to save resources}
