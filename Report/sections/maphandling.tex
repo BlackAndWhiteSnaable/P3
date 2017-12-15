@@ -1,5 +1,12 @@
 % Introduction
 
+% ??? NEED block diagram of go()! check map? scan: yes/no? save map, move etc. (use that online code to block diagram tool)
+% ??? Descripe framework in a section (see gdocs for input to block diagram) (or present at exam)
+% ??? Mention we chose to focus on making our own code with the least use of finished libraries as possible, no error handling 
+% ??? Mention the report will explain important aspects of out work and theoretical parts, 
+%     while the finished product is a prototype and the code in the appendix
+% 
+% https://en.wikipedia.org/wiki/Rescue_robot
 % Problem:
 % - Problem and analysis:
 % - System diagram (what we want to build):
@@ -27,8 +34,8 @@
 
 \chapter{Map Handling}
 \label{ch:map} % chapter label
-The rescue robot should be able follow a given path from start to finish, based on a predefined map.
-A map provides useful information about whether areas of the map are accessible or not. This is an important element in path-finding.
+The rescue robot should be able follow a given path from start to finish, based on a predefined map given as input.
+A map provides useful information about whether areas of the map are accessible or not, which is important for path-finding.
 Map data can be given to the robot prior to its physical presence at a location. Once the robot is at the starting point, it has to rely on its sensors for updated information about the surroundings.
 
 A structured way of storing the required map data for different maps was designed. 
@@ -40,7 +47,7 @@ but also allow easy user input.
 %The pathfinding algorihtm implemented in this project is further described in chapter \ref{ch:path}.
 
 \newpage
-\section{Map requirements}
+\section{Map Requirements}
 \label{ch:map_requirements}
 Maps can be found in a lot of different styles,
 varying in how they represent specific informations.
@@ -94,39 +101,43 @@ as well as some areas that have been delimited from.
 \end{table}
 
 
-\section{Map coordinates}
+\section{Map Coordinates}
 \label{sec:map_coordinates} % section label
-During the theoretical development we often used hand-drawn 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
 
-To convert an analog map into a digital representation, a 2D array was used as data structure for storing map information. A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 2D arrays and matrices are very similar, but differ in how elements are indexed. As seen in Figure \ref{sub:2d_array}, indexing for a 2D array starts with zero, and x- and y-axes for rows and columns (typically named i and j) are switched.  
+During the theoretical development 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
 
+For converting such analog maps into a usable digital representation, we chose to use 2D arrays as data structure for storing maps. A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 2D arrays and matrices are very similar, but differ in how elements are indexed. As seen in Figure \ref{sub:2d_array}, indexing for a 2D array starts with zero, and x- and y-axes for rows and columns (typically named i and j) are switched.  
+
+The differences in the indexing of the two discussed methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}.
 \begin{figure}[htp]
     \centering
     \subfloat[2D grid map]{%
-        \includegraphics[width=0.4\textwidth]{figures/map/2d-map.png}%
+        \includegraphics[width=0.45\textwidth]{figures/map/2d-map.png}%
         \label{sub:2d_map}
         }%  
-    \hspace{0.1\textwidth}  
+    \hspace{0.05\textwidth}  
     \subfloat[2D array]{%
-        \includegraphics[width=0.4\textwidth]{figures/map/2d-array.png}%
+        \includegraphics[width=0.45\textwidth]{figures/map/2d-array.png}%
         \label{sub:2d_array}
         }%
     \caption{Difference in indexing for a 2D grid map and a 2D array}
     \label{fig:floor_plans}
 \end{figure}
-
 %https://i.stack.imgur.com/tFdLk.gif
-The differences in the indexing of the two discussed methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}.
 
 Since 2D arrays have rows first and columns second for indexing, we decided to switch the x- and y-axes in the programming part. This way the map sections stored in the 2D array can be accessed by an index style similar to the 2D grid map.
 \\
-map[i][j], where i = map column(n) and j = map row (n) 
-\todo{make some fancy code magic here}
 \\
+\subsection*{Code}\label{app:code}
 
+\begin{lstlisting}
+Put your code here.
+\end{lstlisting}
 
+Array: map[i][j], where i = map x coordinate and j = map y coordinate 
+\todo{make some fancy code magic here}
 
-\section{Map design}
+\section{Map Design}
 \label{sec:map_design} % section label
 Subsections?\\
 - wall hex
@@ -138,17 +149,17 @@ Explain how to store wall as hex value?\\
 \begin{figure}[htp]
     \centering
     \subfloat[ASCII]{%
-        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_ascii.png}%
+        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_ascii-2.png}%
     }
     \hspace{0.2\textwidth}
     \subfloat[UTF8]{%
-        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_utf8.png}%
+        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_utf8-2.png}%
     }
     \caption{5x5 map}
     \label{fig:5x5map}
 \end{figure}
 
-\section{Check map}
+\section{Check Map}
 \label{sec:map_check} % section label
 Remember we have a chapter dedicated to scan.\linebreak
 Based on scenario things might have dramatically changed, even to the point of map being useless. Explain how map is updated.
