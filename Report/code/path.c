@@ -18,7 +18,7 @@ void path_set_neighbors(Robot *robot) {
       if (!(robot->map.node[i][j].walls & W))   //WEST exists
         {robot->map.node[i][j].w=&robot->map.node[i][j-1];}
       else {robot->map.node[i][j].w=NULL;}
-
+      //------------------------ DIAGONALS------------------------//
       if (!(robot->map.node[i][j].walls & NE))  //NE exists
         {robot->map.node[i][j].ne=&robot->map.node[i-1][j+1];}
       else {robot->map.node[i][j].ne=NULL;}
