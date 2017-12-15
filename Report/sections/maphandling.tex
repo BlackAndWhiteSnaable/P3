@@ -103,6 +103,7 @@ as well as some areas that have been delimited from.
 
 \section{Map Coordinates}
 \label{sec:map_coordinates} % section label
+During the theoretical development we often used hand-drawn 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
 
 During the theoretical development 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
 
@@ -124,6 +125,7 @@ The differences in the indexing of the two discussed methods can be seen by comp
     \label{fig:floor_plans}
 \end{figure}
 %https://i.stack.imgur.com/tFdLk.gif
+The differences in the indexing of the two discussed methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}.
 
 Since 2D arrays have rows first and columns second for indexing, we decided to switch the x- and y-axes in the programming part. This way the map sections stored in the 2D array can be accessed by an index style similar to the 2D grid map.
 \\
