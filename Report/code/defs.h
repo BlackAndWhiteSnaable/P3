@@ -6,8 +6,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define ROBOT_NAME "MazeRunner"
-#define MAP_FILENAME "testmap.txt"
+#define MAP_FILENAME "testmap.txt"  //map to load
 
 #define N   0x01
 #define E   0x02
@@ -20,11 +19,11 @@
 
 typedef struct {
   int x,y;
-} Point;
+} Point;                        // a point, consisting of two integers
 
 typedef struct Node {
   Point position;               // Nodes own x,y position on node map
-  struct Node *n,*e,*s,*w;      // Pointers to neighbors vertical/horizontal
+  struct Node *n,*e,*s,*w;      // Pointers to neighbors straight
   struct Node *nw,*ne,*se,*sw;  // Pointers to neighbors diagonal
   struct Node *parent;          // Pointer to parent node
   unsigned char walls;          // Hex value for the 8 walls
@@ -32,37 +31,27 @@ typedef struct Node {
 } Nodes;
 
 typedef struct {
-  Point start;
-  Point finish;
-  Point size; // Size is amount of segments in the map
-  //Point num_nodes; // number of nodes in the map
-  unsigned char **segments; // 2D array of the map data from text file (user input)
-  Nodes **node; // 2D array of each node's 8 neighbours represented in a hex value
+  Point start;                  //starting position
+  Point finish;                 //finish position
+  Point size;                   //amount of segments in the map
+  //Point num_nodes;            // number of nodes in the map
+  unsigned char **segments;     // 2D array of the map data from file
+  Nodes **node;                 // 2D array of nodes
 } Maps;
 
 typedef struct element {
-    Nodes *node;      // Pointer to the map node
-	struct element *next; // next element in queue
+  Nodes *node;                  // Pointer to the map node
+	struct element *next;         // next element in queue
 } Queue, Stack;
-/*
-typedef struct {
-	int num;        // Number of elements in stack
-	Queue *head;   // Queue start
-} TopQueue;
-*/
+
 typedef struct {
   Point pos;
   Maps map;
-  Queue *unchecked; // Head of queue for unchecked nodes
-  Queue *checked; // Head of stack for checked nodes
+  Queue *unchecked;             // Head of queue for unchecked nodes
+  Queue *checked;               // Head of stack for checked nodes
 } Robot;
 
-
-
-
-/*
-Function declarations
-*/
+//---------------------------- FUNCTIONS----------------------------//
 
 // Robot
 void go();
@@ -84,10 +73,10 @@ unsigned char scan();
 void move_next(Robot *robot);
 
 // Priority queue
-void pushQ(Queue **HoQ, Nodes *new_node);  // add element on the stack
-void pop(Queue *tq); // removes element from top of stack
-void printQueue(Queue *tq); //prints the elements in the stack
-void emptyQueue(Queue *tq); // empties the stack using the pop operation
+void pushQ(Queue **HoQ, Nodes *new_node); //add element on the stack
+void pop(Queue *tq);                      //pops element from stack
+void printQueue(Queue *tq);               //prints stack
+void emptyQueue(Queue *tq);               //pops whole stack
 //void push(int queue, Nodes *node); // temp
 
 // Pathfinding
