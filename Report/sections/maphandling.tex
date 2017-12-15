@@ -103,9 +103,15 @@ as well as some areas that have been delimited from.
 
 \section{Map Coordinates}
 \label{sec:map_coordinates} % section label
-During the theoretical development we often used hand-drawn 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
+During the theoretical development we often used hand-drawn 2D grid maps as depicted in Figure \ref{sub:2d_map}.
+It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
 
 During the theoretical development 2D (two-dimensional) grid maps as depicted in Figure \ref{sub:2d_map}. It allows for any object to have a location on the grid, and can easily be referred to by its unique coordinate in the x and y dimensions. 
+To convert an analog map into a digital representation, a 2D array was used as data structure for storing map information.
+A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns.
+2D arrays and matrices are very similar, but differ in how elements are indexed.
+As seen in Figure \ref{sub:2d_array}, indexing for a 2D array starts with zero, and x- and y-axes for rows and columns (typically named i and j) are switched.
+\todo{element 3,4 now is at a different location, explain outcome}
 
 For converting such analog maps into a usable digital representation, we chose to use 2D arrays as data structure for storing maps. A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 2D arrays and matrices are very similar, but differ in how elements are indexed. As seen in Figure \ref{sub:2d_array}, indexing for a 2D array starts with zero, and x- and y-axes for rows and columns (typically named i and j) are switched.  
 
@@ -169,6 +175,7 @@ Based on scenario things might have dramatically changed, even to the point of m
 \section{Implementation}
 \label{sec:map} % section label
 Code here, or parts of code under each section?\\
+Code here!
 \\
 Like with many others,
 is the first step in Dijkstra's algorithm to reduce the map to the necessary minimum.
