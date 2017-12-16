@@ -367,4 +367,57 @@ caption={Pushing and Popping Nodes in {\tt path.c}}
 ]{code/path.c}
 %
 \section{Perspective}
-\todo[inline]{write about byte stuff to save resources}
+\subsection{Efficiency}
+Path-finding is the most resource-heavy calculation in the whole system,
+and will likely be executed several times while running.
+Because of that we wanted to at least think about and discuss efficiency.
+
+Our current approach takes use of pointers a lot,
+often iterating through several substructs.
+Listing \ref{lst:pointer_access} shows code with multiple pointer access per line,
+varying from 2 to 4 for a single line.
+Similar code to this listing gets executed up to 8 times per \emph{node},
+for every \emph{node} with a lower \emph{cost to reach} than the finish \emph{node},
+to check for every direction whether moving there would be shorter.
+
+\lstinputlisting
+[firstline=84,				%starts reading the file from this line
+firstnumber=84,
+lastline=88,
+label=lst:pointer_access,	%label
+caption={Accessing several Fields through multiple Pointers in {\tt path.c}}
+]{code/path.c}
+%
+When implementing Dijkstra's algorithm or A*,
+there is no need to look at an already checked \emph{node}.
+It could therefore be an option to remove all pointers to a node,
+when pushing it to the checked stack.
+
+In our current implementation,
+those pointers can only be set to {\tt NULL} after finding them through another pointer lookup.
+We are already doing this in line 87 in Listing \ref{lst:pointer_access},
+when removing the reference to the parent as a neighbour,
+to remove redundant information and ease the lookup procedure.
+
+The whole part of linking the \emph{nodes} to their neighbours,
+as explained in \ref{lst:linkingByte},
+uses the aforementioned {\tt walls} byte,
+to compute in what directions to link.
+
+\lstinputlisting
+[firstline=7,				%starts reading the file from this line
+firstnumber=7,
+lastline=20,
+label=lst:linkingByte,	%label
+caption={Accessing several Fields through multiple Pointers in {\tt path.c}}
+]{code/path.c}
+%
+Because our \emph{nodes} are organized in a 2D-array,
+this includes array and pointer lookups,
+simple arithmetic and
+bitwise comparison
+to find both \emph{nodes} and link them.
+
+\subsection{Design flaws}
+edges are defined twice, from both nodes
+\todo[inline]{finish this sector}
