@@ -55,9 +55,9 @@ void map_save(Robot *robot) {
   //
   // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
   // a 5x5 array must be used to hold the values
-
-
 void map_load(Robot *robot) {
+  // for first 2 lines all characters into an array = string (skip for now)
+  //
   // for map segments read character by character into array (forget size and malloc to begin with?)
   // where 1st character is stored in [0][0] next in [0][1] and so on
   // first character on next line in [1][0]
@@ -69,6 +69,12 @@ void map_load(Robot *robot) {
   FILE *myfile = fopen(MAP_FILENAME, "r");
 
   // Count number of lines and number of characters per line (last line)
+  //
+  // Reading the file twice is seems like a good method for now,
+  // it is quick for small files and does not take up unnescesarry memory.
+  //
+  // Other options could be to call malloc/realloc for each character
+  // or to have a buffer large enough to hold map data of any size.
   int rows = 1;       // Counts newlines, 1 because last line has no \n
   int cols = 0;       // Counts characters in each line
   int c;              // Holds each character as it is read from file
@@ -87,6 +93,7 @@ void map_load(Robot *robot) {
 
   // Allocate memory for the 2D array with size of rows and cols
   // malloc() allocates single block of memory
+  // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
   // sizeof() returns size in bytes of the object representation of type
   unsigned char **array; // Pointer to array
   array = malloc(rows * sizeof(char*));
@@ -118,7 +125,7 @@ void map_load(Robot *robot) {
         printf("[INFO]\tFinish position: [%2d][%2d]\n", robot->map.finish.x, robot->map.finish.y);
       }
     }
-    fgetc(myfile); // Skip last character in the line (newline)
+    fgetc(myfile); // Skip last character in each line (newline)
   }
   fclose(myfile);
 
@@ -314,3 +321,9 @@ void map_print_node(Nodes *node){
     printf("[INFO]\t\t\t0x%02x\n\n",move);
   } else printf("\n[INFO]\tNode [%2i][%2i] has no parent\n\n",ownX ,ownY);
 }
+
+  // a 5x5 array must be used to hold the values
+  
+  // Count number of lines and number of characters per line (last line)
+  // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
+  // sizeof() returns size in bytes of the object type
