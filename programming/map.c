@@ -59,27 +59,15 @@ void map_save(Robot *robot) {
   //
   // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
   // a 5x5 array must be used to hold the values
+  
 void map_load(Robot *robot) {
-  // for first 2 lines all characters into an array = string (skip for now)
-  //
-  // for map segments read character by character into array (forget size and malloc to begin with?)
-  // where 1st character is stored in [0][0] next in [0][1] and so on
-  // first character on next line in [1][0]
-  //
-  // when that is stored then we can always print out that map again
-  // first node/position will be at 1,1 next at 1,4
 
   // Open file
   // *myfile is a pointer to a FILE object
   FILE *myfile = fopen(MAP_FILENAME, "r");
 
-  // Count number of lines and number of characters per line (last line)
-  //
-  // Reading the file twice is seems like a good method for now,
-  // it is quick for small files and does not take up unnescesarry memory.
-  //
-  // Other options could be to call malloc/realloc for each character
-  // or to have a buffer large enough to hold map data of any size.
+  // Count number of lines and number of characters per line
+  
   int rows = 1;       // Counts newlines, 1 because last line has no \n
   int cols = 0;       // Counts characters in each line
   int c;              // Holds each character as it is read from file
@@ -99,7 +87,7 @@ void map_load(Robot *robot) {
   // Allocate memory for the 2D array with size of rows and cols
   // malloc() allocates single block of memory
   // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
-  // sizeof() returns size in bytes of the object representation of type
+  // sizeof() returns size in bytes of the object type
   unsigned char **array; // Pointer to array
   array = malloc(rows * sizeof(char*));
   for (int i = 0; i < rows; i++) array[i] = calloc(cols, sizeof(char));
@@ -131,7 +119,7 @@ void map_load(Robot *robot) {
         printf("Finish position: %d.%d\n", robot->map.finish.x, robot->map.finish.y);
       }
     }
-    fgetc(myfile); // Skip last character in the line (newline)
+    fgetc(myfile); // Skip last character in each line (newline)
   }
   fclose(myfile);
 
