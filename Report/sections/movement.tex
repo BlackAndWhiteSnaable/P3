@@ -343,7 +343,7 @@ the microcontroller and the motors, and make for a better alternative than direc
 motors from the microcontroller.
 \begin{figure}[htp]
 	\centering
-	\includegraphics[scale=1,angle=90]{figures/move/driver_board}
+	\includegraphics[scale=0.6]{figures/move/driver_board}
 	\caption{Driver Board}
 \end{figure}
 \section{Wheels}\label{sec:wheels}
@@ -543,13 +543,11 @@ required for moving in any of the eight directions.
 		\hline
 	\end{tabular}
 	\label{tab:directions}
-\end{table}
-\begin{table}[htp]
-	\centering
 	\caption{Direction Signals}
 	\begin{tabular}{|l|c|c|c|c|}
 		\hline
-		Direction & $A_{Enable}$ & $A_{Direction}$ & $B_{Enable}$ & $B_{Direction}$ \\
+		Direction & $A_{Enable}$ & $A_{Direction}$ & $B_{Enable}$ & 
+		$B_{Direction}$ \\
 		\hline
 		North 		& 1 & 0 & 1 & 0 \\
 		East 		& 1 & 0 & 1 & 1 \\
@@ -565,3 +563,5 @@ required for moving in any of the eight directions.
 	\label{tab:directions_signal}
 \end{table}
 \vfill
+\newpage
+\section{Implementation}\label{sec:movement_implementation}
