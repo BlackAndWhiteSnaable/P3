@@ -16,12 +16,15 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 	\label{fig:angle} 
 \end{figure}
 
-Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360$^\circ$ 
+Figure \ref{fig:angle} represents a stepper motor that requires 4 
+steps to complete a 360$^\circ$ 
 rotation. This determines the step angle to be 90$^\circ$.
 \newpage
-The main components of a stepper motor are represented in Figure \ref{fig:main_components}, and 
+The main components of a stepper motor are represented in Figure 
+\ref{fig:main_components}, and 
 they consist of stators, windings(phases), and rotor.
-Attached to the output axle is the rotor, depending on the type of motor it can be magnetized.
+Attached to the output axle is the rotor, depending on the type of 
+motor it can be magnetized.
 
 \begin{figure}[htp]
 	\centering
@@ -31,10 +34,14 @@ Attached to the output axle is the rotor, depending on the type of motor it can 
 \end{figure}
 
 
-By applying a voltage across one of the windings, current will start flowing through it. Using 
-the right-hand rule, the direction of the magnetic flux can be determined. The flux will want to 
-travel through the path that has the least resistance. This determines the rotor to change its 
-position to minimize resistance. This is shown in Figure \ref{fig:flux}.
+By applying a voltage across one of the windings, current will 
+start flowing through it. Using 
+the right-hand rule, the direction of the magnetic flux can be 
+determined. The flux will want to 
+travel through the path that has the least resistance. This 
+determines the rotor to change its 
+position to minimize resistance. This is shown in Figure 
+\ref{fig:flux}.
 
 \begin{figure}[htp]
 	\centering
@@ -51,8 +58,10 @@ position to minimize resistance. This is shown in Figure \ref{fig:flux}.
 \newpage
 \subsection{Types of Stepper Motors}
 \subsubsection{Permanent Magnet Motor}
-This type of stepper motor has a magnetized rotor. Each winding will be subdivided into two, to 
-better understand how to motor functions. Figure \ref{fig:bas_struct} represents the windings, and 
+This type of stepper motor has a magnetized rotor. Each winding 
+will be subdivided into two, to 
+better understand how to motor functions. Figure 
+\ref{fig:bas_struct} represents the windings, and 
 how they are distributed inside a stepper motor.
 
 \begin{figure}[htp]
@@ -68,8 +77,10 @@ how they are distributed inside a stepper motor.
     \label{fig:bas_struct} 
 \end{figure}
 
-The resolution of the motor can be improved in two ways, either by increasing the number of pole 
-pairs in the rotor itself, or by increasing the number of phases as shown in Figure 
+The resolution of the motor can be improved in two ways, either by 
+increasing the number of pole 
+pairs in the rotor itself, or by increasing the number of phases as 
+shown in Figure 
 \ref{fig:inc_res}.
 
 
@@ -88,8 +99,10 @@ pairs in the rotor itself, or by increasing the number of phases as shown in Fig
 \end{figure}
 
 \newpage
-To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is 
-shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phases energized.
+To rotate the motor, simply apply a voltage across the windings in 
+a sequence. A full rotation is 
+shown in Figure \ref{fig:stepping_perm_magn}, with the 
+corresponding phases energized.
 
 \begin{figure}[htp]
     \begin{center}
@@ -125,12 +138,16 @@ shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phases ener
     \end{center}
 \end{figure}
 \subsubsection{Variable Reluctance Motor}
-This type of motor uses a rotor that is not magnetized, and has a number of teeth as seen in 
-Figure \ref{fig:var_rel_components}. The windings are configured differently, as depicted in 
-\ref{fig:var_rel_components}(b), all having a common voltage source but separate ground 
+This type of motor uses a rotor that is not magnetized, and has a 
+number of teeth as seen in 
+Figure \ref{fig:var_rel_components}. The windings are configured 
+differently, as depicted in 
+\ref{fig:var_rel_components}(b), all having a common voltage source 
+but separate ground 
 connections.
 They usually have 3 or 5 windings.
-Greater precision can be achieved by adding more teeth to the rotor.
+Greater precision can be achieved by adding more teeth to the 
+rotor.
 
 \begin{figure}[htp]
     \centering%
@@ -146,13 +163,18 @@ Greater precision can be achieved by adding more teeth to the rotor.
 \end{figure}
 \newpage
 
-To spin the motor, each winding is energized one at a time, and the rotor rotates to minimize 
+To spin the motor, each winding is energized one at a time, and the 
+rotor rotates to minimize 
 reluctance as explained before.
-Some of the differences, between this type of stepper motor and the permanent magnet motor, are 
-that, in order to spin the motor in a direction, the windings have to be energized in a reverse 
-sequence as opposed to the direction of the spin, as depicted in Figure \ref{fig:stepping_var_rel}.
+Some of the differences, between this type of stepper motor and the 
+permanent magnet motor, are 
+that, in order to spin the motor in a direction, the windings have 
+to be energized in a reverse 
+sequence as opposed to the direction of the spin, as depicted in 
+Figure \ref{fig:stepping_var_rel}.
 
-In addition, variable reluctance motors have twice the precision of permanent magnet motors with 
+In addition, variable reluctance motors have twice the precision of 
+permanent magnet motors with 
 the same amount of windings.
 \begin{figure}[htp]
     \begin{center}
@@ -205,7 +227,7 @@ of the rotor. Both can be observed in Figure \ref{fig:stepper}.
 \begin{figure}[htp]
     \centering%
     \subfloat[Interleaved Teeth]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor28.png}%
+        \includegraphics[width=0.3\textwidth]{figures/move/motor28.png}%
         }%
     \hfill%
     \subfloat[Stepper Motor Inside]{%
@@ -543,10 +565,18 @@ required for moving in any of the eight directions.
 		\hline
 	\end{tabular}
 	\label{tab:directions}
+\end{table}
+
+\newpage
+
+\begin{table}[htp]
+	\centering
+	\vspace{-5mm}
 	\caption{Direction Signals}
 	\begin{tabular}{|l|c|c|c|c|}
 		\hline
-		Direction & $A_{Enable}$ & $A_{Direction}$ & $B_{Enable}$ & 
+		Direction & $A_{Enable}$ & $A_{Direction}
+		$ & $B_{Enable}$ & 
 		$B_{Direction}$ \\
 		\hline
 		North 		& 1 & 0 & 1 & 0 \\
@@ -563,5 +593,70 @@ required for moving in any of the eight directions.
 	\label{tab:directions_signal}
 \end{table}
 \vfill
-\newpage
-\section{Implementation}\label{sec:movement_implementation}
+\clearpage
+\section{Implementation}
+\label{sec:movement_implementation}
+We have used an MSP430 microcontroller to implement 
+and test the
+movement system. Parts of the code will be explained 
+in the 
+following pages. The complete code can be read in 
+Appendix \ref{app:movement}.
+
+Individual functions are called whenever the robot 
+is required to 
+move in one of the eight directions: N, E, S, W, NE, 
+SE, SW, NW.  
+Listing \ref{lst:moveNorthWest} and \ref{lst:moveNorth} show 
+two functions, representing 
+one straight 
+move and one diagonal move. The other behave 
+similarly, the main 
+difference laying in the pairs of wheels used, and 
+their direction.
+
+\lstinputlisting
+[firstline=74,
+firstnumber=74,
+lastline=80,		
+label=lst:moveNorthWest,
+caption={Moving North West}
+]{code/movement.c}
+
+The function enables the pair of wheels needed for moving 
+North West and selects the rotation of the 
+wheels. Changing {\tt P1OUT |= BIT6} to {\tt P1OUT \&=  
+\textasciitilde BIT6}, would determine the robot to move 
+South East instead. The stepping function is called 
+afterwards, determining the robot to move. Lastly, the pair 
+of wheels is deactivated. 
+
+\lstinputlisting
+[firstline=102,
+firstnumber=102,
+lastline=109,		
+label=lst:moveNorth,
+caption={Moving North}
+]{code/movement.c}
+
+The function from Listing \ref{lst:moveNorth} combines both
+{\tt moveNorthEast} and {\tt moveNorthWest} functions.
+It enables both pairs of wheels and determines their
+direction. Setting the direction bits to '0' instead of
+'1' would determine the robot to move South. Similarly, 
+the stepping function is called and the wheels are 
+deactivated afterwards.
+\clearpage
+The {\tt move} function is called, whenever the robot should
+move one direction. The {\tt move} functions further decides
+which way the robot should move based on the hex value given 
+to the function. The hex values for the directions are predefined.
+Listing \ref{lst:move} shows the {\tt move} function.
+ 
+\lstinputlisting
+[firstline=138,
+firstnumber=138,
+lastline=149,		
+label=lst:move,
+caption={Move Function}
+]{code/movement.c}
