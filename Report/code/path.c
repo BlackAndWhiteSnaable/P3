@@ -6,29 +6,29 @@ void path_set_neighbors(Robot *robot) {
   //---------------------------2D for loop--------------------------//
   for (int i = 0; i<(robot->map.size.x-1)/2; i++){
     for (int j=0; j<(robot->map.size.y-1)/2; j++){
-      if (!(robot->map.node[i][j].walls & N))   //NORTH exists
+      if (!(robot->map.node[i][j].walls & North))   //NORTH exists
         {robot->map.node[i][j].n=&robot->map.node[i-1][j];}
       else {robot->map.node[i][j].n=NULL;}
-      if (!(robot->map.node[i][j].walls & E))   //EAST exists
+      if (!(robot->map.node[i][j].walls & East))    //EAST exists
         {robot->map.node[i][j].e=&robot->map.node[i][j+1];}
       else {robot->map.node[i][j].e=NULL;}
-      if (!(robot->map.node[i][j].walls & S))   //SOUTH exists
+      if (!(robot->map.node[i][j].walls & South))   //SOUTH exists
         {robot->map.node[i][j].s=&robot->map.node[i+1][j];}
       else {robot->map.node[i][j].s=NULL;}
-      if (!(robot->map.node[i][j].walls & W))   //WEST exists
+      if (!(robot->map.node[i][j].walls & West))    //WEST exists
         {robot->map.node[i][j].w=&robot->map.node[i][j-1];}
       else {robot->map.node[i][j].w=NULL;}
       //------------------------ DIAGONALS------------------------//
-      if (!(robot->map.node[i][j].walls & NE))  //NE exists
+      if (!(robot->map.node[i][j].walls & NorthEast))   //NE exists
         {robot->map.node[i][j].ne=&robot->map.node[i-1][j+1];}
       else {robot->map.node[i][j].ne=NULL;}
-      if (!(robot->map.node[i][j].walls & SE))  //SE exists
+      if (!(robot->map.node[i][j].walls & SouthEast))   //SE exists
         {robot->map.node[i][j].se=&robot->map.node[i+1][j+1];}
       else {robot->map.node[i][j].se=NULL;}
-      if (!(robot->map.node[i][j].walls & SW))  //SW exists
+      if (!(robot->map.node[i][j].walls & SouthWest))   //SW exists
         {robot->map.node[i][j].sw=&robot->map.node[i+1][j-1];}
       else {robot->map.node[i][j].sw=NULL;}
-      if (!(robot->map.node[i][j].walls & NW))  //NW exists
+      if (!(robot->map.node[i][j].walls & NorthWest))   //NW exists
         {robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];}
       else {robot->map.node[i][j].nw=NULL;}
 
@@ -151,17 +151,17 @@ void path_calculate_movement(Robot *robot){
     parY = currNode->parent->position.y;
     //----------------------Generate Movement---------------------//
     move=0;   //resets move, then adds all movements together
-    if (ownX<parX) move+=N;         //Something North
-    else if (ownX>parX) move+=S;    //Something South
-    if (ownY>parY) move+=E;         //Something East
-    else if (ownY<parY) move+=W;    //Something West
+    if (ownX<parX) move+=North;         //Something North
+    else if (ownX>parX) move+=South;    //Something South
+    if (ownY>parY) move+=East;          //Something East
+    else if (ownY<parY) move+=West;     //Something West
 
     //------------------Detect Diagonal Movement------------------//
-    if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){
-      if      (move==N+E) move=NE;  //North and East
-      else if (move==S+E) move=SE;  //South and East
-      else if (move==S+W) move=SW;  //South and West
-      else if (move==N+W) move=NW;  //North and West
+    if (((move!=North)&&(move!=East)&&(move!=South)&&(move!=West))){
+      if      (move==North+East) move=NorthEast;  //North and East
+      else if (move==South+East) move=SouthEast;  //South and East
+      else if (move==South+West) move=SouthWest;  //South and West
+      else if (move==North+West) move=NorthWest;  //North and West
     }   //now we know the exact moving direction!
     //-------------------Save To Movement Stack-------------------//
     push_move_stack(&robot->movement, move);
