@@ -190,41 +190,56 @@ Nodes represent positions on the map where the robot can move between. The idea 
 
 We found that making the map using UTF8 would require a bit more work, since text editors often add characters to the beginning of the file. 
 This is known as the byte-order-mark (BOM) which indicates the file uses UTF8 encoding. 
-It also uses variable bit-length for characters, between 1-4 bytes [https://en.wikipedia.org/wiki/UTF-8]. 
+It also uses variable bit-length for characters, between 1-4 bytes [https://en.wikipedia.org/wiki/UTF-8].
+\todo{not wikipedia PLEASE!!} 
 This makes reading and storing the map to a file more complicated, which is why we chose to use plain text ASCII.
 
-\section{Reading map from a file}
+\newpage
+\section{Reading Map from a File}
 \label{sec:map_read} % section label %
-The function reads map data from a file and saves it in the map struct.
-Start and finish positions are read from file as well and saved in robot struct.
+The function {\tt map\_load} loads map data from a file and saves it in the {\tt map} struct.
+Start and finish positions are read from file as well and saved in {\tt robot} struct.
 \todo{Write about structs in the beginning of the report}
 
 Functions were made for reading a map, as well as writing an updated map to a text-file. 
-The full code for the functions MAP\_LOAD and MAP\_SAVE can be seen in Appendix X.\todo{fix these references}
-This was useful for developing and testing the subsystem, on a computer locally. 
-Implementing reading and writing to a file on the microprocessor, would require it to have a file system. 
+The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.\todo{fix these references}
+\todo[inline]{listing showing parts of these functions}
+This was useful for developing and testing the subsystem on a computer. 
+Implementing reading and writing to a file on the microprocessor, would require it to have a file system.
 We chose not to implement this functionality, due to the restricted time frame of this project.
 As an alternative, maps can be stored directly in the programming code although it is not user-friendly.
+\todo{as a bad alternative?}
 
+\todo[inline]{something in between, maybe some code?}
 In the C programming language the size of an array must be declared at compile time. 
 The array for the map has to be large enough to hold all the map data.
 Unfortunately the map size and data remains unknown until a map is loaded, which happens at runtime.
 
-The easiest option would be to use a fixed array size, large enough to store maps up until a predefined size. 
-Instead we saw this as an opportunity to get some real hands-on experience by working with dynamic memory allocation and pointers for this application.
+The easiest option would be to use a fixed array size, large enough to store maps up to a predefined size. 
+Instead we saw this as an opportunity to get some experience by working with dynamic memory allocation and pointers for this application.
 
-The required size of the array can be calculated by counting the lines and characters of the map, which is equivalent to the rows and columns needed for the array. A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines, as illustrated in Figure \ref{sub:5x5map}. To store the map, an 11x11 2D array is required. Now that the required array size is known, it can be allocated in the memory.\\
-\\
-Code should be inserted here\\
-\todo{insert code}
-\\
-- Example of allocating 2d array\\
+The required size of the array can be calculated by counting the lines and characters of the map,
+which is equivalent to the rows and columns needed for the array.
+A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines,
+as illustrated in Figure \ref{fig:5x5map}.
+To store the map, an 11x11 2D array is required.
+Now that the required array size is known, it can be allocated in the memory.\\
+\todo[inline]{insert code}
+- Example of allocating 2d array
+
 - putting data in 2d array ???\\
+
+ORDER:\\
+map load\\
+hex values\\
+node map load\\
+scan\\
+map save
 
 \section{Scan Surroundings and Compare to Map}
 \label{sec:map_check} % section label
+\todo{rescuing situation}
 There might be situations where parts of the map, or even the entire map would be incorrect.
-It could be caused by the robot itself, if it lost its orientation. 
 External factors such as an explosion in a building would also change the surroundings dramatically.
  
 After each move of the robot, distance sensors scans the surrounding environment in all possible move-directions.
