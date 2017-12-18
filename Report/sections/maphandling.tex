@@ -170,7 +170,7 @@ This makes it fairly simple and easy-to-understand, and maps can easily be creat
 
 An example of a map with 5x5 nodes can be seen in Figure \ref{sub:map_ascii}, where \# being walls, A being the start, B being the finish, o being nodes, and the white spaces being open spaces. The same map can be seen using UTF8 encoding in Figure \ref{sub:map_utf8}. UTF8 has a more characters to choose from, which makes it easier to read for humans while the plain-text version is easier to read for computers.
 
-Nodes represent positions on the map where the robot can move between. The idea is to allow movement in 8 directions, 4 straight and 4 diagonal, unless a direction is blocked by a wall. Nodes are explained further in Chapter \ref{ch:path}.
+Nodes represent positions on the map where the robot can move between. The idea is to allow movement in eight directions, four straight and four diagonal, unless a direction is blocked by a wall. Nodes are explained further in Chapter \ref{ch:path}.
 
 \begin{figure}[htp]
     \centering
@@ -216,16 +216,23 @@ Instead we saw this as an opportunity to get some real hands-on experience by wo
 The required size of the array can be calculated by counting the lines and characters of the map, which is equivalent to the rows and columns needed for the array. A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines, as illustrated in Figure \ref{sub:5x5map}. To store the map, an 11x11 2D array is required. Now that the required array size is known, it can be allocated in the memory.\\
 \\
 Code should be inserted here\\
+\todo{insert code}
 \\
 - Example of allocating 2d array\\
 - putting data in 2d array ???\\
 
-\section{Check Map}
+\section{Scan Surroundings and Compare to Map}
 \label{sec:map_check} % section label
-Remember we have a chapter dedicated to scan.\linebreak
-Based on scenario things might have dramatically changed, 
-even to the point of map being useless or no map at all. 
-Explain how map is updated.
+There might be situations where parts of the map, or even the entire map would be incorrect.
+It could be caused by the robot itself, if it lost its orientation. 
+External factors such as an explosion in a building would also change the surroundings dramatically.
+ 
+After each move of the robot, distance sensors scans the surrounding environment in all possible move-directions.
+Feedback from each sensor is compared to the corresponding map segments. 
+If changes to the surroundings are detected, the map gets updated and saved to the text-file.
+Every time the map changes, the path finding function is called\todo{insert function name}, to calculate the most efficient path from the robots current location to the finish. \todo{could be used to explain what the robot does, if not just leave it here.}
+
+
 
 \section{Map Save}
 \label{sec:map_save} % section label
