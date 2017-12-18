@@ -368,9 +368,13 @@ caption={Pushing and Popping Nodes in {\tt path.c}}
 %
 \section{Perspective}
 \subsection{Efficiency}
-Path-finding is the most resource-heavy calculation in the whole system,
+Path-finding is the most resource-heavy calculation in our system,
 and will likely be executed several times while running.
 Because of that we wanted to at least think about and discuss efficiency.
+
+Most path-finding algorithms need several variables to be stored and accessed multiple times,
+so we decided to store them in structs for our implementation.
+
 
 Our current approach takes use of pointers a lot,
 often iterating through several substructs.
