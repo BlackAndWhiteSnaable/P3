@@ -370,10 +370,21 @@ caption={Pushing and Popping Nodes in {\tt path.c}}
 \subsection{Efficiency}
 Path-finding is the most resource-heavy calculation in our system,
 and will likely be executed several times while running.
-Because of that we wanted to at least think about and discuss efficiency.
+Because of that we wanted to at least think about and discuss efficiency,
+even though we didn't have the time to implement all of our thoughts on the topic.
 
 Most path-finding algorithms need several variables to be stored and accessed multiple times,
 so we decided to store them in structs for our implementation.
+
+\lstinputlisting
+[firstline=24,				%starts reading the file from this line
+firstnumber=24,
+lastline=31,
+label=lst:structs,	%label
+caption={Declaring a Struct  in {\tt defs.h}}
+]{code/defs.h}
+%
+
 
 
 Our current approach takes use of pointers a lot,
