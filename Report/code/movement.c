@@ -11,9 +11,12 @@
 #define NorthWest       0x80
 
 void stepping(void){
-  unsigned int step = 1, counter = 0;   //defining step and counter variable           
+  unsigned int step = 1, counter = 0;   //defining step and counter 
+                                        //variable           
   CCR0 = 8000;                          //upper limit for the timer
-  TACTL = MC_1 | ID_0 | TASSEL_2 |TACLR;//initializing timer, up mode, divided by 1, source seleect, clear
+  TACTL = MC_1 | ID_0 | TASSEL_2 |TACLR;//initializing timer, up mode
+                                        //divided by 1, source select,
+                                        //clear
   while(counter < 1000){                //number of steps
     while((TACTL & 0x0001) == 0){}      //halfstepping from here down
     TACTL &= ~0x0001;                   //resetting the interrupt flag
@@ -69,74 +72,72 @@ void stepping(void){
 }
 
 void moveNorthWest(void){
-  P1OUT |= BIT5 + BIT6;                                                                                                            
-  stepping();
-  P1OUT &= ~BIT5;
+  P1OUT |= BIT5                         //enable pair of wheels
+  P1OUT |= BIT6;                        //choose direction                                                                                    
+  stepping();                           //call stepping function
+  P1OUT &= ~BIT5;                       //disable pair of wheels
 }
 
 void moveSouthEast(void){
-
-  P1OUT |= BIT5;                        //enable the pair of wheels
+  P1OUT |= BIT5;                        //enable pair of wheels
   P1OUT &= ~BIT6;                       //choose direction
-  stepping();
-  P1OUT &= ~BIT5;
+  stepping();                           //call stepping funtion
+  P1OUT &= ~BIT5;                       //disable pair of wheels
 }
 
 void moveNorthEast(void){
-
-  P1OUT |= BIT7;                        //enable the pair of wheels
+  P1OUT |= BIT7;                        //enable pair of wheels
   P2OUT |= BIT7;                        //choose direction
-  stepping();
-  P1OUT &= ~BIT7;
+  stepping();                           //call stepping funtcion
+  P1OUT &= ~BIT7;                       //disable pair of wheels 
 }
 
 void moveSouthWest(void){
-
   P1OUT |= BIT7;                        //enable the pair of wheels
   P2OUT &= ~BIT7;                       //choose direction
-  stepping();
-  P2OUT &= ~BIT7;
+  stepping();                           //call stepping function
+  P2OUT &= ~BIT7;                       //disable pair of wheels
 }
 
 void moveNorth(void){
-
-  P1OUT |= BIT5 + BIT6 + BIT7;          //enable first pair of wheels                
-  P2OUT |= BIT7;                        //select direction
-  stepping();
-  P1OUT &= ~(BIT5 + BIT7);
+  P1OUT |= BIT5;                        //enable first pair of wheels
+  P1OUT |= BIT6;                        //choose direction
+  P1OUT |= BIT7;                        //enable second pair of wheels
+  P2OUT |= BIT7;                        //choose direction
+  stepping();                           //call stepping funcion
+  P1OUT &= ~(BIT5 + BIT7);              //disable both pairs of wheels
 }
 
 void moveWest(void){
-
-  P1OUT |= BIT5 + BIT6 + BIT7;           //enable first pair of wheels
-  P2OUT &= ~BIT7;                        //select direction                               
-  stepping();
-  P1OUT &= ~(BIT5 + BIT7);
+  P1OUT |= BIT5;                        //enable first pair of wheels
+  P1OUT |= BIT6;                        //choose direction
+  P1OUT |= BIT7;                        //enable second pair of wheels
+  P2OUT &= ~BIT7;                       //choose direction                               
+  stepping();                           //call stepping function
+  P1OUT &= ~(BIT5 + BIT7);              //disable both pairs of wheels
 }
 
 void moveSouth(void){
-
-  P1OUT |= BIT5 + BIT7;                  //enable first pair of wheels
-  P2OUT &= ~BIT7;                        //select direction
-  P1OUT &= ~BIT6;                        //select direction
-  stepping();
-  P1OUT &= ~(BIT5 + BIT7);
+  P1OUT |= BIT5 + BIT7;                 //enable first pair of wheels
+  P1OUT &= ~BIT6;                       //choose direction        
+  P1OUT |= BIT7;                        //enable second pair of wheels
+  P2OUT &= ~BIT7;                       //choose direction
+  stepping();                           //call stepping function
+  P1OUT &= ~(BIT5 + BIT7);              //disable both pairs of wheels
 }
 
 void moveEast(void){
-
-  P1OUT |= BIT5 + BIT7;                  //enable first pair of wheels
-  P2OUT |= BIT7;                         //select direction
-  P1OUT &= ~BIT6;                        //select direction
-  stepping();
-  P1OUT &= ~(BIT5 + BIT7);
+  P1OUT |= BIT5 + BIT7;                 //enable first pair of wheels
+  P1OUT &= ~BIT6;                       //choose direction 
+  P2OUT |= BIT7;                        //enable second pair of wheels
+  P1OUT |= BIT7;                        //choose direction
+  stepping();                           //call stepping function
+  P1OUT &= ~(BIT5 + BIT7);              //disable both pairs of wheels 
 }
-
-
 
 void move(unsigned int x){
   switch(x){
-  case 0x01: moveNorth();       break;
+  case 0x01: moveNorth();       break;  
   case 0x02: moveEast();        break;
   case 0x04: moveSouth();       break;
   case 0x08: moveWest();        break;
