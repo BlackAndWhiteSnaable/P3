@@ -115,7 +115,6 @@ as well as some areas that have been delimited from.
 	\label{table:map_data}
 \end{table}
 
-
 \section{Map Coordinates}
 \label{sec:map_coordinates} % section label
 During the theoretical development we often used hand-drawn 2D maps with grids as depicted in Figure \ref{sub:2d_map}. The map can have a certain size and allows for an object to have a location on the grid. A specific part of the map can easily be referred to by its unique coordinate in the x and y dimensions. 
@@ -123,6 +122,7 @@ During the theoretical development we often used hand-drawn 2D maps with grids a
 For converting and storing analog maps into a usable digital representation with the same properties, we chose to use 2D arrays as data structure. A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 2D arrays are very similar to matrices, and differs in how elements are indexed.
 
 The result of the different indexing methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}. Given the same index values, the cell referred to would be different, as seen in  Figure \ref{sub:2d_map} and \ref{sub:2d_array}.
+
 
 \begin{figure}[htp]
     \centering
@@ -140,38 +140,37 @@ The result of the different indexing methods can be seen by comparing Figure \re
 \end{figure}
 %https://i.stack.imgur.com/tFdLk.gif
 
-Each cell in the map represents a map segment with its own coordinate. To allow for a more logical access to segments of the map in the actual programming, we chose to start map coordinates at zero. Rows and columns could be switched when needed. This could be either be done in the syntax, by switching i and j, or by switching the x and y axes when storing the map in the first place.
+Each cell in the map represents a map segment with its own coordinates. To allow for a more logical access to segments of the map in the actual programming, we chose to start map coordinates at zero. Rows and columns could be switched when needed. This could be either be done in the syntax, by switching i and j, or by switching the x and y axes when storing the map in the first place.
 \\
 
-Example of map segment before rows and columns are switched
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[caption={Example of map segment before rows and columns are switched}]
 Array: map[4][3], would give map coordinate (3,4)
 \end{lstlisting}
 
-Example of map segment after switching rows and columns
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[caption={Example of map segment after switching rows and columns}]
 Array: map[3][4], would give map coordinate (3,4)
 \end{lstlisting}
 
 This lead to the final implementation in our program using 2D arrays, 
 where the value of any given map segment easily could be accessed. 
 \\
-Example of implementation in the final code
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[caption={Example of implementation in the final code}]
 Array: robot->map->segments[3][4], would return the value for map coordinate (3,4)
 \end{lstlisting}
 Examples of this can be seen implemented in the final code in appendix XX (some specific place?). 
 \todo{fix referring to code in appendix, and code language should not be set to Python.} 
 The same approach was used for handling node maps, which is further explained in Chapter \ref{ch:path}.
 
+\newpage
 
 \section{Map Design}
 \label{sec:map_design} % section label
-The grid-based map is made up of simple plain-text ASCII characters. 
-This makes it fairly simple and easy-to-understand, and maps can easily be created or changed by a user. An example of a 5x5 map can be seen in Figure \ref{sub:map_ascii}, where \# being walls, A being the start, B being the finish, o being nodes, and the white spaces being open spaces. Maps where also created using the UTF8 character encoding, which has a more characters to choose from, see Figure \ref{sub:map_utf8}.
+The grid-based map is made up of simple plain-text ASCII characters.
+This makes it fairly simple and easy-to-understand, and maps can easily be created or changed by a user. 
+
+An example of a map with 5x5 nodes can be seen in Figure \ref{sub:map_ascii}, where \# being walls, A being the start, B being the finish, o being nodes, and the white spaces being open spaces. The same map can be seen using UTF8 encoding in Figure \ref{sub:map_utf8}. UTF8 has a more characters to choose from, which makes it easier to read for humans while the plain-text version is easier to read for computers.
 
 Nodes represent positions on the map where the robot can move between. The idea is to allow movement in 8 directions, 4 straight and 4 diagonal, unless a direction is blocked by a wall. Nodes are explained further in Chapter \ref{ch:path}.
-
 
 \begin{figure}[htp]
     \centering
@@ -185,33 +184,41 @@ Nodes represent positions on the map where the robot can move between. The idea 
         \includegraphics[width=0.2\textwidth]{figures/map/5x5map_utf8-2.png}%
         \label{sub:map_utf8}
     }
-    \caption{5x5 map}
+    \caption{Example of a map with 5x5 nodes, having 11 characters per line and 11 lines.}
     \label{fig:5x5map}
 \end{figure}
 
-We found that UTF8 would require a bit more work, since text editors often add characters to the beginning of the file. 
+We found that making the map using UTF8 would require a bit more work, since text editors often add characters to the beginning of the file. 
 This is known as the byte-order-mark (BOM) which indicates the file uses UTF8 encoding. 
 It also uses variable bit-length for characters, between 1-4 bytes [https://en.wikipedia.org/wiki/UTF-8]. 
 This makes reading and storing the map to a file more complicated, which is why we chose to use plain text ASCII.
 
-\section{Reading map from input file}
-\label{sec:map_read} % section label
-In the C programming language the dimensions of an array must be declared at compile time. 
-In this case, the array has to be large enough to hold all the map data. Unfortunately the map size and data remains unknown until a map is loaded at runtime.
+\section{Reading map from a file}
+\label{sec:map_read} % section label %
+The function reads map data from a file and saves it in the map struct.
+Start and finish positions are read from file as well and saved in robot struct.
+\todo{Write about structs in the beginning of the report}
 
-The first idea was to use a fixed array large enough to hold maps of a predefined size. 
-On the other hand, we thought this was as an excellent opportunity to try and work with pointers and dynamic memory allocation.
+Functions were made for reading a map, as well as writing an updated map to a text-file. 
+The full code for the functions MAP_LOAD and MAP_SAVE can be seen in Appendix X.\todo{fix these references}
+This was useful for developing and testing the subsystem, on a computer locally. 
+Implementing reading and writing to a file on the microprocessor, would require it to have a file system. 
+We chose not to implement this functionality, due to the restricted time frame of this project.
+As an alternative, maps can be stored directly in the programming code although it is not user-friendly.
 
-The required size of the array can be calculated by counting the lines and characters of the map, which is equivalent to the rows and columns. For a map with 5x5 nodes, there will be 11 characters in each line and a total of 11 lines.
-To store the values an 11x11 2D array is required.\\
+In the C programming language the size of an array must be declared at compile time. 
+The array for the map has to be large enough to hold all the map data.
+Unfortunately the map size and data remains unknown until a map is loaded, which happens at runtime.
+
+The easiest option would be to use a fixed array size, large enough to store maps up until a predefined size. 
+Instead we saw this as an opportunity to get some real hands-on experience by working with dynamic memory allocation and pointers for this application.
+
+The required size of the array can be calculated by counting the lines and characters of the map, which is equivalent to the rows and columns needed for the array. A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines, as illustrated in Figure \ref{sub:5x5map}. To store the map, an 11x11 2D array is required. Now that the required array size is known, it can be allocated in the memory.\\
 \\
-Bunch of code could be inserted here\\
+Code should be inserted here\\
 \\
-- open file and read content\\
-- count map size (rows and cols)\\
-- allocating 2d array\\
-- saving data in 2d array\\
-- saving start and finish position
+- Example of allocating 2d array\\
+- putting data in 2d array ???\\
 
 \section{Check Map}
 \label{sec:map_check} % section label
