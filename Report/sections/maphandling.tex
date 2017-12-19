@@ -281,8 +281,8 @@ It is possible to store data about the available directions in 8 bits in total, 
 
 \begin{figure}[htp]
     \centering
-        \includegraphics[width=0.70\textwidth]{figures/map/bitbyte.png}%
-    \caption{A byte where the bitflags represents the eight possible directions to move in.}
+        \includegraphics[width=0.60\textwidth]{figures/map/bitbyte.png}%
+    \caption{A byte where the eight bitflags represents, which of the eight possible directions that are free to move in.}
     \label{fig:bitbyte}
 \end{figure}
 
@@ -325,6 +325,7 @@ label=lst:mapUpdate,	%label
 caption={Map gets updated with the byte returned by the scan function in {\tt map.c}}
 ]{code/map.c}
 
+\newpage
 \section{Writing Updated Map to a File}
 \label{sec:map_save} % section label
 Sensors scan the surroundings for walls, at the robots current position.
@@ -333,7 +334,12 @@ If changes are detected, the map gets updated as described in Section \ref{sec:m
 If the updated map is kept only in memory, it will be lost once the microcontroller is turned off, since this is not a persistent storage. To prevent this during testing, the map was saved in a text-file.
 
 The individual map segments that consists of ASCII characters, gets written to the map text-file.
-This is done by iterating through the entire 2D map array.
+Listing \ref{lst:mapUpdate} shows how this is done by iterating through all the characters in 2D map array.
 
-\todo{map\_save code}
-
+\lstinputlisting
+[firstline=14,			%starts reading the file from line 11
+firstnumber=14,			%starts counting the lines in pdf from 11
+lastline=28,			%stops reading the file at line 18
+label=lst:mapSave,	%label
+caption={Map gets written to text-file using two for loops in {\tt map.c}}
+]{code/map.c}

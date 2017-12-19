@@ -2,8 +2,8 @@
 
 /// Scan surroundings at current position and compare with map segment
 void map_check(Robot *robot) {
-  char scan_segment = scan();
-  char map_segment =robot->map.node[robot->pos.x][robot->pos.y].walls;
+  unsigned char scan_segment = scan();
+  unsigned char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
   if(scan_segment != map_segment) {   //segment changed
     map_update(robot, scan_segment);
     map_save(robot);                  //save to file
