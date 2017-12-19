@@ -6,7 +6,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define MAP_FILENAME "testmap.txt"  //map to load
+#define MAP_FILENAME "testmap.txt"  // Map to load
 
 #define North     0x01
 #define East      0x02
@@ -19,29 +19,29 @@
 
 typedef struct {
   int x,y;
-} Point;                        // a point, consisting of two integers
+} Point;                        // A point, consisting of two integers
 
 typedef struct Node {
   Point position;               // Nodes own x,y position on node map
   struct Node *n,*e,*s,*w;      // Pointers to neighbors straight
   struct Node *nw,*ne,*se,*sw;  // Pointers to neighbors diagonal
   struct Node *parent;          // Pointer to parent node
-  unsigned char walls;          // Hex value for the 8 walls
+  unsigned char walls;          // Byte value for the 8 walls
   int movecost;                 // Steps needed to get here
 } Nodes;
 
 typedef struct {
-  Point start;                  //starting position
-  Point finish;                 //finish position
-  Point size;                   //amount of segments in the map
-  //Point num_nodes;            // number of nodes in the map
+  Point start;                  // Starting position
+  Point finish;                 // Finish position
+  Point size;                   // Amount of segments in the map
+  //Point num_nodes;            // Number of nodes in the map
   unsigned char **segments;     // 2D array of the map data from file
   Nodes **node;                 // 2D array of nodes
 } Maps;
 
 typedef struct element {
   Nodes *node;                  // Pointer to the map node
-	struct element *next;         // next element in queue
+	struct element *next;       // Next element in queue
 } Queue, Stack;
 
 typedef struct {
@@ -62,7 +62,7 @@ void map_load(Robot *robot);
 void map_save(Robot *robot);
 void map_check(Robot *robot);
 void map_update(Robot *robot, char hex);
-void node_map_load(Robot *robot); // node/map?
+void node_map_load(Robot *robot);
 int robot_finished(Robot *robot);
 void test_node_array(Robot *robot);
 
@@ -77,7 +77,7 @@ void pushQ(Queue **HoQ, Nodes *new_node); //add element on the stack
 void pop(Queue *tq);                      //pops element from stack
 void printQueue(Queue *tq);               //prints stack
 void emptyQueue(Queue *tq);               //pops whole stack
-//void push(int queue, Nodes *node); // temp
+//void push(int queue, Nodes *node); 	  // temp
 
 // Pathfinding
 void path_test(Robot *robot);
