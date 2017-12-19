@@ -1,18 +1,18 @@
 \chapter{Perspective}
 \section{Efficiency}
 The code written for this project was not designed to be efficient,
-but to be understandable to the reader and the authors.
-Because efficiency was outside the scope of the project.
+but to be understandable to the reader and the authors,
+because efficiency was outside the scope of the project.
 
 In a real world scenario,
 efficiency both in time and power consumption is crucial to the effectiveness of a rescue robot.
 
 Because of this we want to at least formulate our thoughts on the topic.
 \subsection{Pathfinding}
-Path-finding is probably the most resource-heavy calculation in our system,
+Pathfinding is probably the most resource-heavy calculation in our system,
 and will likely be executed several times while running.
 
-Most path-finding algorithms need several variables to be stored and accessed multiple times,
+Most pathfinding algorithms need several variables to be stored and accessed multiple times,
 for each node.
 We decided to store them in structs for our implementation.
 
@@ -39,6 +39,7 @@ One idea for this would be to reserve sections of the variables bits for specifi
 our thoughts on how that might look can be seen in Table \ref{tab:encode}.
 
 \begin{table}[h]
+\caption{Example of a possible custom Encoding for Nodes}
 \begin{tabularx}{\textwidth}{|*{32}{X|}}
 	\hline
 	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{position}&
@@ -49,14 +50,13 @@ our thoughts on how that might look can be seen in Table \ref{tab:encode}.
 	1&1&0&1&1&0&0&1&0&1&0&1&1&0&0&0&0&1&1&1&0&0&1&0&1&0&1&1&1&1&1&1\\
 	\hline
 \end{tabularx}
-\caption{Example of a possible custom Encoding for Nodes}
 \label{tab:encode}
 \end{table}
 %
 Single values could be retrieved through simple bitwise operations,
 implemented either in hardware or in software.
-To retrieve the X-ordinate for example,
-the whole value could be shifted to the right 28 times.
+To retrieve the position for example,
+the whole value could be shifted to the right 24 times.
 
 To select the parent position,
 one could take the value {\tt AND} {\tt 0xFF00} and
@@ -64,9 +64,9 @@ afterwards shift to the right 8 times.
 
 Our current approach takes use of pointers a lot,
 often iterating through several substructs.
-Listing \ref{lst:pointer_access} shows code with multiple pointer access per line,
+Listing \ref{lst:pointer_access} shows code with multiple pointer accesses per line,
 varying from 2 to 4 for a single line.
-Similar code to this listing gets executed up to 8 times per \emph{node},
+Code similar to this listing gets executed up to 8 times per \emph{node},
 for every \emph{node} with a lower \emph{cost to reach} than the finish \emph{node},
 to check for every direction whether moving there would be shorter.
 
@@ -106,7 +106,7 @@ Because our \emph{nodes} are organized in a 2D-array,
 this includes array and pointer lookups,
 simple arithmetic and
 bitwise comparison
-to find both \emph{nodes} and link them.
+to find all \emph{nodes} and link them.
 
 \section{Design flaws}
 edges are defined twice, from both nodes

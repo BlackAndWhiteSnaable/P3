@@ -20,7 +20,7 @@ We chose to start with implementing Dijkstra's shortest path algorithm,
 since it is fairly simple to understand and can be used as a baseline for better,
 more complex algorithms, like A*.
 
-This chapter will explain the basics of different path-finding approaches,
+This chapter will explain the basics of different pathfinding approaches,
 going more into detail on the ones we chose to implement for testing.
 
 \section{Graphs}\label{sec:graphs}
@@ -73,7 +73,7 @@ For the algorithm however, it doesn't matter.
 Brute-force is generally an algorithm,
 that only relies on computational power,
 instead of clever design.
-For path-finding that would mean looking at all possible paths,
+For pathfinding that would mean looking at all possible paths,
 and evaluating which one is the shortest.
 Brute-force algorithms can be implemented as a depth first search (DFS), or breadth first search (BFS).
 
@@ -290,7 +290,7 @@ caption={Setting {\tt movecost} and {\tt parent} in {\tt path.c}}
 ]{code/path.c}
 %
 After everything is set up,
-the path-finding algorithm can start.
+the pathfinding algorithm can start.
 
 We implemented Dijkstra's algorithm in the function {\tt path\_calculate},
 shown in Listing \ref{lst:path}.
