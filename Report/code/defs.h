@@ -73,16 +73,12 @@ unsigned char scan();
 void move_next(Robot *robot);
 
 // Priority queue
-void pushQ(Queue **HoQ, Nodes *new_node); //add element on the stack
-void pop(Queue *tq);                      //pops element from stack
-void printQueue(Queue *tq);               //prints stack
-void emptyQueue(Queue *tq);               //pops whole stack
-//void push(int queue, Nodes *node); 	  // temp
+void pushQ(Queue **HoQ, Nodes *new_node); // Add element on the stack
+void pop(Queue *tq);                      // Pops element from stack
+void printQueue(Queue *tq);               // Prints stack
+void emptyQueue(Queue *tq);               // Pops whole stack
 
 // Pathfinding
 void path_test(Robot *robot);
 void path_set_neighbors(Robot *robot);
 void path_calculate(Robot *robot);
-
-// Debugging and print to screen
-void robot_print(Robot *robot);

@@ -290,8 +290,7 @@ It is possible to store data about the available directions in 8 bits in total, 
 \label{sec:map_check} % section label
 There might be rescuing scenarios where parts of the map, or even the entire map, would be unknown.
 External factors such as an explosion in a building, could also change the surroundings dramatically, making the map data invalid.
- 
-The robots current location on the map is known at all times. 
+
 After the robot has moved to the next node on the map, its current position is updated.
 At the robots current location, sensors scans the surrounding environment for walls in the eight possible move-directions.
 The feedback from the sensors is returned as a single-byte value, as described in Chapter \ref{ch:scan}.
