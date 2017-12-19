@@ -117,11 +117,18 @@ as well as some areas that have been delimited from.
 
 \section{Map Coordinates}
 \label{sec:map_coordinates} % section label
-During the theoretical development we often used hand-drawn 2D maps with grids as depicted in Figure \ref{sub:2d_map}. The map can have a certain size and allows for an object to have a location on the grid. A specific part of the map can easily be referred to by its unique coordinate in the x and y dimensions. 
+During the theoretical development we often used hand-drawn 2D maps with grids as depicted in Figure \ref{sub:2d_map}. 
+The map can have a certain size and allows for an object such as a wall to have a location on the grid. 
+A specific part of the map can easily be referred to by its unique coordinate in the x and y dimensions. 
 
-For converting and storing analog maps into a usable digital representation with the same properties, we chose to use 2D arrays as data structure. A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 2D arrays are very similar to matrices, and differs in how elements are indexed.
+For converting and storing analog maps into a usable digital representation with the same properties, 
+we chose to use a 2D array as data structure. 
+A 2D array can be thought of as a matrix, where a grid of numbers can be arranged in rows and columns. 
+2D arrays are very similar to matrices, and differs in how elements are indexed.
 
-The result of the different indexing methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}. Given the same index values, the cell referred to would be different, as seen in  Figure \ref{sub:2d_map} and \ref{sub:2d_array}.
+The result of the different indexing methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}. 
+Given the same index values, the cell referred to would be different, 
+as seen in  Figure \ref{sub:2d_map} and \ref{sub:2d_array}.
 
 
 \begin{figure}[htp]
@@ -140,7 +147,11 @@ The result of the different indexing methods can be seen by comparing Figure \re
 \end{figure}
 %https://i.stack.imgur.com/tFdLk.gif
 
-Each cell in the map represents a map segment with its own coordinates. To allow for a more logical access to segments of the map in the actual programming, we chose to start map coordinates at zero. Rows and columns could be switched when needed. This could be either be done in the syntax, by switching i and j, or by switching the x and y axes when storing the map in the first place.
+Each cell in the map represents a map segment with its own set of coordinates. 
+We chose to start map coordinates at zero, and had the option to switch rows and columns if needed, 
+which is similar to a matrix transpose. 
+This could be done in the syntax by switching i and j, 
+or by switching the x and y axes when storing the map in the first place.
 \\
 
 \begin{lstlisting}[caption={Example of map segment before rows and columns are switched}]
@@ -151,7 +162,7 @@ Array: map[4][3], would give map coordinate (3,4)
 Array: map[3][4], would give map coordinate (3,4)
 \end{lstlisting}
 
-This lead to the final implementation in our program using 2D arrays, 
+This lead to the final implementation in our program using dynamic 2D arrays, 
 where the value of any given map segment easily could be accessed. 
 \\
 \begin{lstlisting}[caption={Example of implementation in the final code}]
@@ -170,7 +181,7 @@ This makes it fairly simple and easy-to-understand, and maps can easily be creat
 
 An example of a map with 5x5 nodes can be seen in Figure \ref{sub:map_ascii}, where \# being walls, A being the start, B being the finish, o being nodes, and the white spaces being open spaces. The same map can be seen using UTF8 encoding in Figure \ref{sub:map_utf8}. UTF8 has a more characters to choose from, which makes it easier to read for humans while the plain-text version is easier to read for computers.
 
-Nodes represent positions on the map where the robot can move between. The idea is to allow movement in eight directions, four straight and four diagonal, unless a direction is blocked by a wall. Nodes are explained further in Chapter \ref{ch:path}.
+Nodes represent positions on the map where the robot can move between. The robot can move in any of the eight directions unless a it is blocked by a wall. The directions consists of four straight directions, N,E,S,W and four diagonal directions NE,SE,SW,NW. Nodes are explained further in Chapter \ref{ch:path}. \todo{explained in path chapter or in nodemap section?}
 
 \begin{figure}[htp]
     \centering
@@ -198,35 +209,34 @@ This makes reading and storing the map to a file more complicated, which is why 
 \section{Reading Map from a File}
 \label{sec:map_read} % section label %
 The function {\tt map\_load} loads map data from a file and saves it in the {\tt map} struct.
-Start and finish positions are read from file as well and saved in {\tt robot} struct.
+Start and finish positions are read from the file as well, and saved in {\tt robot} struct.
 \todo{Write about structs in the beginning of the report}
 
-Functions were made for reading a map, as well as writing an updated map to a text-file. 
-The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.\todo{fix these references}
+Functions were made for loading maps from a text-file, as well as saving an updated map to a text-file. 
+The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.\todo{fix reference}
 \todo[inline]{listing showing parts of these functions}
-This was useful for developing and testing the subsystem on a computer. 
-Implementing reading and writing to a file on the microprocessor, would require it to have a file system.
+Reading and writing maps on a computer locally, was very useful for developing and testing the map handling subsystem. 
+Implementing this functionality on a microprocessor, would require it to have a file system installed.
 We chose not to implement this functionality, due to the restricted time frame of this project.
-As an alternative, maps can be stored directly in the programming code although it is not user-friendly.
-\todo{as a bad alternative?}
+As an alternative, maps can be stored directly in memory as part og the programming code. 
+This solution is not as user-friendly, and updates to the map will be lost from the memory when the microcontroller is turned off.
 
 \todo[inline]{something in between, maybe some code?}
 In the C programming language the size of an array must be declared at compile time. 
 The array for the map has to be large enough to hold all the map data.
 Unfortunately the map size and data remains unknown until a map is loaded, which happens at runtime.
 
-The easiest option would be to use a fixed array size, large enough to store maps up to a predefined size. 
-Instead we saw this as an opportunity to get some experience by working with dynamic memory allocation and pointers for this application.
+One way of dealing with this, is by using a 2D array with a fixed size, large enough to store maps of a convenient size. 
+We chose to use a dynamic 2D array instead. This more advanced approach would give us more experience, by using dynamic memory allocation and pointers to implement this solution in the application.
 
-The required size of the array can be calculated by counting the lines and characters of the map,
+The required size of the dynamiic 2D array can be calculated by counting the lines and characters of the map,
 which is equivalent to the rows and columns needed for the array.
 A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines,
 as illustrated in Figure \ref{fig:5x5map}.
 To store the map, an 11x11 2D array is required.
 Now that the required array size is known, it can be allocated in the memory.\\
 \todo[inline]{insert code}
-- Example of allocating 2d array
-
+- Example of allocating 2d array\\
 - putting data in 2d array ???\\
 
 ORDER:\\
@@ -236,28 +246,62 @@ node map load\\
 scan\\
 map save
 
-\section{Scan Surroundings and Compare to Map}
-\label{sec:map_check} % section label
-\todo{rescuing situation}
-There might be situations where parts of the map, or even the entire map would be incorrect.
-External factors such as an explosion in a building would also change the surroundings dramatically.
- 
-After each move of the robot, distance sensors scans the surrounding environment in all possible move-directions.
-Feedback from each sensor is compared to the corresponding map segments. 
-If changes to the surroundings are detected, the map gets updated and saved to the text-file.
-Every time the map changes, the path finding function is called\todo{insert function name}, to calculate the most efficient path from the robots current location to the finish. \todo{could be used to explain what the robot does, if not just leave it here.}
 
-
-
-\section{Map Save}
-\label{sec:map_save} % section label
-
-\section{Walls / Neighbours hex}
+\section{Encoding Surrounding Walls to a Single-byte Value}
 \label{sec:map_hex} % section label
-Maybe this should be part of map check
+Each node in the map potentially has up to eight neighbour nodes. 
+The robot can move to any of the neighbour nodes, unless it is blocked by a wall, as illustrated in Figure \ref{fig:node_move_directions}.\todo{insert figure of a node and 8 arrows}
 
-\section{Node Map}
+To indicate the possible directions to move in, we decided to use the boolean values 0 and 1. 
+Here 0 would mean it is possible to move that direction to the neighbour node, while 1 means the direction is blocked by a wall.
+
+Since each 0 or 1 can be represented by one bit, it is possible to store data about all eight directions in a single byte.
+byte --> [0000 0000] insert figure or table here as an example?
+
+Depending on the individual bits, the byte will have a certain value.
+Since all values are stored as binaries in the memory, the hexadecimal representation was used in the programming.
+
+\todo{merge this section with Daniels 5.7 Implementation}
+
+
+\section{Converting Map to Node Map}
 \label{sec:map_node} % section label
+blablabla\\
+Calculating which nodes that are connected together on the map, is a crucial part of any pathfinding algorithm. 
+This is known as a graph, and is explained more in detail in Section \ref{sec:graph}. \todo{Daniel your Graph section is missing a label}
+
+More blabla.. It is possible to convert the ordinary map made of ASCII characters, to a map that only consists of nodes.
+A struct was created with a data structure that could hold all the necessary data for each node.
+\todo{insert/refer to node struct}
+
+A dynamic 2D array containing a {\tt node struct} for each node in the map is declared. 
+A pointer to the 2D array is stored in the {\tt robot struct}.
+This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values.
+
+\todo{give example}
+robot->nodemap.node[i][j].[name of struct element]
+
+Possible more text here.. Zzzz
+
+\section{Map Validation Using Sensors}
+\label{sec:map_check} % section label
+There might be rescuing scenarios where parts of the map, or even the entire map, would be unknown.
+External factors such as an explosion in a building, could also change the surroundings dramatically, making the map data invalid.
+ 
+The robots current location on the map is known at all times. 
+After the robot has moved to the next node on the map, its current position is updated.
+Distance sensors scans the surrounding environment for walls, in all eight possible move-directions.
+The operation of these sensors is described in more detail in Section \ref{ch:scan}.
+The feedback from the sensors is a single-byte hex value, as described in Section \ref{sec:map_hex}.
+By comparing this single-byte value to the corresponding segments on the map.
+If changes to the surroundings are detected, the map gets updated and saved to the text-file.
+Every time a change in the map is detected, the path finding function is called\todo{insert function name}. This calculates the most efficient path from the robots current location to the finish using the updated map data. 
+\todo{insert code from map-check function here}
+\todo{could maybe be used somewhere else to explain what the robot does, if not just leave it here.}
+
+\section{Writing Map to a File}
+\label{sec:map_save} % section label
+Come up with something..
 
 
 
