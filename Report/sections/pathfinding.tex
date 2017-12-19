@@ -196,7 +196,7 @@ the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 	\label{fig:graph_cost}
 \end{figure}
 %
-\todo[inline]{talk about A* and lead into heuristics}
+\todo[inline,color=codepurple]{talk about A* and lead into heuristics}
 On a grid, it makes little sense to use the \emph{euclidean distance}.
 Because movement is very restricted,
 and can only be a multiple of the possible \emph{distances}.
@@ -256,7 +256,7 @@ caption={Definition of Directions in {\tt defs.h}}
 ]{code/defs.h}
 %
 After reading the map from the input file,
-as explained in Section \ref{sec:map_implement}, \todo{does Troels describe this in ch:map?}
+as explained in Section \ref{sec:map_implement}, \todo[color=codepurple]{does Troels describe this in ch:map?}
 all \emph{nodes} have to be set up for the pathfinding algorithm.
 We do this in the function {\tt path\_set\_neighbors}.
 Every \emph{node} gets linked to its neighbours by comparing the {\tt walls} value
@@ -309,7 +309,7 @@ Inside the loop we check for every \emph{neighbour},
 whether a pointer to it exists
 and whether its \emph{cost to reach} is higher than it would be from the current \emph{node}.
 In the case that both statements are true,
-we update \todo{overwrite?} the neighbours \emph{cost to reach}
+we update \todo[color=codepurple]{overwrite?} the neighbours \emph{cost to reach}
 and \emph{parent}.
 
 We also remove the current \emph{node} as a neighbour,
