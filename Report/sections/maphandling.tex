@@ -29,7 +29,7 @@ The primary goal was to make it readable by the microcontroller, but also still 
 \section{Map Requirements}
 \label{sec:map_requirements}
 Maps can be found in a lot of different styles,
-varying in how they represent specific informations.
+varying in how they represent specific information.
 Those styles often depend on the purpose of the map.
 Figure \ref{sub:orient} shows a map for casual orientation purposes,
 while \ref{sub:evac} shows a standardized evacuation plan.
@@ -52,18 +52,18 @@ while \ref{sub:evac} shows a standardized evacuation plan.
 
 Maps are often very visual, providing a lot of detailed information to the reader.
 The way the information is represented differently,
-makes it very hard to be interpreted automatically.
+makes it very hard for a computer to interpret.
 A map must provide necessary information,
 in a way that can be interpreted by the micro controller.
 For this project we decided that a simplified map, would be sufficient.
 
-Table \ref{table:map_data} shows the data the map should include,
+Table \ref{table:map_data} shows which data the map should include,
 as well as some areas that have been delimited from.
 
 \begin{table}[h!]
 	\centering
 	\caption{Map data}
-	\begin{tabular}{|p{0.4\textwidth}||p{0.4\textwidth}|}
+	\begin{tabular}{|p{0.4\textwidth}|p{0.4\textwidth}|}
 		\hline
 		Data to be included & Data to delimit from \\ 
 		\hline
@@ -81,7 +81,7 @@ as well as some areas that have been delimited from.
 
 \section{Map Coordinates}
 \label{sec:map_coordinates} % section label
-During the theoretical development we often used hand-drawn 2D maps with grids as depicted in Figure \ref{sub:2d_map}. 
+During the theoretical development we often used hand-drawn 2D maps with grids, equivalent to the map depicted in Figure \ref{sub:2d_map}. 
 The map can have a certain size and allows for an object such as a wall to have a location on the grid. 
 A specific part of the map can easily be referred to by its unique coordinate in the x and y dimensions. 
 
@@ -92,7 +92,7 @@ A 2D array can be thought of as a matrix, where a grid of numbers can be arrange
 
 The result of the different indexing methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}. 
 Given the same index values, the cell referred to would be different, 
-as seen in Figure \ref{grid_map_vs_array}.
+as seen in Figure \ref{fig:grid_map_vs_array}.
 
 
 \begin{figure}[htp]
@@ -112,32 +112,20 @@ as seen in Figure \ref{grid_map_vs_array}.
 %https://i.stack.imgur.com/tFdLk.gif
 
 Each cell in the map represents a map segment with its own set of coordinates. 
-We chose to start map coordinates at zero, and had the option to switch rows and columns if needed, 
-which is similar to a matrix transpose. 
-This could be done in the syntax by switching i and j, 
-or by switching the x and y axes when storing the map in the first place.
-\\
+We chose to start map coordinates at zero, and inf needed rows and columns could still be switched, 
+which is very similar to a matrix transpose. 
 
-\begin{lstlisting}[caption={Example of map segment before rows and columns are switched}]
-Array: map[4][3], would give map coordinate (3,4)
+In the program dynamic 2D arrays were used, 
+which allows to easily read or set the value of any given map segment, as shown in Listing \ref{lst:Accessing2dMap}.
+The same approach was later used for handling node maps, which is further explained in Chapter \ref{ch:path}.
+ 
+\begin{lstlisting}[caption={Example of reading or setting a value for coordinate (3,4) in the 2D map array, using structs and pointers. Structs are declared in {\tt defs.h} in Appendix X},label={lst:Accessing2dMap}]
+robot->map.segments[3][4] = 0x0F;					// Setting a value
+
+char map_segment = robot->map.segments[3][4];	// Reading a value
+
 \end{lstlisting}
-
-\begin{lstlisting}[caption={Example of map segment after switching rows and columns}]
-Array: map[3][4], would give map coordinate (3,4)
-\end{lstlisting}
-
-This lead to the final implementation in our program using dynamic 2D arrays, 
-where the value of any given map segment easily could be accessed. 
-\\
-\begin{lstlisting}[caption={Example of implementation in the final code}]
-Array: robot->map->segments[3][4], would return the value for map coordinate (3,4)
-\end{lstlisting}
-This can be seen implemented in the final code in Appendix X. 
-\todo{fix referring to code in appendix} 
-The same approach was used for handling node maps, which is further explained in Chapter \ref{ch:path}.
-
-\newpage
-
+\todo{fix ref to appendix}
 \section{Map Design}
 \label{sec:map_design} % section label
 The grid-based map is made up of simple plain-text ASCII characters.
@@ -149,10 +137,9 @@ The same map can be seen using UTF8 encoding in Figure \ref{sub:map_utf8}.
 UTF8 has a more characters to choose from, which makes it easier to read for humans , 
 while the plain-text version is easier to read for computers.
 
-Nodes represent positions on the map where the robot can move between. 
-The robot can move in any of the eight directions unless a it is blocked by a wall. 
+Nodes represent positions on the map where the robot can move between, more on nodes in Section \ref{sec:graphs}. 
+The robot can move in any of the eight directions unless it is blocked by a wall. 
 The directions consists of four straight directions, N,E,S,W and four diagonal directions NE,SE,SW,NW. 
-For more information in nodes, see Section \ref{sec:graphs}. 
 \begin{figure}[htp]
     \centering
     \subfloat[ASCII]{%
@@ -193,14 +180,14 @@ This solution is not as user-friendly, and updates to the map will be lost from 
 
 In the C programming language the size of an array must be declared at compile time. 
 The array for the map has to be large enough to hold all the map data.
-Unfortunately the map size and data remains unknown until a map is loaded, which happens at runtime.
+Unfortunately the map size and data remains unknown until a map is loaded, which happens during runtime.
 
 One way of dealing with this, is by using a 2D array with a fixed size, large enough to store maps of a convenient size. 
 We chose to use a dynamic 2D array instead. 
-This more advanced approach would give us more experience, by using dynamic memory allocation and pointers to implement this solution in the application.
+This more advanced approach gave us more experience, by using dynamic memory allocation and pointers to implement this solution in the application.
 \newpage
-The required size of the dynamic 2D array can be calculated by counting the lines and characters of the map,
-which is equivalent to the rows and columns needed for the array.
+The required size of the dynamic 2D array can be calculated by counting the the rows and columns of the map,
+which is equivalent to the lines and characters.
 A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines,
 as illustrated in Figure \ref{fig:5x5map}. Listing \ref{lst:mapHload} shows how a map is read from a text-file, and how the lines and characters are counted.
 
@@ -209,13 +196,10 @@ as illustrated in Figure \ref{fig:5x5map}. Listing \ref{lst:mapHload} shows how 
 %firstnumber=11,		%starts counting the lines in pdf from 11
 lastline=46,			%stops reading the file at line 18
 label=lst:mapHload,		%label
-caption={Opening map text-file and analysing map size in {\tt map.c}}
+caption={Reading map text-file and analysing the map size in {\tt map.c}}
 ]{code/map.c}
 To store the map, an 11x11 2D array is required.
-Now that the required array size is known, it can be allocated in the memory.
-Once allocated, the address of 2D array is stored in the {\tt robot} struct as a pointer.\\
-The size of the map is stored in the struct as well, for future reference.
-Listing \ref{lst:mapHarrayAllocate} shows how the dynamic 2D array gets allocated in memory.
+Now that the required array size is known, it can be allocated in the memory as shown in Listing \ref{lst:mapHarrayAllocate}.
 
 \lstinputlisting
 [firstline=48,			%starts reading the file from line 11
@@ -224,20 +208,25 @@ lastline=55,			%stops reading the file at line 18
 label=lst:mapHarrayAllocate,	%label
 caption={Allocation of 2D array in {\tt map.c}}
 ]{code/map.c}
+Once allocated, the address of 2D array is stored in the {\tt robot} struct as a pointer.\\
+The size of the map is stored in the {\tt robot} struct as well, for future reference.
+
 
 \newpage
 At this point the 2D map array is filled with the actual map data from file.
-Listing \ref{lst:mapHarrayFill} shows how the 2D map array gets filled with data using two for loops.
+Listing \ref{lst:mapHarrayFill} shows how this is done using two for loops.
+The robots start and finish location is read from the map as well,
+and converted into coordinates for a starting and finish node.
 
 \lstinputlisting
 [firstline=56,			%starts reading the file from line 11
 %firstnumber=11,		%starts counting the lines in pdf from 11
 lastline=76,			%stops reading the file at line 18
 label=lst:mapHarrayFill,	%label
-caption={Storing values in the 2D array {\tt map.c}}
+caption={Storing values in the 2D array in {\tt map.c}}
 ]{code/map.c}
-The robots start and finish location is read from the map, and stored in the {\\t robot} struct.
-Listing \ref{lst:mapHstartFinish} Store the map start and finish positions in the robot struct.
+
+Listing \ref{lst:mapHstartFinish} shows how the coordinates for the start and finish nodes are stored in the {\tt robot} struct for future reference. 
 
 \lstinputlisting
 [firstline=85,			%starts reading the file from line 11
@@ -249,45 +238,57 @@ caption={Storing start and finish position in the {\tt Robot} struct in {\tt map
 
 \newpage
 
-\section{Encoding Walls in a Single-byte Value}
-\label{sec:map_hex}
-Each node in the map potentially has up to eight neighbour nodes. 
-The robot can move to any of the neighbour nodes, unless it is blocked by a wall, as illustrated in Figure \ref{fig:node_move_directions}.
-\todo{insert figure of a node and 8 arrows}
-
-
-To represent the possible directions to move in, we decided to use the boolean values 0 and 1. 
-Here 0 would mean it is possible to move that direction to the neighbour node, while 1 means the direction is blocked by a wall.
-
-Since each 0 or 1 can be represented by one bit, it is possible to store data about all eight directions in a single byte.
-byte --> [0000 0000]
-\todo{insert figure or table here as an example?}
-
-Depending on the individual bits, the byte will have a certain value.
-Since all values are stored as binaries in the memory, a hexadecimal representation was often used in the programming.
-
-\todo{merge this section with Daniels 5.7 Implementation?}
-
 \section{Building a Node Map}
 \label{sec:map_node} % section label
 Path finding algorithms operate with a special type of map called a graph.
 A graph consists of only nodes and edges, as explained more in detail in Section \ref{sec:graphs}.
 The function {\tt node\_map\_load} converts the ordinary map made of ASCII characters, into a map that only consists of nodes.
 
-Like with linked lists, {\tt structs} can be used as a data structure to store data of different types. 
-\todo{refer to structs in appendix?}
-To store the node map we created the data structure {\tt Nodes struct} to hold all the necessary data for the individual nodes.
-Each {\tt Nodes struct} has pointers to the eight neighbour {\tt node structs}.
+Like with linked lists, structs can be used as a data structure to store data of different types. 
+Listing \ref{lst:mapStructs} shows the data structure created for the '{\tt Nodes} struct' to hold all the necessary data for the individual nodes.
+
+\lstinputlisting
+[firstline=24,			%starts reading the file from line 11
+%firstnumber=11,		%starts counting the lines in pdf from 11
+lastline=31,			%stops reading the file at line 18
+label=lst:mapStructs,	%label
+caption={data structure of {\tt Nodes} struct in {\tt defs.h}}
+]{code/defs.h}
+Each {\tt Nodes struct} has pointers to the eight neighbour {\tt Nodes} struct.
 This is similar to the principle of having a pointer in a linked list pointing to the next element.
 \todo{insert node struct code here showing the node struct?}
 
-A dynamic 2D array gets filled with {\tt Nodes struct}, one for each node in the map. 
-\todo{code here?}
-A pointer to the declared 2D array gets stored in the {\tt robot struct}.
-This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values.
+A dynamic 2D array is declared using malloc. It holds structs of type {\tt Nodes}, one for each node on the map. 
+\lstinputlisting
+[firstline=90,			%starts reading the file from line 11
+%firstnumber=11,		%starts counting the lines in pdf from 11
+lastline=101,			%stops reading the file at line 18
+label=lst:mapStructs,	%label
+caption={Declaration of node map 2D array used for storing {\tt Nodes} structs in {\tt map.c}}
+]{code/map.c}
 
-\todo{give example}
-robot->nodemap.node[i][j].[name of element in nodes struct]
+In the end a pointer to the declared 2D array gets stored in the {\tt Robot } struct.
+This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values. An example of the usage can be seen in Listing \ref{lst:AccessingNode}. 
+
+\begin{lstlisting}[caption={Example of accessing a node in the node map stored in a 2D array in {\tt map.c}},label={lst:AccessingNode}]
+robot->map.node[i][j].[name of element in Nodes struct]
+\end{lstlisting}
+
+\section{Encoding Walls in a Single-byte Value}
+\label{sec:map_hex}
+Each node in the map potentially has up to eight neighbour nodes. 
+The robot can move to any of the neighbour nodes, unless the path is blocked by a wall.
+
+To represent the possible directions to move in, we decided to use the boolean values '0' and '1'. 
+Here '0' would mean it is possible to move in that direction, while '1' means there is a wall.
+It is possible to store data about the available directions in 8 bits in total, equivalent to a single byte.
+
+\begin{figure}[htp]
+    \centering
+        \includegraphics[width=0.70\textwidth]{figures/map/bitbyte.png}%
+    \caption{A byte where the bit pattern represents the eight possible directions to move in.}
+    \label{fig:bitbyte}
+\end{figure}
 
 \section{Map Validation Using Sensors}
 \label{sec:map_check} % section label
