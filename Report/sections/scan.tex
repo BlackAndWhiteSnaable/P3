@@ -1,26 +1,28 @@
 \chapter{Scan}\label{ch:scan}
-In an attempt to take it a step further we decided to use IR distance sensors,
+In order to be able to handle a dynamically changing environment,
+we decided to use IR distance sensors,
 to check if the map matches the real physical environment.
 Initially, our robot is supposed to find the 
-shortest path from A to B, on a map. 
-In rescue situations, often, the map provided does not match 
-the actual outline, possibly due to different events that 
-altered the outline, such as wall collapses, that might 
-obstruct the movement in a certain direction.
+shortest path from A to B, on a map.
+
+In rescue situations the map provided does not necessarily match 
+the actual environment.
+External factors could for example have collapsed walls,
+thus obstructing movement.
 
 By using 8 IR sensors, we can detect changes in all directions 
 the robot can move in. If a change is detected, this will be
-accounted for in the maphandling code.
+accounted for in the maphandling code,
+as explained in Chapter \ref{ch:map_handling}.
 
 \newpage
 \section{Sensor}\label{sec:sensor}
-For detecting any changes in the outline of the map, we have used analog IR 
+For detecting any changes in the layout of the map, we have used analog IR 
 sensors. Initially, our idea was to use digital sensors, which would have been 
 easier to use, but none were available for testing and implementing. Instead, 
 we have used analog sensors, which were available at the university. Having the 
 chance to implement and test them earlier during the project, we decided to go 
 with them. 
-
 Figure \ref{fig:sensor} shows the sensors used.
 
 \begin{figure}[htp]
@@ -29,11 +31,11 @@ Figure \ref{fig:sensor} shows the sensors used.
 	\caption{Sharp IR GP2Y0A21}
 	\label{fig:sensor}
 \end{figure}
-
+%
 To be able to interpret the voltage received from the sensor, we referred 
-to the datasheet of the sensor. Figure \ref{fig:distance_voltage} represents
+to the datasheet of the sensor. Figure \ref{fig:distance_voltage} shows
 the approximate voltage output of the sensors in respect to the distance measured.
-Voltage values below 10cm should be overlooked since the sensors is not able
+Voltage values below 10cm should be overlooked since the sensor is not able
 to detect distances closer than 10cm.
 
 \begin{figure}[htp]
@@ -57,13 +59,10 @@ to the grid size.
 	\includegraphics[width=0.4\textwidth]{figures/scan/RangeCalc.png}
 	\caption{Robot and Sensor Range}
 	\label{fig:robot}
-\end{figure} 
-
-Table \ref{tab:color_explanation} explains the meaning of the colors used in Figure \ref{fig:robot}.
-
+\end{figure}
 \begin{table}[htp]
 	\centering
-	\caption{Color Explanation}
+	\caption{Color Explanation for Figure \ref{fig:robot}}
 	\label{tab:color_explanation}
 	\begin{tabular}{|c|c|l|l|l|l|l|l|}
 		\hline
@@ -74,9 +73,9 @@ Table \ref{tab:color_explanation} explains the meaning of the colors used in Fig
 		Red    & \multicolumn{7}{c|}{Range of IR Sensors}         \\ \hline
 	\end{tabular}
 \end{table}
-Scan function detects changes, if any, and returns a byte. If the byte returned
-matches the one determined by the map, the robot continues on its predefined path.
-Otherwise, the byte given by the scan function, overwrites the one stored in the map
+The {\tt scan} function detects changes, and returns a byte with the observed walls. If the byte returned
+matches the one stored in the map, the robot continues on its predefined path.
+Otherwise, the byte given by the {\tt scan} function overwrites the one stored in the map
 and the robot recalculates the shortest path based on the updated map.
 An example of what a byte stored and a byte scanned might look like is given in
 Table \ref{tab:scanned_byte}.
@@ -87,9 +86,9 @@ Table \ref{tab:scanned_byte}.
 	\label{tab:scanned_byte}
 	\begin{tabular}{|l|*{8}{m{1cm}|}|l|}
 	\hline
-	Directions & NW & SW & SE & NE & W & S & SE & N & Byte	\\ \hline
-	Map Byte   & 1  & 0  & 0  & 1  & 1 & 1 & 1 & 0 & 0x9E    	\\ \hline
-	Scan Byte  & 1  & 1  & 0  & 0  & 1 & 1 & 1 & 0 & 0xCE 	   	\\ \hline
+	Directions & NW & SW & SE & NE & W & S & E & N & Byte	\\ \hline
+	Map Byte   & 1  & 0  				  & 0  & 1  				 & 1 & 1 & 1 & 0 & 0x9E    	\\ \hline
+	Scan Byte  & 1  & \textcolor{red}{1}  & 0  & \textcolor{red}{0}  & 1 & 1 & 1 & 0 & 0xCE 	   	\\ \hline
 	\end{tabular}
 \end{table}
 
