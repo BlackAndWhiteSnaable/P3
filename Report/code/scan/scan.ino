@@ -7,11 +7,12 @@ void setup(){
   Serial.begin(9600);                 //start the serial port
 }
 void loop(){
-  volts = analogRead(sensor) * 0.0048828125;  //sensor * (supply voltage/
+  volts = analogRead(sensor) * 0.0048828125;  //sensor * (supply 
+                                              //voltage/
                                               //adc resolution)
   distance = 29.988 * pow(volts , -1.173);    //determined from 
                                               //datasheet graph
-  delay(500);                         //slow down serial port  
+  delay(500);                         //delay between readings
   if (distance <= 50){                //no path
     path = 0;
     Serial.print("Wall ");                  
