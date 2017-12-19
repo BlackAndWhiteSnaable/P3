@@ -1,5 +1,4 @@
 #define sensor A0                     //define sensor pin
-
 int distance;                         //variable to store distance
 float volts;                          //variable to store reading 
                                       //from sensor
@@ -11,7 +10,7 @@ void loop(){
   volts = analogRead(sensor) * 0.0048828125;  //sensor * (supply voltage/
                                               //adc resolution)
   distance = 29.988 * pow(volts , -1.173);    //determined from 
-                                               //datasheet graph
+                                              //datasheet graph
   delay(500);                         //slow down serial port  
   if (distance <= 50){                //no path
     path = 0;
