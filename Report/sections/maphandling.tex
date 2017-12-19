@@ -271,7 +271,11 @@ In the end a pointer to the declared 2D array gets stored in the {\tt Robot } st
 This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values. An example of the usage can be seen in Listing \ref{lst:AccessingNode}. 
 
 \begin{lstlisting}[caption={Example of accessing a node in the node map stored in a 2D array in {\tt map.c}},label={lst:AccessingNode}]
+<<<<<<< Updated upstream
 robot->map.node[i][j].[name of element in Nodes struct]
+=======
+robot->map.node[i][j].[name of element in {\tt nodes} struct]
+>>>>>>> Stashed changes
 \end{lstlisting}
 
 \section{Encoding Walls in a Single-byte Value}
@@ -285,7 +289,11 @@ It is possible to store data about the available directions in 8 bits in total, 
 
 \begin{figure}[htp]
     \centering
+<<<<<<< Updated upstream
         \includegraphics[width=0.70\textwidth]{figures/map/bitbyte.png}%
+=======
+        \includegraphics[width=0.75\textwidth]{figures/map/bitbyte.png}%
+>>>>>>> Stashed changes
     \caption{A byte where the bit pattern represents the eight possible directions to move in.}
     \label{fig:bitbyte}
 \end{figure}
