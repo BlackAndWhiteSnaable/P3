@@ -143,13 +143,13 @@ The directions consists of four straight directions, N,E,S,W and four diagonal d
 \begin{figure}[htp]
     \centering
     \subfloat[ASCII]{%
-        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_ascii-2.png}%
+        \includegraphics[width=0.25\textwidth]{figures/map/5x5map_ascii-2.png}%
         \label{sub:map_ascii}
 
     }
     \hspace{0.2\textwidth}
     \subfloat[UTF8]{%
-        \includegraphics[width=0.2\textwidth]{figures/map/5x5map_utf8-2.png}%
+        \includegraphics[width=0.25\textwidth]{figures/map/5x5map_utf8-2.png}%
         \label{sub:map_utf8}
     }
     \caption{Example of a map with 5x5 nodes, having 11 characters per line and 11 lines.}
@@ -165,12 +165,7 @@ This makes reading and storing the map to a file more complicated, which is why 
 \newpage
 \section{Reading Map from a File}
 \label{sec:map_read} % section label %
-The function {\tt map\_load} loads map data from a file and saves it in the {\tt map} struct.
-Start and finish positions are read from the file as well, and saved in {\tt robot} struct.
-
 Functions were made for loading maps from a text-file, as well as saving an updated map to a text-file. 
-The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.
-\todo{fix reference}
 
 Reading and writing maps on a computer locally, was very useful for developing and testing the map handling subsystem. 
 Implementing this functionality on a microprocessor, would require it to have a file system installed.
@@ -193,7 +188,7 @@ as illustrated in Figure \ref{fig:5x5map}. Listing \ref{lst:mapHload} shows how 
 
 \lstinputlisting
 [firstline=30,			%starts reading the file from line 11
-%firstnumber=11,		%starts counting the lines in pdf from 11
+firstnumber=30,			%starts counting the lines in pdf from 11
 lastline=46,			%stops reading the file at line 18
 label=lst:mapHload,		%label
 caption={Reading map text-file and analysing the map size in {\tt map.c}}
@@ -203,7 +198,7 @@ Now that the required array size is known, it can be allocated in the memory as 
 
 \lstinputlisting
 [firstline=48,			%starts reading the file from line 11
-%firstnumber=11,		%starts counting the lines in pdf from 11
+firstnumber=48,		%starts counting the lines in pdf from 11
 lastline=55,			%stops reading the file at line 18
 label=lst:mapHarrayAllocate,	%label
 caption={Allocation of 2D array in {\tt map.c}}
@@ -220,7 +215,7 @@ and converted into coordinates for a starting and finish node.
 
 \lstinputlisting
 [firstline=56,			%starts reading the file from line 11
-%firstnumber=11,		%starts counting the lines in pdf from 11
+firstnumber=56,		%starts counting the lines in pdf from 11
 lastline=76,			%stops reading the file at line 18
 label=lst:mapHarrayFill,	%label
 caption={Storing values in the 2D array in {\tt map.c}}
@@ -230,7 +225,7 @@ Listing \ref{lst:mapHstartFinish} shows how the coordinates for the start and fi
 
 \lstinputlisting
 [firstline=85,			%starts reading the file from line 11
-%firstnumber=11,		%starts counting the lines in pdf from 11
+firstnumber=85,		%starts counting the lines in pdf from 11
 lastline=87,			%stops reading the file at line 18
 label=lst:mapHstartFinish,	%label
 caption={Storing start and finish position in the {\tt Robot} struct in {\tt map.c}}
@@ -243,25 +238,26 @@ caption={Storing start and finish position in the {\tt Robot} struct in {\tt map
 Path finding algorithms operate with a special type of map called a graph.
 A graph consists of only nodes and edges, as explained more in detail in Section \ref{sec:graphs}.
 The function {\tt node\_map\_load} converts the ordinary map made of ASCII characters, into a map that only consists of nodes.
+Each {\tt Nodes} struct has pointers to the eight neighbour {\tt Nodes} structs.
+This is similar to the principle of having a pointer in a linked list, pointing to the next element of the same struct type.
 
 Like with linked lists, structs can be used as a data structure to store data of different types. 
 Listing \ref{lst:mapStructs} shows the data structure created for the '{\tt Nodes} struct' to hold all the necessary data for the individual nodes.
 
 \lstinputlisting
 [firstline=24,			%starts reading the file from line 11
-%firstnumber=11,		%starts counting the lines in pdf from 11
+firstnumber=24,		%starts counting the lines in pdf from 11
 lastline=31,			%stops reading the file at line 18
 label=lst:mapStructs,	%label
 caption={data structure of {\tt Nodes} struct in {\tt defs.h}}
 ]{code/defs.h}
-Each {\tt Nodes struct} has pointers to the eight neighbour {\tt Nodes} struct.
-This is similar to the principle of having a pointer in a linked list pointing to the next element.
-\todo{insert node struct code here showing the node struct?}
 
-A dynamic 2D array is declared using malloc. It holds structs of type {\tt Nodes}, one for each node on the map. 
+The dynamic 2D array is declared using malloc. 
+It holds structs of type {\tt Nodes}, one for each node in the map is allocated in memory.
+
 \lstinputlisting
 [firstline=90,			%starts reading the file from line 11
-%firstnumber=11,		%starts counting the lines in pdf from 11
+firstnumber=90,		%starts counting the lines in pdf from 11
 lastline=101,			%stops reading the file at line 18
 label=lst:mapStructs,	%label
 caption={Declaration of node map 2D array used for storing {\tt Nodes} structs in {\tt map.c}}
@@ -271,11 +267,7 @@ In the end a pointer to the declared 2D array gets stored in the {\tt Robot } st
 This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values. An example of the usage can be seen in Listing \ref{lst:AccessingNode}. 
 
 \begin{lstlisting}[caption={Example of accessing a node in the node map stored in a 2D array in {\tt map.c}},label={lst:AccessingNode}]
-<<<<<<< Updated upstream
 robot->map.node[i][j].[name of element in Nodes struct]
-=======
-robot->map.node[i][j].[name of element in {\tt nodes} struct]
->>>>>>> Stashed changes
 \end{lstlisting}
 
 \section{Encoding Walls in a Single-byte Value}
@@ -289,12 +281,8 @@ It is possible to store data about the available directions in 8 bits in total, 
 
 \begin{figure}[htp]
     \centering
-<<<<<<< Updated upstream
         \includegraphics[width=0.70\textwidth]{figures/map/bitbyte.png}%
-=======
-        \includegraphics[width=0.75\textwidth]{figures/map/bitbyte.png}%
->>>>>>> Stashed changes
-    \caption{A byte where the bit pattern represents the eight possible directions to move in.}
+    \caption{A byte where the bitflags represents the eight possible directions to move in.}
     \label{fig:bitbyte}
 \end{figure}
 
@@ -309,14 +297,33 @@ At the robots current location, sensors scans the surrounding environment for wa
 The feedback from the sensors is returned as a single-byte value, as described in Chapter \ref{ch:scan}.
 
 The single-byte from the {\tt scan} function gets compared to the single-byte in the map array, for the robots current location.
-If changes to the surroundings are detected, the 2D map array gets updated and saved to the text-file.
-\todo{insert code where char map gets updated based on the scan return and robots current position}
 
-Every time a change in the map is detected, the pathfinding function is called
-\todo{insert function name or code}. 
-This calculates the most efficient path from the robots current location to the finish, using the updated map data. 
-\todo{insert code from map-check function here}
-\todo{it could maybe be used somewhere else to explain what the robot does, if not just leave it here.}
+
+Each time the robot has made move, the surroundings at the current position is scanned and compared with the map.
+This code can be seen in Listing \ref{lst:mapCheck}.
+ 
+\lstinputlisting
+[firstline=3,			%starts reading the file from line 11
+firstnumber=3,		%starts counting the lines in pdf from 11
+lastline=12,			%stops reading the file at line 18
+label=lst:mapCheck,	%label
+caption={Scan surroundings at current position and compare with map segment in {\tt map.c}}
+]{code/map.c}
+
+Listing \ref{lst:mapUpdate} shows that if changes to the surroundings where
+detected, the 2D map array gets updated with the new data. 
+
+Each of the eight directions around the node at the robots current position gets updated.
+The bitwise comparison operator '\&' is used to check if the directions in the byte is flagged as '0' or '1',
+meaning a whitespace ' ' or a wall '\#' should be stored.
+
+\lstinputlisting
+[firstline=126,			%starts reading the file from line 11
+firstnumber=126,		%starts counting the lines in pdf from 11
+lastline=146,			%stops reading the file at line 18
+label=lst:mapUpdate,	%label
+caption={Map gets updated with the byte returned by the scan function in {\tt map.c}}
+]{code/map.c}
 
 \section{Writing Updated Map to a File}
 \label{sec:map_save} % section label
