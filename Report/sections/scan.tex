@@ -88,14 +88,14 @@ Table \ref{tab:scanned_byte}.
 	\hline
 	Directions & NW & SW & SE & NE & W & S & E & N & Byte	\\ \hline
 	Map Byte   & 1  & 0  				  & 0  & 1  				 & 1 & 1 & 1 & 0 & 0x9E    	\\ \hline
-	Scan Byte  & 1  & \textcolor{red}{1}  & 0  & \textcolor{red}{0}  & 1 & 1 & 1 & 0 & 0xCE 	   	\\ \hline
+	Scan Byte  & 1  & \textcolor{red}{1}  & 0  & \textcolor{red}{0}  & 1 & 1 & 1 & 0 & \textcolor{red}{0xCE} 	   	\\ \hline
 	\end{tabular}
 \end{table}
 
 \newpage
 \section{Implementation}\label{sec:scan_implementation}
 The IR sensor was tested on an Arduino Uno. Listing \ref{lst:sensor} 
-represents the code to test the sensor, and can also be seen in 
+shows the code to test the sensor, and can also be seen in Appendix
 \ref{app:scan}.
 
 \lstinputlisting
@@ -106,7 +106,7 @@ label=lst:sensor,
 caption={Sensor Tesing}
 ]{code/scan/scan.ino}
 
-The value read from the sensor, is multiplied with the value given by
+The value read from the sensor is multiplied with the value given by
 dividing the supply voltage with the ADC resolution, as shown in line 11.
 Afterwards, line 13 determines the distance.
 Lastly, the value is checked and a boolean value is returned.
