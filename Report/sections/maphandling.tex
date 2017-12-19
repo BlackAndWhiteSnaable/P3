@@ -1,54 +1,14 @@
-% Introduction
-
-% ??? NEED block diagram of go()! check map? scan: yes/no? save map, move etc. (use that online code to block diagram tool)
-% ??? Descripe framework in a section (see gdocs for input to block diagram) (or present at exam)
-% ??? Mention we chose to focus on making our own code with the least use of finished libraries as possible, no error handling 
-% ??? Mention the report will explain important aspects of out work and theoretical parts, 
-%     while the finished product is a prototype and the code in the appendix
-% 
-
-% Problem / introduction?:
-% - Problem and analysis:
-% 	- https://en.wikipedia.org/wiki/Rescue_robot
-%	- https://www.robocupgermanopen.de/sites/default/files/rescue_maze_2017.pdf
-% - System diagram (what we want to build):
-% Daniel has already made a nice diagram of this
-% Current position should be known after each move.
-
-% - Prototype / mechanical design / robot design (show what we wanted to to build)
-% - maybe here with motor/wheels under it? chasis?
-% - maybe under "problem and analysis"
-
-
-% Programming Structure and Design: (try to fulfill some Akbar goals here, see those gdocs notes)
-%- Robot Instruction Execution Order
-%- Framework
-%- Data Structure
-
-
 
 % Robot control: (maybe after pathfinding?)
 % Theory:
 % - functionality
 % - step/control sequence
-% Implementation: (programming)
 % - programming/framework etc.
 
-% Map handling:
-% Theory (how we did and thoughts):
-% - Introduction (what is map handling about, what have we covered here, problems we want to solve)
-% - Analysis of map input
-% - Converting analog map to digital map (intro)
-% - 
-% Implementation:
-% - Read, compare, update 
-
-% Prototype:
+% Conclusion:
 % maybe something about the prototype here??
-% or in conclusion at least
+% mention we chose to focus on making our own code with the least use of finished libraries as possible, no error handling 
 % read google docs
-
-
 
 \chapter{Map Handling}
 \label{ch:map_handling} % chapter label
@@ -59,7 +19,7 @@ Once the robot is at the starting point, it has to rely on its sensors for updat
 
 The map itself is a crucial part, that converted into to a graph is used by the path-finding as explained in Chapter \ref{ch:path}. 
 Hence a structured way of storing the required map data for different maps was designed. 
-The primary goal was make it readable by the microcontroller, but also still allow easy user input.
+The primary goal was to make it readable by the microcontroller, but also still allow easy user input.
 
 %Existing pathfinding algorithms such as Dijkstra and A* was studied, 
 %in order to understand what input data such algorithms typically would require. 
@@ -172,8 +132,8 @@ where the value of any given map segment easily could be accessed.
 \begin{lstlisting}[caption={Example of implementation in the final code}]
 Array: robot->map->segments[3][4], would return the value for map coordinate (3,4)
 \end{lstlisting}
-Examples of this can be seen implemented in the final code in appendix XX (some specific place?). 
-\todo{fix referring to code in appendix, and code language should not be set to Python.} 
+This can be seen implemented in the final code in Appendix X. 
+\todo{fix referring to code in appendix} 
 The same approach was used for handling node maps, which is further explained in Chapter \ref{ch:path}.
 
 \newpage
@@ -192,9 +152,7 @@ while the plain-text version is easier to read for computers.
 Nodes represent positions on the map where the robot can move between. 
 The robot can move in any of the eight directions unless a it is blocked by a wall. 
 The directions consists of four straight directions, N,E,S,W and four diagonal directions NE,SE,SW,NW. 
-Nodes are explained further in Chapter \ref{ch:path}. 
-\todo{explained in path chapter or in nodemap section?}
-
+For more information in nodes, see Section \ref{sec:graphs}. 
 \begin{figure}[htp]
     \centering
     \subfloat[ASCII]{%
@@ -214,8 +172,7 @@ Nodes are explained further in Chapter \ref{ch:path}.
 We found that making the map using UTF8 would require a bit more work, 
 since text editors sometimes add characters to the beginning of the file. 
 This is known as the byte-order-mark (BOM) which indicates the file uses UTF8 encoding. 
-It also uses variable bit-length for characters, between 1-4 bytes [https://en.wikipedia.org/wiki/UTF-8].
-\todo{not wikipedia PLEASE!!} 
+It also uses variable bit-length for characters, between 1-6 bytes.
 This makes reading and storing the map to a file more complicated, which is why we chose to use plain text ASCII.
 
 \newpage
@@ -223,19 +180,17 @@ This makes reading and storing the map to a file more complicated, which is why 
 \label{sec:map_read} % section label %
 The function {\tt map\_load} loads map data from a file and saves it in the {\tt map} struct.
 Start and finish positions are read from the file as well, and saved in {\tt robot} struct.
-\todo{Write about structs in the beginning of the report}
 
 Functions were made for loading maps from a text-file, as well as saving an updated map to a text-file. 
 The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.
 \todo{fix reference}
-\todo[inline]{listing showing parts of these functions}
+
 Reading and writing maps on a computer locally, was very useful for developing and testing the map handling subsystem. 
 Implementing this functionality on a microprocessor, would require it to have a file system installed.
 We chose not to implement this functionality, due to the restricted time frame of this project.
-As an alternative, maps can be stored directly in memory as part og the programming code. 
+As an alternative, maps can be stored directly in memory as part of the programming code. 
 This solution is not as user-friendly, and updates to the map will be lost from the memory when the microcontroller is turned off.
 
-\todo[inline]{something in between, maybe some code?}
 In the C programming language the size of an array must be declared at compile time. 
 The array for the map has to be large enough to hold all the map data.
 Unfortunately the map size and data remains unknown until a map is loaded, which happens at runtime.
@@ -243,26 +198,56 @@ Unfortunately the map size and data remains unknown until a map is loaded, which
 One way of dealing with this, is by using a 2D array with a fixed size, large enough to store maps of a convenient size. 
 We chose to use a dynamic 2D array instead. 
 This more advanced approach would give us more experience, by using dynamic memory allocation and pointers to implement this solution in the application.
-
-The required size of the dynamiic 2D array can be calculated by counting the lines and characters of the map,
+\newpage
+The required size of the dynamic 2D array can be calculated by counting the lines and characters of the map,
 which is equivalent to the rows and columns needed for the array.
 A map with 5x5 nodes will have 11 characters in each line and a total of 11 lines,
-as illustrated in Figure \ref{fig:5x5map}.
+as illustrated in Figure \ref{fig:5x5map}. Listing \ref{lst:mapHload} shows how a map is read from a text-file, and how the lines and characters are counted.
+
+\lstinputlisting
+[firstline=30,			%starts reading the file from line 11
+%firstnumber=11,		%starts counting the lines in pdf from 11
+lastline=46,			%stops reading the file at line 18
+label=lst:mapHload,		%label
+caption={Opening map text-file and analysing map size in {\tt map.c}}
+]{code/map.c}
 To store the map, an 11x11 2D array is required.
-Now that the required array size is known, it can be allocated in the memory.\\
-\todo[inline]{insert code}
-- Example of allocating 2d array\\
-- putting data in 2d array ???\\
+Now that the required array size is known, it can be allocated in the memory.
+Once allocated, the address of 2D array is stored in the {\tt robot} struct as a pointer.\\
+The size of the map is stored in the struct as well, for future reference.
+Listing \ref{lst:mapHarrayAllocate} shows how the dynamic 2D array gets allocated in memory.
 
+\lstinputlisting
+[firstline=48,			%starts reading the file from line 11
+%firstnumber=11,		%starts counting the lines in pdf from 11
+lastline=55,			%stops reading the file at line 18
+label=lst:mapHarrayAllocate,	%label
+caption={Allocation of 2D array in {\tt map.c}}
+]{code/map.c}
 
-ORDER:\\
-map load\\
-hex values\\
-node map load\\
-scan\\
-map save\\
-\todo{ORDER can be removed now I think}
+\newpage
+At this point the 2D map array is filled with the actual map data from file.
+Listing \ref{lst:mapHarrayFill} shows how the 2D map array gets filled with data using two for loops.
 
+\lstinputlisting
+[firstline=56,			%starts reading the file from line 11
+%firstnumber=11,		%starts counting the lines in pdf from 11
+lastline=76,			%stops reading the file at line 18
+label=lst:mapHarrayFill,	%label
+caption={Storing values in the 2D array {\tt map.c}}
+]{code/map.c}
+The robots start and finish location is read from the map, and stored in the {\\t robot} struct.
+Listing \ref{lst:mapHstartFinish} Store the map start and finish positions in the robot struct.
+
+\lstinputlisting
+[firstline=85,			%starts reading the file from line 11
+%firstnumber=11,		%starts counting the lines in pdf from 11
+lastline=87,			%stops reading the file at line 18
+label=lst:mapHstartFinish,	%label
+caption={Storing start and finish position in the {\tt Robot} struct in {\tt map.c}}
+]{code/map.c}
+
+\newpage
 
 \section{Encoding Walls in a Single-byte Value}
 \label{sec:map_hex} % section label
@@ -324,7 +309,7 @@ This calculates the most efficient path from the robots current location to the 
 \todo{insert code from map-check function here}
 \todo{it could maybe be used somewhere else to explain what the robot does, if not just leave it here.}
 
-\section{Writing Map to a File}
+\section{Writing Updated Map to a File}
 \label{sec:map_save} % section label
 Sensors scan the surroundings for walls, at the robots current position.
 If changes are detected, the map gets updated as described in Section \ref{sec:map_check}.
