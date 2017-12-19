@@ -216,7 +216,7 @@ Our explanation of the implementation relies heavily on our program written in C
 Every function explained in this section can also be read in Appendix \ref{app:path}.
 
 Since our map consists of \emph{nodes} with up to eight neighbours,
-as explained in Chapter \ref{ch:map}, \todo{does Troels explain this?}
+as explained in Section \ref{sec:map_hex},
 we decided to store this information in a single byte per \emph{node}.
 In this byte, the \emph{Least Significant Nibble (LSN)} represents the straight directions N,E,S,W.
 The \emph{Most Significant Nibble (MSN)} represents the diagonal directions NE,SE,SW,NW.
@@ -228,7 +228,7 @@ path gets stored as 0, WALL as 1}}
 \begin{center}
 	\begin{tabular}{|*{8}{m{1cm}|}|l|}
 		\hline%-------------------------------
-		NE& SE& SW& NW& N & E & S & W & byte\\
+		NW& SW& SE& NE& W & S & E & N & byte\\
 		\hline%-------------------------------
 		path & path & path & path & path & path & path & WALL & 0x01\\
 		path & path & path & path & path & path & WALL & path & 0x02\\
