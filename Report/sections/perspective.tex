@@ -7,15 +7,14 @@ Because efficiency was outside the scope of the project.
 In a real world scenario,
 efficiency both in time and power consumption is crucial to the effectiveness of a rescue robot.
 
-Because of this we want to at least formulate our thoughts about efficiency.
-\todo[inline,color=codegreen]{finish writing}
+Because of this we want to at least formulate our thoughts on the topic.
+\subsection{Pathfinding}
 Path-finding is probably the most resource-heavy calculation in our system,
 and will likely be executed several times while running.
-Because of that we wanted to at least think about and discuss efficiency,
-even though we didn't have the time to implement all of our thoughts on the topic.
 
 Most path-finding algorithms need several variables to be stored and accessed multiple times,
-so we decided to store them in structs for our implementation.
+for each node.
+We decided to store them in structs for our implementation.
 
 \lstinputlisting
 [firstline=24,				%starts reading the file from this line
@@ -26,10 +25,10 @@ caption={Declaring a Struct  in {\tt defs.h}}
 ]{code/defs.h}
 %
 An example of a struct declaration can be seen in Listing \ref{lst:structs}.
-A struct stores all declared variables as a single variable,
+A struct stores all declared variables as an individual variable,
 with pointers to them.
 This makes it easy to access them for the programmer,
-but creates an unnecessary overhead when compiling.
+but creates a notable overhead when compiling.
 
 Depending on the word size of the used processor,
 it could be possible to store all information necessary for a node in one variable.
@@ -43,16 +42,9 @@ our thoughts on how that might look can be seen in Table \ref{tab:encode}.
 \begin{tabularx}{\textwidth}{|*{32}{X|}}
 	\hline
 	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{position}&
-	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{walls}&
-	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{parent}&
-	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{movecost}\\
-	\hline
-	\multicolumn{4}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{x}&
-	\multicolumn{4}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{y}&
-	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{}&
-	\multicolumn{4}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{x}&
-	\multicolumn{4}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{y}&
-	\multicolumn{8}{|>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{integer}\\
+	\multicolumn{8}{>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{walls}&
+	\multicolumn{8}{>{\hsize=\dimexpr2\hsize+2\tabcolsep+\arrayrulewidth\relax}X|}{parent}&
+	\multicolumn{8}{>{\hsize=\dimexpr8\hsize+10\tabcolsep+\arrayrulewidth\relax}X|}{movecost}\\
 	\hline
 	1&1&0&1&1&0&0&1&0&1&0&1&1&0&0&0&0&1&1&1&0&0&1&0&1&0&1&1&1&1&1&1\\
 	\hline
@@ -61,14 +53,14 @@ our thoughts on how that might look can be seen in Table \ref{tab:encode}.
 \label{tab:encode}
 \end{table}
 %
-Single values could be retrieved through simple bitwise boolean logic,
-implemented either in hardware (custom processor) or in software.
+Single values could be retrieved through simple bitwise operations,
+implemented either in hardware or in software.
 To retrieve the X-ordinate for example,
 the whole value could be shifted to the right 28 times.
 
-To select the parent Y-ordinate,
-the value could be {\tt AND} with {\tt 0x0F00} and
-afterwards shifted to the right 8 times.
+To select the parent position,
+one could take the value {\tt AND} {\tt 0xFF00} and
+afterwards shift to the right 8 times.
 
 Our current approach takes use of pointers a lot,
 often iterating through several substructs.
