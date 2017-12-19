@@ -247,7 +247,7 @@ scan\\
 map save
 
 
-\section{Encoding Surrounding Walls to a Single-byte Value}
+\section{Encoding Walls in a Single-byte Value}
 \label{sec:map_hex} % section label
 Each node in the map potentially has up to eight neighbour nodes. 
 The robot can move to any of the neighbour nodes, unless it is blocked by a wall, as illustrated in Figure \ref{fig:node_move_directions}.\todo{insert figure of a node and 8 arrows}
@@ -256,32 +256,32 @@ To indicate the possible directions to move in, we decided to use the boolean va
 Here 0 would mean it is possible to move that direction to the neighbour node, while 1 means the direction is blocked by a wall.
 
 Since each 0 or 1 can be represented by one bit, it is possible to store data about all eight directions in a single byte.
-byte --> [0000 0000] insert figure or table here as an example?
+byte --> [0000 0000] \todo{insert figure or table here as an example?}
 
 Depending on the individual bits, the byte will have a certain value.
-Since all values are stored as binaries in the memory, the hexadecimal representation was used in the programming.
+Since all values are stored as binaries in the memory, a hexadecimal representation was often used in the programming.
 
 \todo{merge this section with Daniels 5.7 Implementation}
 
 
-\section{Converting Map to Node Map}
+\section{Building a Node Map}
 \label{sec:map_node} % section label
-blablabla\\
-Calculating which nodes that are connected together on the map, is a crucial part of any pathfinding algorithm. 
-This is known as a graph, and is explained more in detail in Section \ref{sec:graph}. \todo{Daniel your Graph section is missing a label}
+Path finding algorithms operate with a special type of map called a graph.
+A graph consists of only nodes and edges, as explained more in detail in Section \ref{sec:graphs}.
 
-More blabla.. It is possible to convert the ordinary map made of ASCII characters, to a map that only consists of nodes.
-A struct was created with a data structure that could hold all the necessary data for each node.
-\todo{insert/refer to node struct}
+The function {\tt node\_map\_load} converts the ordinary map made of ASCII characters, into a map that only consists of nodes.
+To store the node map we created the data structure {\tt Nodes struct} to hold the necessary data for a single node.
+Each {\tt node struct} has pointers to the available neighbour nodes in all eight directions.
+\todo{insert node struct code?}
 
-A dynamic 2D array containing a {\tt node struct} for each node in the map is declared. 
-A pointer to the 2D array is stored in the {\tt robot struct}.
+
+A dynamic 2D array was filled with {\tt Nodes struct} for each node in the map was declared. 
+\todo{code here?}
+A pointer to the declared 2D array gets stored in the {\tt robot struct}.
 This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values.
 
 \todo{give example}
 robot->nodemap.node[i][j].[name of struct element]
-
-Possible more text here.. Zzzz
 
 \section{Map Validation Using Sensors}
 \label{sec:map_check} % section label
@@ -290,12 +290,17 @@ External factors such as an explosion in a building, could also change the surro
  
 The robots current location on the map is known at all times. 
 After the robot has moved to the next node on the map, its current position is updated.
-Distance sensors scans the surrounding environment for walls, in all eight possible move-directions.
-The operation of these sensors is described in more detail in Section \ref{ch:scan}.
-The feedback from the sensors is a single-byte hex value, as described in Section \ref{sec:map_hex}.
-By comparing this single-byte value to the corresponding segments on the map.
+At the robots current location, distance sensors scans the surrounding environment for walls in the eight possible move-directions.
+How these sensors operate is described in more detail in Chapter \ref{ch:scan}.
+The feedback from the sensors is given as a single-byte hex value, as described in Section \ref{sec:map_hex}.
+\todo{explained in Scan section what the return value of the sensors is?}
+The single-byte value is compared to the corresponding segments on the map.
 If changes to the surroundings are detected, the map gets updated and saved to the text-file.
-Every time a change in the map is detected, the path finding function is called\todo{insert function name}. This calculates the most efficient path from the robots current location to the finish using the updated map data. 
+\todo{insert code where char map gets updated based on the scan return}
+
+Every time a change in the map is detected, the path finding function is called
+\todo{insert function name or code}. 
+This calculates the most efficient path from the robots current location to the finish, using the updated map data. 
 \todo{insert code from map-check function here}
 \todo{could maybe be used somewhere else to explain what the robot does, if not just leave it here.}
 
