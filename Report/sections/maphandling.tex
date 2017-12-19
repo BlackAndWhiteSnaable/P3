@@ -53,9 +53,13 @@
 \chapter{Map Handling}
 \label{ch:map_handling} % chapter label
 The rescue robot should be able follow a given path from start to finish, based on a predefined map given as input.
-A map provides useful information about whether areas of the map are accessible or not. Map data can be loaded by the robot prior to its physical presence at a location. Once the robot is at the starting point, it has to rely on its sensors for updated information about the surroundings. 
+A map provides useful information about whether areas of the map are accessible or not. 
+Map data can be loaded by the robot prior to its physical presence at a location. 
+Once the robot is at the starting point, it has to rely on its sensors for updated information about the surroundings. 
 
-The map itself is a crucial part, that converted into to a graph is used by the path-finding as explained in Chapter \ref{ch:path}. Hence a structured way of storing the required map data for different maps was designed. The primary goal was make it readable by the microcontroller, but also still allow easy user input.
+The map itself is a crucial part, that converted into to a graph is used by the path-finding as explained in Chapter \ref{ch:path}. 
+Hence a structured way of storing the required map data for different maps was designed. 
+The primary goal was make it readable by the microcontroller, but also still allow easy user input.
 
 %Existing pathfinding algorithms such as Dijkstra and A* was studied, 
 %in order to understand what input data such algorithms typically would require. 
@@ -128,7 +132,7 @@ A 2D array can be thought of as a matrix, where a grid of numbers can be arrange
 
 The result of the different indexing methods can be seen by comparing Figure \ref{sub:2d_map} to \ref{sub:2d_array}. 
 Given the same index values, the cell referred to would be different, 
-as seen in  Figure \ref{sub:2d_map} and \ref{sub:2d_array}.
+as seen in Figure \ref{grid_map_vs_array}.
 
 
 \begin{figure}[htp]
@@ -143,7 +147,7 @@ as seen in  Figure \ref{sub:2d_map} and \ref{sub:2d_array}.
         \label{sub:2d_array}
         }%
     \caption{Difference in indexing for (3,4) in a 2D grid map and a 2D array}
-    \label{fig:floor_plans}
+    \label{fig:grid_map_vs_array}
 \end{figure}
 %https://i.stack.imgur.com/tFdLk.gif
 
@@ -179,9 +183,17 @@ The same approach was used for handling node maps, which is further explained in
 The grid-based map is made up of simple plain-text ASCII characters.
 This makes it fairly simple and easy-to-understand, and maps can easily be created or changed by a user. 
 
-An example of a map with 5x5 nodes can be seen in Figure \ref{sub:map_ascii}, where \# being walls, A being the start, B being the finish, o being nodes, and the white spaces being open spaces. The same map can be seen using UTF8 encoding in Figure \ref{sub:map_utf8}. UTF8 has a more characters to choose from, which makes it easier to read for humans while the plain-text version is easier to read for computers.
+An example of a map with 5x5 nodes can be seen in Figure \ref{sub:map_ascii}, 
+where \# being walls, A being the start, B being the finish, o being nodes, and the whitespaces being open spaces. 
+The same map can be seen using UTF8 encoding in Figure \ref{sub:map_utf8}. 
+UTF8 has a more characters to choose from, which makes it easier to read for humans , 
+while the plain-text version is easier to read for computers.
 
-Nodes represent positions on the map where the robot can move between. The robot can move in any of the eight directions unless a it is blocked by a wall. The directions consists of four straight directions, N,E,S,W and four diagonal directions NE,SE,SW,NW. Nodes are explained further in Chapter \ref{ch:path}. \todo{explained in path chapter or in nodemap section?}
+Nodes represent positions on the map where the robot can move between. 
+The robot can move in any of the eight directions unless a it is blocked by a wall. 
+The directions consists of four straight directions, N,E,S,W and four diagonal directions NE,SE,SW,NW. 
+Nodes are explained further in Chapter \ref{ch:path}. 
+\todo{explained in path chapter or in nodemap section?}
 
 \begin{figure}[htp]
     \centering
@@ -199,7 +211,8 @@ Nodes represent positions on the map where the robot can move between. The robot
     \label{fig:5x5map}
 \end{figure}
 
-We found that making the map using UTF8 would require a bit more work, since text editors often add characters to the beginning of the file. 
+We found that making the map using UTF8 would require a bit more work, 
+since text editors sometimes add characters to the beginning of the file. 
 This is known as the byte-order-mark (BOM) which indicates the file uses UTF8 encoding. 
 It also uses variable bit-length for characters, between 1-4 bytes [https://en.wikipedia.org/wiki/UTF-8].
 \todo{not wikipedia PLEASE!!} 
@@ -213,7 +226,8 @@ Start and finish positions are read from the file as well, and saved in {\tt rob
 \todo{Write about structs in the beginning of the report}
 
 Functions were made for loading maps from a text-file, as well as saving an updated map to a text-file. 
-The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.\todo{fix reference}
+The full code for the functions {\tt map\_load} and {\tt map\_save} can be seen in Appendix X.
+\todo{fix reference}
 \todo[inline]{listing showing parts of these functions}
 Reading and writing maps on a computer locally, was very useful for developing and testing the map handling subsystem. 
 Implementing this functionality on a microprocessor, would require it to have a file system installed.
@@ -227,7 +241,8 @@ The array for the map has to be large enough to hold all the map data.
 Unfortunately the map size and data remains unknown until a map is loaded, which happens at runtime.
 
 One way of dealing with this, is by using a 2D array with a fixed size, large enough to store maps of a convenient size. 
-We chose to use a dynamic 2D array instead. This more advanced approach would give us more experience, by using dynamic memory allocation and pointers to implement this solution in the application.
+We chose to use a dynamic 2D array instead. 
+This more advanced approach would give us more experience, by using dynamic memory allocation and pointers to implement this solution in the application.
 
 The required size of the dynamiic 2D array can be calculated by counting the lines and characters of the map,
 which is equivalent to the rows and columns needed for the array.
@@ -239,49 +254,55 @@ Now that the required array size is known, it can be allocated in the memory.\\
 - Example of allocating 2d array\\
 - putting data in 2d array ???\\
 
+
 ORDER:\\
 map load\\
 hex values\\
 node map load\\
 scan\\
-map save
+map save\\
+\todo{ORDER can be removed now I think}
 
 
 \section{Encoding Walls in a Single-byte Value}
 \label{sec:map_hex} % section label
 Each node in the map potentially has up to eight neighbour nodes. 
-The robot can move to any of the neighbour nodes, unless it is blocked by a wall, as illustrated in Figure \ref{fig:node_move_directions}.\todo{insert figure of a node and 8 arrows}
+The robot can move to any of the neighbour nodes, unless it is blocked by a wall, as illustrated in Figure \ref{fig:node_move_directions}.
+\todo{insert figure of a node and 8 arrows}
 
-To indicate the possible directions to move in, we decided to use the boolean values 0 and 1. 
+
+To represent the possible directions to move in, we decided to use the boolean values 0 and 1. 
 Here 0 would mean it is possible to move that direction to the neighbour node, while 1 means the direction is blocked by a wall.
 
 Since each 0 or 1 can be represented by one bit, it is possible to store data about all eight directions in a single byte.
-byte --> [0000 0000] \todo{insert figure or table here as an example?}
+byte --> [0000 0000]
+\todo{insert figure or table here as an example?}
 
 Depending on the individual bits, the byte will have a certain value.
 Since all values are stored as binaries in the memory, a hexadecimal representation was often used in the programming.
 
-\todo{merge this section with Daniels 5.7 Implementation}
-
+\todo{merge this section with Daniels 5.7 Implementation?}
 
 \section{Building a Node Map}
 \label{sec:map_node} % section label
 Path finding algorithms operate with a special type of map called a graph.
 A graph consists of only nodes and edges, as explained more in detail in Section \ref{sec:graphs}.
-
 The function {\tt node\_map\_load} converts the ordinary map made of ASCII characters, into a map that only consists of nodes.
-To store the node map we created the data structure {\tt Nodes struct} to hold the necessary data for a single node.
-Each {\tt node struct} has pointers to the available neighbour nodes in all eight directions.
-\todo{insert node struct code?}
 
+Like with linked lists, {\tt structs} can be used as a data structure to store data of different types. 
+\todo{refer to structs in appendix?}
+To store the node map we created the data structure {\tt Nodes struct} to hold all the necessary data for the individual nodes.
+Each {\tt Nodes struct} has pointers to the eight neighbour {\tt node structs}.
+This is similar to the principle of having a pointer in a linked list pointing to the next element.
+\todo{insert node struct code here showing the node struct?}
 
-A dynamic 2D array was filled with {\tt Nodes struct} for each node in the map was declared. 
+A dynamic 2D array gets filled with {\tt Nodes struct}, one for each node in the map. 
 \todo{code here?}
 A pointer to the declared 2D array gets stored in the {\tt robot struct}.
 This allows for easy access to all the data for a given node, just by using the nodes position on the map as the array index values.
 
 \todo{give example}
-robot->nodemap.node[i][j].[name of struct element]
+robot->nodemap.node[i][j].[name of element in nodes struct]
 
 \section{Map Validation Using Sensors}
 \label{sec:map_check} % section label
@@ -290,23 +311,28 @@ External factors such as an explosion in a building, could also change the surro
  
 The robots current location on the map is known at all times. 
 After the robot has moved to the next node on the map, its current position is updated.
-At the robots current location, distance sensors scans the surrounding environment for walls in the eight possible move-directions.
-How these sensors operate is described in more detail in Chapter \ref{ch:scan}.
-The feedback from the sensors is given as a single-byte hex value, as described in Section \ref{sec:map_hex}.
-\todo{explained in Scan section what the return value of the sensors is?}
-The single-byte value is compared to the corresponding segments on the map.
-If changes to the surroundings are detected, the map gets updated and saved to the text-file.
-\todo{insert code where char map gets updated based on the scan return}
+At the robots current location, sensors scans the surrounding environment for walls in the eight possible move-directions.
+The feedback from the sensors is returned as a single-byte value, as described in Chapter \ref{ch:scan}.
 
-Every time a change in the map is detected, the path finding function is called
+The single-byte from the {\tt scan} function gets compared to the single-byte in the map array, for the robots current location.
+If changes to the surroundings are detected, the 2D map array gets updated and saved to the text-file.
+\todo{insert code where char map gets updated based on the scan return and robots current position}
+
+Every time a change in the map is detected, the pathfinding function is called
 \todo{insert function name or code}. 
 This calculates the most efficient path from the robots current location to the finish, using the updated map data. 
 \todo{insert code from map-check function here}
-\todo{could maybe be used somewhere else to explain what the robot does, if not just leave it here.}
+\todo{it could maybe be used somewhere else to explain what the robot does, if not just leave it here.}
 
 \section{Writing Map to a File}
 \label{sec:map_save} % section label
-Come up with something..
+Sensors scan the surroundings for walls, at the robots current position.
+If changes are detected, the map gets updated as described in Section \ref{sec:map_check}.
 
+If the updated map is kept only in memory, it will be lost once the microcontroller is turned off, since this is not a persistent storage. To prevent this during testing, the map was saved in a text-file.
 
+The individual map segments that consists of ASCII characters, gets written to the map text-file.
+This is done by iterating through the entire 2D map array.
+
+\todo{map\_save code}
 
