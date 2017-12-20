@@ -22,11 +22,13 @@ void push_queue(Queue **head, Nodes *new_node)
   } else {
     Queue *cur;
     cur = *head;
-    while(cur->next != NULL && cur->next->node->movecost <= new_node->movecost) {
+    while
+    (cur->next != NULL &&
+     cur->next->node->movecost <= new_node->movecost) {
     cur = cur->next; // Next node
   }
-    tmp->next = cur->next;    // in new queue element set next pointer to current head queue element
-    cur->next = tmp;          // set head queue element to point to the new queue element
+    tmp->next = cur->next;    // set next pointer to current head
+    cur->next = tmp;          // set head queue element to new element
   }
   // Store pointer to node in the new queue element
   tmp->node = new_node;
@@ -46,8 +48,14 @@ void print_queue(Queue *head) {
 
         for (cur = head; cur != NULL; cur = cur->next)
         {
-            printf("[INFO]\t%d. Queue element is node[%d][%d] with movecost: %d\n", 
-			i, cur->node->position.x, cur->node->position.y, cur->node->movecost);
+            printf(
+              "[INFO]\t%d. Queue element is
+              node[%d][%d] with movecost: %d\n",
+			        i,
+              cur->node->position.x,
+              cur->node->position.y,
+              cur->node->movecost
+            );
             i++;
         }
     }
@@ -66,9 +74,9 @@ Nodes *pop(Queue **head)
         node = (*head)->node;
 
         Queue *tmp;               // tmp pointer to struct
-        tmp = (*head)->next;      // set pointer to 2nd queue element from head
-        free(*head);              // free allocated memory for 1st queue element
-        *head = tmp;              // set 2nd queue element to 1st queue element
+        tmp = (*head)->next;      // set pointer to 2nd element
+        free(*head);              // free memory for 1st element
+        *head = tmp;              // set 2nd element to 1st element
 
         return node;
     }
