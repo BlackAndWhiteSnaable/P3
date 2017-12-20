@@ -118,8 +118,9 @@ which is very similar to a matrix transpose.
 In the program dynamic 2D arrays were used, 
 which allows to easily read or set the value of any given map segment, as shown in Listing \ref{lst:Accessing2dMap}.
 The same approach was later used for handling node maps, which is further explained in Chapter \ref{ch:path}.
+Structs are declared in {\tt defs.h} which can be found in Appendix \ref{app:defs.h.
  
-\begin{lstlisting}[caption={Example of reading or setting a value for coordinate (3,4) in the 2D map array, using structs and pointers. Structs are declared in {\tt defs.h} in Appendix \ref{app:defs.h}},label={lst:Accessing2dMap}]
+\begin{lstlisting}[caption={Example of reading or setting a value for coordinate (3,4) in the 2D map array, using structs and pointers.}},label={lst:Accessing2dMap}]
 robot->map.segments[3][4] = 0x0F;					// Setting a value
 
 char map_segment = robot->map.segments[3][4];	// Reading a value
