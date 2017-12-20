@@ -10,7 +10,8 @@ Because of this we want to at least formulate our thoughts on the topic.
 \section{Pathfinding}
 Pathfinding is probably the most resource-heavy calculation in our system,
 and will likely be executed several times while running.
-ction
+Every small change in efficiency is therefore multiplied by the amount of recalculations needed.
+
 Most pathfinding algorithms need several variables to be stored and accessed multiple times,
 for each node.
 We decided to store them in structs for our implementation.
