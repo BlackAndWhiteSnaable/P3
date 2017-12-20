@@ -97,6 +97,7 @@ Thus prioritising the easier to reach \emph{nodes}, when going to the next itera
 
 This is done by storing all \emph{nodes} in a priority queue,
 where they are sorted by their \emph{cost to reach}, in ascending order.
+Our implementation of the priority queue can be read in Appendix \ref{app:queue.c}.
 
 The \emph{cost to reach} gets calculated iteratively,
 by adding the \emph{cost to reach} of the current \emph{node} together with \emph{distance} to its neighbour.
@@ -334,7 +335,9 @@ caption={Calculating the Path in {\tt path.c}}
 %
 After looking through all neighbours of a \emph{node},
 it can be pushed onto the {\tt checked} stack.
-And the next node has to be popped from the {\tt unchecked} queue,
+Our implementation of the stack is documented in Appendix \ref{app:stack.c}.
+
+The next node has now to be popped from the {\tt unchecked} queue,
 before looping to the start of the {\tt while} again.
 This is done in Listing \ref{lst:node_calc}.
 
