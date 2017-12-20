@@ -196,7 +196,15 @@ the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 	\label{fig:graph_cost}
 \end{figure}
 %
-\todo[inline,color=codepurple]{talk about A* and lead into heuristics}
+It is therefore generally a good idea,
+to implement a more sophisticated approach,
+like A*,
+when doing pathfinding on a grid-like map.
+
+But also the implementation of A* can be a big factor on how effective it is.
+This gets mainly determined by the chosen heuristic,
+because that has big influence on sorting the nodes \cite{Sturtevant}.
+
 On a grid, it makes little sense to use the \emph{euclidean distance}.
 Because movement is very restricted,
 and can only be a multiple of the possible \emph{distances}.
@@ -209,7 +217,7 @@ The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{e
 	|A_{X}-B_{X}|+|A_{Y}-B_{Y1}|
   \end{equation}
 \end{example}
-
+%
 
 \section{Implementation}\label{sec:path_implement}
 Our explanation of the implementation relies heavily on our program written in C.
