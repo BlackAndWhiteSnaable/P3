@@ -20,7 +20,7 @@ We chose to start with implementing Dijkstra's shortest path algorithm,
 since it is fairly simple to understand and can be used as a baseline for better,
 more complex algorithms, like A*.
 
-This chapter will explain the basics of different pathfinding approaches,
+This chapter will explain the basics of different path-finding approaches,
 going more into detail on the ones we chose to implement for testing.
 
 \section{Graphs}\label{sec:graphs}
@@ -73,7 +73,7 @@ For the algorithm however, it doesn't matter.
 Brute-force is generally an algorithm,
 that only relies on computational power,
 instead of clever design.
-For pathfinding that would mean looking at all possible paths,
+For path-finding that would mean looking at all possible paths,
 and evaluating which one is the shortest.
 Brute-force algorithms can be implemented as a depth first search (DFS), or breadth first search (BFS).
 
@@ -103,7 +103,7 @@ by adding the \emph{cost to reach} of the current \emph{node} together with \emp
 If that value is smaller than the \emph{cost to reach} currently stored in that neighbour,
 the old value gets overwritten.
 This process is shown stepwise in Figures \ref{sub:dijk1} through \ref{sub:dijk5}.
-Those figures are also available in Appendix \ref{app:path}.\\
+Those figures are also available in Appendix \ref{app:dijkstra}.\\
 Observe how the value for the finish \emph{node} changes in almost every step,
 until the finish \emph{node} is the current \emph{node}.
 
@@ -213,7 +213,7 @@ The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{e
 
 \section{Implementation}\label{sec:path_implement}
 Our explanation of the implementation relies heavily on our program written in C.
-Every function explained in this section can also be read in Appendix \ref{app:path}.
+Every function explained in this section can also be read in Appendix \ref{app:path.c}.
 
 Since our map consists of \emph{nodes} with up to eight neighbours,
 as explained in Section \ref{sec:map_hex},
@@ -290,7 +290,7 @@ caption={Setting {\tt movecost} and {\tt parent} in {\tt path.c}}
 ]{code/path.c}
 %
 After everything is set up,
-the pathfinding algorithm can start.
+the path-finding algorithm can start.
 
 We implemented Dijkstra's algorithm in the function {\tt path\_calculate},
 shown in Listing \ref{lst:path}.
