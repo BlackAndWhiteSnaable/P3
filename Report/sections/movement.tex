@@ -238,10 +238,10 @@ of the rotor. Both can be observed in Figure \ref{fig:stepper}.
 \end{figure}
 
 \newpage
-Figure \ref{fig:stepper}, the windings with numbers 1 and 5 are completely aligned with the teeth 
-of the rotor. Windings number 3 and 7 are completely unaligned, while the others are half aligned. 
-This results in higher precision and higher torque offered by the hybrid stepper motor, depending 
-on the stepping method used.
+In Figure \ref{fig:stepper}, the orange windings are completely aligned with the 
+teeth of the rotor, while the others are half aligned. 
+This results in higher precision and higher torque offered by the hybrid stepper 
+motor, depending on the stepping method used.
 
 Figures \ref{fig:hybrid_first_step},  \ref{fig:hybrid_second_step}, \ref{fig:hybrid_third_step},
 \ref{fig:hybrid_forth_step} 
@@ -383,11 +383,11 @@ thus not generating any friction.
 
 \begin{figure}[htp]
 	\centering
-	\subfloat[Standard Wheel]{
+	\subfloat[Standard Wheel \cite{RobotShop1}]{
 		\includegraphics[width=0.2\textwidth]{figures/move/regular_wheel}
 	}
 	\hspace{0.2\textwidth}
-	\subfloat[Omni-Wheel]{
+	\subfloat[Omni Wheel \cite{RobotShop2}]{
 		\includegraphics[width=0.2\textwidth]{figures/move/omni_wheel}
 	}
 	\caption{Wheels}
@@ -411,7 +411,7 @@ This is achieved through rotating the pairs as shown in figure \ref{fig:forces}.
  		\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_West}
 	}
 	\end{center}
-	\vspace{-5mm}
+	\vspace{-10mm}
 	\begin{center}
     \subfloat[North-East]{
     	\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_NE}
@@ -436,7 +436,8 @@ because this would lead to a rotation, which is undesired for us.
 This has also made our task of programming the motors more simple.
 \newpage
 \section{Direction Control}\label{sec:direction}
-To decide the direction of the robot, we had to control which wheels turn what number of steps. 
+To decide the direction of the robot, we had to control which wheels turn what 
+number of steps. 
 
 One option would have been to control each motor individually.
 This required four pins for each motor to step the motors,
@@ -446,19 +447,19 @@ Imprecise timing could introduce unintended rotation.
 We decided to build our own circuit using tri-state buffers instead.
 The circuit will be explained after a short explanation of tri-state buffers.
 
-%This would drastically lower the number of pins needed, and would make for a more precise and 
-%advanced way of driving the motors.
 
 \subsection{Tri-State Buffer}
-To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers.
-Fewer pins make it easier to port this part of the robot to a smaller $\mu$C with fewer pins for a 
-final product.
+To achieve the desired movement using as few pins as possible, we decided to use 
+Tri-State buffers.
+Fewer pins make it easier to port this part of the robot to a smaller $\mu$C with 
+fewer pins for a final product.
 
-Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed.
-This allowed us to manipulate the input to the motors dynamically.
+Tri-State buffers provide the possibility of disconnecting parts of the circuit, 
+when not needed.
+This allowed us to manipulate the input to the motors dynamically.\cite{ElectronicsTutorials}
 
-A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better illustrates that 
-concept.
+A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better 
+illustrates that concept.
 \begin{figure}[htp]
 	\begin{center}
 	\subfloat[Disabled]{
@@ -468,17 +469,21 @@ concept.
 	\subfloat[Enabled]{
 		\includegraphics[width=0.3\textwidth]{figures/move/motor49}
 		}
-	\caption{Tri-State Buffer Switch Analogy}
+	\caption{Tri-State Buffer Switch Analogy}\cite{ElectronicsTutorials}
 	\label{fig:tristate}
 	\end{center}
 \end{figure}
 
 
-When the buffer is enabled, its output corresponds to its input, either 0 or 1, "High" or "Low".
-However when the buffer is a in its third state, its output is disabled, opening the circuit 
+When the buffer is enabled, its output corresponds to its input, either 0 or 1, 
+"High" or "Low".
+However when the buffer is a in its third state, its output is disabled, opening 
+the circuit 
 between the buffer and the next component.
-That does not mean its output corresponds to a logic “Low", but instead it is in a state of high 
+That does not mean its output corresponds to a logic “Low", but instead it is in a 
+state of high 
 impedance in which the output is disconnected from the rest of the circuit.
+\cite{ElectronicsTutorials}
 \newpage
 \subsection{Control Circuit}\label{sub:circuit}
 Initially, we have thought of a movement system,
