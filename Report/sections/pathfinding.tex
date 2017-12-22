@@ -23,7 +23,7 @@ more complex algorithms, like A*.
 This chapter will explain the basics of different path-finding approaches,
 going more into detail on the ones we chose to implement for testing.
 
-\section{Graphs}
+\section{Graphs}\label{sec:graphs}
 The first step in most algorithms is to reduce the map to the necessary minimum.
 After this reduction, the map only consists of \emph{nodes} and \emph{edges},
 organized in a \emph{graph}.
@@ -97,13 +97,14 @@ Thus prioritising the easier to reach \emph{nodes}, when going to the next itera
 
 This is done by storing all \emph{nodes} in a priority queue,
 where they are sorted by their \emph{cost to reach}, in ascending order.
+Our implementation of the priority queue can be read in Appendix \ref{app:queue.c}.
 
 The \emph{cost to reach} gets calculated iteratively,
 by adding the \emph{cost to reach} of the current \emph{node} together with \emph{distance} to its neighbour.
 If that value is smaller than the \emph{cost to reach} currently stored in that neighbour,
 the old value gets overwritten.
 This process is shown stepwise in Figures \ref{sub:dijk1} through \ref{sub:dijk5}.
-Those figures are also available in Appendix \ref{app:path}.\\
+Those figures are also available in Appendix \ref{app:dijkstra}.\\
 Observe how the value for the finish \emph{node} changes in almost every step,
 until the finish \emph{node} is the current \emph{node}.
 
@@ -128,7 +129,7 @@ it takes the first element from that list. \cite{Pound2017}
 \begin{table}[h!]
 \caption{Colour guide for Figure \ref{fig:dijksteps}}
 \centering
-\begin{tabular}{|l|p{4cm}|p{4cm}|}
+\begin{tabular}{|l|p{5cm}|p{5cm}|}
 	\hline%-------------------------------------------------------
 	\multirow{2}{*}{Colour}	& \multicolumn{2}{c|}{Function}		\\
 		 	& Nodes					&Edges						\\
@@ -196,7 +197,15 @@ the Dijkstra algorithm is losing its major advantage over a simple flood fill.
 	\label{fig:graph_cost}
 \end{figure}
 %
-\todo[inline]{talk about A* and lead into heuristics}
+It is therefore generally a good idea,
+to implement a more sophisticated approach,
+like A*,
+when doing pathfinding on a grid-like map.
+
+But also the implementation of A* can be a big factor on how effective it is.
+This gets mainly determined by the chosen heuristic,
+because that has big influence on sorting the nodes \cite{Sturtevant}.
+
 On a grid, it makes little sense to use the \emph{euclidean distance}.
 Because movement is very restricted,
 and can only be a multiple of the possible \emph{distances}.
@@ -209,14 +218,14 @@ The \emph{Manhattan Distance} is obtained by the formula shown in Example \ref{e
 	|A_{X}-B_{X}|+|A_{Y}-B_{Y1}|
   \end{equation}
 \end{example}
-
+%
 
 \section{Implementation}\label{sec:path_implement}
 Our explanation of the implementation relies heavily on our program written in C.
-Every function explained in this section can also be read in Appendix \ref{app:path}.
+Every function explained in this section can also be read in Appendix \ref{app:path.c}.
 
 Since our map consists of \emph{nodes} with up to eight neighbours,
-as explained in Chapter \ref{ch:map}, \todo{does Troels explain this?}
+as explained in Section \ref{sec:map_hex},
 we decided to store this information in a single byte per \emph{node}.
 In this byte, the \emph{Least Significant Nibble (LSN)} represents the straight directions N,E,S,W.
 The \emph{Most Significant Nibble (MSN)} represents the diagonal directions NE,SE,SW,NW.
@@ -228,7 +237,7 @@ path gets stored as 0, WALL as 1}}
 \begin{center}
 	\begin{tabular}{|*{8}{m{1cm}|}|l|}
 		\hline%-------------------------------
-		NE& SE& SW& NW& N & E & S & W & byte\\
+		NW& SW& SE& NE& W & S & E & N & byte\\
 		\hline%-------------------------------
 		path & path & path & path & path & path & path & WALL & 0x01\\
 		path & path & path & path & path & path & WALL & path & 0x02\\
@@ -256,7 +265,7 @@ caption={Definition of Directions in {\tt defs.h}}
 ]{code/defs.h}
 %
 After reading the map from the input file,
-as explained in Section \ref{sec:map_implement}, \todo{does Troels describe this in ch:map?}
+as explained in Section \ref{sec:map_read},
 all \emph{nodes} have to be set up for the pathfinding algorithm.
 We do this in the function {\tt path\_set\_neighbors}.
 Every \emph{node} gets linked to its neighbours by comparing the {\tt walls} value
@@ -309,7 +318,7 @@ Inside the loop we check for every \emph{neighbour},
 whether a pointer to it exists
 and whether its \emph{cost to reach} is higher than it would be from the current \emph{node}.
 In the case that both statements are true,
-we update \todo{overwrite?} the neighbours \emph{cost to reach}
+we update the neighbours \emph{cost to reach}
 and \emph{parent}.
 
 We also remove the current \emph{node} as a neighbour,
@@ -326,7 +335,9 @@ caption={Calculating the Path in {\tt path.c}}
 %
 After looking through all neighbours of a \emph{node},
 it can be pushed onto the {\tt checked} stack.
-And the next node has to be popped from the {\tt unchecked} queue,
+Our implementation of the stack is documented in Appendix \ref{app:stack.c}.
+
+The next node has now to be popped from the {\tt unchecked} queue,
 before looping to the start of the {\tt while} again.
 This is done in Listing \ref{lst:node_calc}.
 
@@ -366,58 +377,3 @@ label=lst:move_calc,	%label
 caption={Pushing and Popping Nodes in {\tt path.c}}
 ]{code/path.c}
 %
-\section{Perspective}
-\subsection{Efficiency}
-Path-finding is the most resource-heavy calculation in the whole system,
-and will likely be executed several times while running.
-Because of that we wanted to at least think about and discuss efficiency.
-
-Our current approach takes use of pointers a lot,
-often iterating through several substructs.
-Listing \ref{lst:pointer_access} shows code with multiple pointer access per line,
-varying from 2 to 4 for a single line.
-Similar code to this listing gets executed up to 8 times per \emph{node},
-for every \emph{node} with a lower \emph{cost to reach} than the finish \emph{node},
-to check for every direction whether moving there would be shorter.
-
-\lstinputlisting
-[firstline=84,				%starts reading the file from this line
-firstnumber=84,
-lastline=88,
-label=lst:pointer_access,	%label
-caption={Accessing several Fields through multiple Pointers in {\tt path.c}}
-]{code/path.c}
-%
-When implementing Dijkstra's algorithm or A*,
-there is no need to look at an already checked \emph{node}.
-It could therefore be an option to remove all pointers to a node,
-when pushing it to the checked stack.
-
-In our current implementation,
-those pointers can only be set to {\tt NULL} after finding them through another pointer lookup.
-We are already doing this in line 87 in Listing \ref{lst:pointer_access},
-when removing the reference to the parent as a neighbour,
-to remove redundant information and ease the lookup procedure.
-
-The whole part of linking the \emph{nodes} to their neighbours,
-as explained in \ref{lst:linkingByte},
-uses the aforementioned {\tt walls} byte,
-to compute in what directions to link.
-
-\lstinputlisting
-[firstline=7,				%starts reading the file from this line
-firstnumber=7,
-lastline=20,
-label=lst:linkingByte,	%label
-caption={Accessing several Fields through multiple Pointers in {\tt path.c}}
-]{code/path.c}
-%
-Because our \emph{nodes} are organized in a 2D-array,
-this includes array and pointer lookups,
-simple arithmetic and
-bitwise comparison
-to find both \emph{nodes} and link them.
-
-\subsection{Design flaws}
-edges are defined twice, from both nodes
-\todo[inline]{finish this sector}

@@ -12,29 +12,36 @@ A stepper motor is a motor that moves one step at a time, with its step defined 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{figures/move/motor1.png}
-	\caption{Step Angle}
+	\caption{Step Angle} \cite{figures}
 	\label{fig:angle} 
 \end{figure}
 
-Figure \ref{fig:angle} represents a stepper motor that requires 4 steps to complete a 360$^\circ$ 
+Figure \ref{fig:angle} represents a stepper motor that requires 4 
+steps to complete a 360$^\circ$ 
 rotation. This determines the step angle to be 90$^\circ$.
 \newpage
-The main components of a stepper motor are represented in Figure \ref{fig:main_components}, and 
+The main components of a stepper motor are represented in Figure 
+\ref{fig:main_components}, and 
 they consist of stators, windings(phases), and rotor.
-Attached to the output axle is the rotor, depending on the type of motor it can be magnetized.
+Attached to the output axle is the rotor, depending on the type of 
+motor it can be magnetized.
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.3\textwidth]{figures/move/motor2.png}
-	\caption{Main Components}
+	\caption{Main Components}	\cite{figures}
 	\label{fig:main_components}
 \end{figure}
 
 
-By applying a voltage across one of the windings, current will start flowing through it. Using 
-the right-hand rule, the direction of the magnetic flux can be determined. The flux will want to 
-travel through the path that has the least resistance. This determines the rotor to change its 
-position to minimize resistance. This is shown in Figure \ref{fig:flux}.
+By applying a voltage across one of the windings, current will 
+start flowing through it. Using 
+the right-hand rule, the direction of the magnetic flux can be 
+determined. The flux will want to 
+travel through the path that has the least resistance. This 
+determines the rotor to change its 
+position to minimize resistance. This is shown in Figure 
+\ref{fig:flux}.
 
 \begin{figure}[htp]
 	\centering
@@ -45,14 +52,16 @@ position to minimize resistance. This is shown in Figure \ref{fig:flux}.
 	\subfloat[Low Resistance]{%
 		\includegraphics[width=0.4\textwidth]{figures/move/motor4.png}
 	}
-	\caption{Direction of Magnetic Flux}
+	\caption{Direction of Magnetic Flux} \cite{figures}
 	\label{fig:flux}
 \end{figure}
 \newpage
 \subsection{Types of Stepper Motors}
 \subsubsection{Permanent Magnet Motor}
-This type of stepper motor has a magnetized rotor. Each winding will be subdivided into two, to 
-better understand how to motor functions. Figure \ref{fig:bas_struct} represents the windings, and 
+This type of stepper motor has a magnetized rotor. Each winding 
+will be subdivided into two, to 
+better understand how to motor functions. Figure 
+\ref{fig:bas_struct} represents the windings, and 
 how they are distributed inside a stepper motor.
 
 \begin{figure}[htp]
@@ -64,12 +73,14 @@ how they are distributed inside a stepper motor.
     \subfloat[Winding]{%
         \includegraphics[width=0.4\textwidth]{figures/move/motor6.png}%
         }%
-    \caption{Basic Structure of a Motor}
+    \caption{Basic Structure of a Motor}\cite{figures}
     \label{fig:bas_struct} 
 \end{figure}
 
-The resolution of the motor can be improved in two ways, either by increasing the number of pole 
-pairs in the rotor itself, or by increasing the number of phases as shown in Figure 
+The resolution of the motor can be improved in two ways, either by 
+increasing the number of pole 
+pairs in the rotor itself, or by increasing the number of phases as 
+shown in Figure 
 \ref{fig:inc_res}.
 
 
@@ -83,13 +94,15 @@ pairs in the rotor itself, or by increasing the number of phases as shown in Fig
         \includegraphics[width=0.4\textwidth]{figures/move/motor8.png}%
         }%
 	\hfill%
-	\caption{Increased resolution}
+	\caption{Increased resolution} \cite{figures}
 	\label{fig:inc_res}
 \end{figure}
 
 \newpage
-To rotate the motor, simply apply a voltage across the windings in a sequence. A full rotation is 
-shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phases energized.
+To rotate the motor, simply apply a voltage across the windings in 
+a sequence. A full rotation is 
+shown in Figure \ref{fig:stepping_perm_magn}, with the 
+corresponding phases energized.
 
 \begin{figure}[htp]
     \begin{center}
@@ -120,39 +133,48 @@ shown in Figure \ref{fig:stepping_perm_magn}, with the corresponding phases ener
   	\subfloat[$4\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor16.png}
   		}
-  	\caption{Stepping a Permanent Magnet Motor}
+  	\caption{Stepping a Permanent Magnet Motor} \cite{figures}
   	\label{fig:stepping_perm_magn}
     \end{center}
 \end{figure}
 \subsubsection{Variable Reluctance Motor}
-This type of motor uses a rotor that is not magnetized, and has a number of teeth as seen in 
-Figure \ref{fig:var_rel_components}. The windings are configured differently, as depicted in 
-\ref{fig:var_rel_components}(b), all having a common voltage source but separate ground 
+This type of motor uses a rotor that is not magnetized, and has a 
+number of teeth as seen in 
+Figure \ref{fig:var_rel_components}. The windings are configured 
+differently, as depicted in 
+\ref{fig:var_rel_components}(b), all having a common voltage source 
+but separate ground 
 connections.
 They usually have 3 or 5 windings.
-Greater precision can be achieved by adding more teeth to the rotor.
+Greater precision can be achieved by adding more teeth to the 
+rotor.
 
 \begin{figure}[htp]
     \centering%
     \subfloat[Non Magnetized Rotor]{%
         \includegraphics[width=0.3\textwidth]{figures/move/motor17.png}%
         }%
-    \hfill%
+    \hfill
     \subfloat[Windings]{%
         \includegraphics[width=0.4\textwidth]{figures/move/motor18.png}%
         }%
-    \caption{Variable Reluctance Motor Components}%
+    \caption{Variable Reluctance Motor Components} \cite{figures}
     \label{fig:var_rel_components}%
 \end{figure}
 \newpage
 
-To spin the motor, each winding is energized one at a time, and the rotor rotates to minimize 
+To spin the motor, each winding is energized one at a time, and the 
+rotor rotates to minimize 
 reluctance as explained before.
-Some of the differences, between this type of stepper motor and the permanent magnet motor, are 
-that, in order to spin the motor in a direction, the windings have to be energized in a reverse 
-sequence as opposed to the direction of the spin, as depicted in Figure \ref{fig:stepping_var_rel}.
+Some of the differences, between this type of stepper motor and the 
+permanent magnet motor, are 
+that, in order to spin the motor in a direction, the windings have 
+to be energized in a reverse 
+sequence as opposed to the direction of the spin, as depicted in 
+Figure \ref{fig:stepping_var_rel}.
 
-In addition, variable reluctance motors have twice the precision of permanent magnet motors with 
+In addition, variable reluctance motors have twice the precision of 
+permanent magnet motors with 
 the same amount of windings.
 \begin{figure}[htp]
     \begin{center}
@@ -180,7 +202,7 @@ the same amount of windings.
   	\subfloat[$4\textsuperscript{th}$ Step]{
   		\includegraphics[width=0.2\textwidth]{figures/move/motor26.png}
   		}
-  	\caption{Stepping Variable Reluctance Motor}
+  	\caption{Stepping Variable Reluctance Motor} \cite{figures}
   	\label{fig:stepping_var_rel}
   	\end{center}
 \end{figure}
@@ -193,8 +215,8 @@ On the left side, the stator can be seen consisting of 8 poles. On the right sid
 rotor consists of two sets of teeth, corresponding to the two poles, north and south.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{figures/move/motor27.png}
-	\caption{Stator and Rotor}
+	\includegraphics[width=0.8\textwidth]{figures/move/motor27.png}
+	\caption{Stator and Rotor} \cite{Instructables}
 	\label{fig:hybrid_components}
 \end{figure}
 
@@ -204,29 +226,30 @@ of the rotor. Both can be observed in Figure \ref{fig:stepper}.
 
 \begin{figure}[htp]
     \centering%
-    \subfloat[Interleaved Teeth]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor28.png}%
-        }%
-    \hfill%
-    \subfloat[Stepper Motor Inside]{%
-        \includegraphics[width=0.3\textwidth]{figures/move/motor29.png}%
-        }%
-    \caption{Hybrid Stepper Motor}
+    \subfloat[Interleaved Teeth]{
+        \includegraphics[width=0.3\textwidth]{figures/move/motor28.png}
+        }
+    \hfill
+    \subfloat[Stepper Motor Inside]{
+        \includegraphics[width=0.3\textwidth]{figures/move/motor29.png}
+        }
+    \caption{Hybrid Stepper Motor}\cite{Embedded}
     \label{fig:stepper}
 \end{figure}
+
 \newpage
-Figure \ref{fig:stepper}, the windings with numbers 1 and 5 are completely aligned with the teeth 
-of the rotor. Windings number 3 and 7 are completely unaligned, while the others are half aligned. 
-This results in higher precision and higher torque offered by the hybrid stepper motor, depending 
-on the stepping method used.
+In Figure \ref{fig:stepper}, the orange windings are completely aligned with the 
+teeth of the rotor, while the others are half aligned. 
+This results in higher precision and higher torque offered by the hybrid stepper 
+motor, depending on the stepping method used.
 
 Figures \ref{fig:hybrid_first_step},  \ref{fig:hybrid_second_step}, \ref{fig:hybrid_third_step},
 \ref{fig:hybrid_forth_step} 
 represent the way this motor operates.
 
 \begin{center}
-	\includegraphics[width=0.8\textwidth]{figures/move/motor32}
-	\captionof{figure}{First Step}
+	\includegraphics[width=0.7\textwidth]{figures/move/motor32}
+	\captionof{figure}{First Step} \cite{figures}
 	\label{fig:hybrid_first_step}
 \end{center}
 By applying a voltage to both windings, the current flow can be controlled, thereby controlling the 
@@ -234,8 +257,8 @@ polarity of each stator pole, thus controlling the direction of the motor. Notic
 poles A and A’ are completely aligned, and poles B and B’ are half aligned. 
 
 \begin{center}
-	\includegraphics[width=0.8\textwidth]{figures/move/motor33}
-	\captionof{figure}{Second Step}
+	\includegraphics[width=0.7\textwidth]{figures/move/motor33}
+	\captionof{figure}{Second Step} \cite{figures}
 	\label{fig:hybrid_second_step}
 \end{center}
 
@@ -245,8 +268,8 @@ poles are aligned differently. Poles A and A’ are now half aligned, and poles 
 completely aligned.
 
 \begin{center}
-	\includegraphics[width=0.8\textwidth]{figures/move/motor34}
-	\captionof{figure}{Third Step}
+	\includegraphics[width=0.7\textwidth]{figures/move/motor34}
+	\captionof{figure}{Third Step} \cite{figures}
 	\label{fig:hybrid_third_step}
 \end{center}
 
@@ -256,8 +279,8 @@ completely aligned, and stator poles B and B’ are half aligned. The positions 
 now correspond to those of the first step.
 
 \begin{center}
-	\includegraphics[width=0.8\textwidth]{figures/move/motor35}
-	\captionof{figure}{Forth Step}
+	\includegraphics[width=0.7\textwidth]{figures/move/motor35}
+	\captionof{figure}{Forth Step} \cite{figures}
 	\label{fig:hybrid_forth_step}
 \end{center}
 
@@ -283,13 +306,13 @@ bipolar stepper motors.
 \begin{figure}[htp] 
     \centering
     \subfloat[Bipolar]{
-        \includegraphics[width=0.4\textwidth]{figures/move/motor37.png}
+        \includegraphics[width=0.35\textwidth]{figures/move/motor37.png}
         }
     \hfill
     \subfloat[Unipolar]{%
-        \includegraphics[width=0.4\textwidth]{figures/move/motor36.png}
+        \includegraphics[width=0.35\textwidth]{figures/move/motor36.png}
         }
-    \caption{Winding Configuration}
+    \caption{Winding Configuration} \cite{figures}
     \label{fig:windings}
 \end{figure}
 
@@ -315,25 +338,25 @@ driver boards simplify the task.
 \begin{figure}[htp] 
     \centering
     \subfloat[$1\textsuperscript{st}$ Step]{
-        \includegraphics[width=0.3\textwidth]{figures/move/motor43.png}
+        \includegraphics[width=0.26\textwidth]{figures/move/motor43.png}
         }
     \hfill
     \subfloat[$2\textsuperscript{nd}$ Step]{
-        \includegraphics[width=0.3\textwidth]{figures/move/motor44.png}
+        \includegraphics[width=0.26\textwidth]{figures/move/motor44.png}
         }
     \hfill
     \subfloat[$3\textsuperscript{rd}$ Step]{
-    	\includegraphics[width=0.3\textwidth]{figures/move/motor45.png}
+    	\includegraphics[width=0.26\textwidth]{figures/move/motor45.png}
     	}
    	\hfill
    	\subfloat[$4\textsuperscript{th}$ Step]{
-  		\includegraphics[width=0.3\textwidth]{figures/move/motor46.png}
+  		\includegraphics[width=0.26\textwidth]{figures/move/motor46.png}
   		}
   	\hfill
   	\subfloat[$5\textsuperscript{th}$ Step]{
-  		\includegraphics[width=0.3\textwidth]{figures/move/motor47.png}
+  		\includegraphics[width=0.26\textwidth]{figures/move/motor47.png}
   		}
-  	\caption{Bipolar Motor Spinning}
+  	\caption{Bipolar Motor Spinning} \cite{figures}
   	\label{fig:bipolar_stepping}
 \end{figure}
 %\section{Tri-State Buffer}\label{sec:buffer}
@@ -343,8 +366,8 @@ the microcontroller and the motors, and make for a better alternative than direc
 motors from the microcontroller.
 \begin{figure}[htp]
 	\centering
-	\includegraphics[scale=0.6]{figures/move/driver_board}
-	\caption{Driver Board}
+	\includegraphics[scale=0.5]{figures/move/driver_board}
+	\caption{Driver Board}\cite{MGSuperLabs}
 \end{figure}
 \section{Wheels}\label{sec:wheels}
 The robot should be able to move in eight directions from every position.
@@ -360,11 +383,11 @@ thus not generating any friction.
 
 \begin{figure}[htp]
 	\centering
-	\subfloat[Standard Wheel]{
+	\subfloat[Standard Wheel \cite{RobotShop1}]{
 		\includegraphics[width=0.2\textwidth]{figures/move/regular_wheel}
 	}
 	\hspace{0.2\textwidth}
-	\subfloat[Omni-Wheel]{
+	\subfloat[Omni Wheel \cite{RobotShop2}]{
 		\includegraphics[width=0.2\textwidth]{figures/move/omni_wheel}
 	}
 	\caption{Wheels}
@@ -388,7 +411,7 @@ This is achieved through rotating the pairs as shown in figure \ref{fig:forces}.
  		\includegraphics[width=0.2\textwidth]{figures/move/vector_addition_West}
 	}
 	\end{center}
-	\vspace{-5mm}
+	\vspace{-10mm}
 	\begin{center}
     \subfloat[North-East]{
     	\includegraphics[width=0.2\textwidth]{figures/move/wheel_vectors_NE}
@@ -413,7 +436,8 @@ because this would lead to a rotation, which is undesired for us.
 This has also made our task of programming the motors more simple.
 \newpage
 \section{Direction Control}\label{sec:direction}
-To decide the direction of the robot, we had to control which wheels turn what number of steps. 
+To decide the direction of the robot, we had to control which wheels turn what 
+number of steps. 
 
 One option would have been to control each motor individually.
 This required four pins for each motor to step the motors,
@@ -423,19 +447,19 @@ Imprecise timing could introduce unintended rotation.
 We decided to build our own circuit using tri-state buffers instead.
 The circuit will be explained after a short explanation of tri-state buffers.
 
-%This would drastically lower the number of pins needed, and would make for a more precise and 
-%advanced way of driving the motors.
 
 \subsection{Tri-State Buffer}
-To achieve the desired movement using as few pins as possible, we decided to use Tri-State buffers.
-Fewer pins make it easier to port this part of the robot to a smaller $\mu$C with fewer pins for a 
-final product.
+To achieve the desired movement using as few pins as possible, we decided to use 
+Tri-State buffers.
+Fewer pins make it easier to port this part of the robot to a smaller $\mu$C with 
+fewer pins for a final product.
 
-Tri-State buffers provide the possibility of disconnecting parts of the circuit, when not needed.
-This allowed us to manipulate the input to the motors dynamically.
+Tri-State buffers provide the possibility of disconnecting parts of the circuit, 
+when not needed.
+This allowed us to manipulate the input to the motors dynamically.\cite{ElectronicsTutorials}
 
-A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better illustrates that 
-concept.
+A Tri-State buffer can be thought of as a switch. Figure \ref{fig:tristate} better 
+illustrates that concept.
 \begin{figure}[htp]
 	\begin{center}
 	\subfloat[Disabled]{
@@ -445,17 +469,21 @@ concept.
 	\subfloat[Enabled]{
 		\includegraphics[width=0.3\textwidth]{figures/move/motor49}
 		}
-	\caption{Tri-State Buffer Switch Analogy}
+	\caption{Tri-State Buffer Switch Analogy}\cite{ElectronicsTutorials}
 	\label{fig:tristate}
 	\end{center}
 \end{figure}
 
 
-When the buffer is enabled, its output corresponds to its input, either 0 or 1, "High" or "Low".
-However when the buffer is a in its third state, its output is disabled, opening the circuit 
+When the buffer is enabled, its output corresponds to its input, either 0 or 1, 
+"High" or "Low".
+However when the buffer is a in its third state, its output is disabled, opening 
+the circuit 
 between the buffer and the next component.
-That does not mean its output corresponds to a logic “Low", but instead it is in a state of high 
+That does not mean its output corresponds to a logic “Low", but instead it is in a 
+state of high 
 impedance in which the output is disconnected from the rest of the circuit.
+\cite{ElectronicsTutorials}
 \newpage
 \subsection{Control Circuit}\label{sub:circuit}
 Initially, we have thought of a movement system,
@@ -467,8 +495,7 @@ it would have been necessary to have precise timing between the four stepping se
 
 Having a limited number of pins available, has forced us to think of the movement system very thoroughly.
 The reason for this was that we wanted to test the movement system on the MSP430 $\mu$-C,
-which only has 9 usable pins.
-\todo{reference to msp}
+which only has 10 I/O pins. \cite{msp430}
 
 Figure \ref{fig:mot_ctrl} shows a schematic of the motor control circuit.
 \begin{figure}[htp]
@@ -544,12 +571,18 @@ required for moving in any of the eight directions.
 	\end{tabular}
 	\label{tab:directions}
 \end{table}
+
+\newpage
+
 \begin{table}[htp]
 	\centering
+	\vspace{-5mm}
 	\caption{Direction Signals}
 	\begin{tabular}{|l|c|c|c|c|}
 		\hline
-		Direction & $A_{Enable}$ & $A_{Direction}$ & $B_{Enable}$ & $B_{Direction}$ \\
+		Direction & $A_{Enable}$ & $A_{Direction}
+		$ & $B_{Enable}$ & 
+		$B_{Direction}$ \\
 		\hline
 		North 		& 1 & 0 & 1 & 0 \\
 		East 		& 1 & 0 & 1 & 1 \\
@@ -565,3 +598,70 @@ required for moving in any of the eight directions.
 	\label{tab:directions_signal}
 \end{table}
 \vfill
+\clearpage
+\section{Implementation}
+\label{sec:movement_implementation}
+We have used an MSP430 microcontroller to implement 
+and test the
+movement system. Parts of the code will be explained 
+in the 
+following pages. The complete code can be read in 
+Appendix \ref{app:movement}.
+
+Individual functions are called whenever the robot 
+is required to 
+move in one of the eight directions: N, E, S, W, NE, 
+SE, SW, NW.  
+Listing \ref{lst:moveNorthWest} and \ref{lst:moveNorth} show 
+two functions, representing 
+one straight 
+move and one diagonal move. The other behave 
+similarly, the main 
+difference laying in the pairs of wheels used, and 
+their direction.
+
+\lstinputlisting
+[firstline=74,
+firstnumber=74,
+lastline=80,		
+label=lst:moveNorthWest,
+caption={Moving North West}
+]{code/movement.c}
+
+The function enables the pair of wheels needed for moving 
+North West and selects the rotation of the 
+wheels. Changing {\tt P1OUT |= BIT6} to {\tt P1OUT \&=  
+\textasciitilde BIT6}, would determine the robot to move 
+South East instead. The stepping function is called 
+afterwards, determining the robot to move. Lastly, the pair 
+of wheels is deactivated. 
+
+\lstinputlisting
+[firstline=102,
+firstnumber=102,
+lastline=109,		
+label=lst:moveNorth,
+caption={Moving North}
+]{code/movement.c}
+
+The function from Listing \ref{lst:moveNorth} combines both
+{\tt moveNorthEast} and {\tt moveNorthWest} functions.
+It enables both pairs of wheels and determines their
+direction. Setting the direction bits to '0' instead of
+'1' would determine the robot to move South. Similarly, 
+the stepping function is called and the wheels are 
+deactivated afterwards.
+\clearpage
+The {\tt move} function is called, whenever the robot should
+move one direction. The {\tt move} functions further decides
+which way the robot should move based on the hex value given 
+to the function. The hex values for the directions are predefined.
+Listing \ref{lst:move} shows the {\tt move} function.
+ 
+\lstinputlisting
+[firstline=138,
+firstnumber=138,
+lastline=149,		
+label=lst:move,
+caption={Move Function}
+]{code/movement.c}

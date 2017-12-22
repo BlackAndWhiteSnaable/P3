@@ -28,9 +28,7 @@
 \cleardoublepage
 \pdfbookmark[0]{Contents}{label:contents}
 \pagestyle{fancy} %enable headers and footers again
-\tableofcontents	%TODO some weird shit happening here
-%TODO remember to delete before final version
-\listoftodos
+\tableofcontents
 \input{sections/preface.tex}
 \cleardoublepage
 %mainmatter
@@ -41,9 +39,12 @@
 \input{sections/maphandling.tex}
 \input{sections/scan.tex}
 \input{sections/pathfinding.tex}
+\input{sections/perspective.tex}
 \input{sections/conclusion.tex}
 \printbibliography[heading=bibintoc]
 \label{bib:mybiblio}
 \appendix
-\input{sections/appDijkstra.tex}
+\input{sections/appendix/appDijkstra.tex}
+\input{sections/appendix/appCode.tex}
+\input{sections/appendix/appFlow.tex}
 \end{document}

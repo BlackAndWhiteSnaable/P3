@@ -60,6 +60,7 @@
 }
 % Make the standard latex tables look so much better
 \usepackage{array,booktabs}
+\usepackage{tabularx}
 % Enable the use of frames around, e.g., theorems
 % The framed package is used in the example environment
 \usepackage{framed}
@@ -136,6 +137,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %needed for one table
 \usepackage{multirow}
+%needed for a different table
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 %needed for code listings
 \usepackage{listings}
@@ -158,7 +161,7 @@
     keywordstyle=\color{keywordblue},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
-    basicstyle={\footnotesize,\ttfamily},
+    basicstyle={\footnotesize\ttfamily},
     breakatwhitespace=true,
     breaklines=true,
     captionpos=t,
