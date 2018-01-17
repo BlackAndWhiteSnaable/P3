@@ -65,3 +65,5 @@ programming/port to MSP/Debug/
 *.obj
 
 programming/port to MSP/\.settings/
+
+programming/port to MSP/Release/
