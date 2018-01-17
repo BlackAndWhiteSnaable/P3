@@ -1,92 +1,50 @@
 #include "defs.h"
 
-/// Testing examples of queue push/pop functions
-void path_test(Robot *robot) {
-
-  // Set some dummy movecost values for testing
-  robot->map.node[0][0].movecost = 5;
-  robot->map.node[0][1].movecost = 10;
-  robot->map.node[0][2].movecost = 20;
-  robot->map.node[0][3].movecost = 4;
-
-  // Push some nodes to queue
-  printf("\n[INFO]\tPushing 4 node elements to queue\n");
-  push_queue(&robot->unchecked, &robot->map.node[0][0]);
-  push_queue(&robot->unchecked, &robot->map.node[0][1]);
-  push_queue(&robot->unchecked, &robot->map.node[0][2]);
-  push_queue(&robot->unchecked, &robot->map.node[0][3]);
-
-  Nodes *node; // Empty pointer used for nodes returned when popping
-
-  // Pop 2 of the 4 elements in the queue
-  node = pop(&robot->unchecked);
-  printf("\n[INFO]\tPopped queue element, node returned: node->movecost=%d\n", node->movecost);
-
-  node = pop(&robot->unchecked);
-  printf("[INFO]\tPopped queue element, node returned: node->movecost=%d\n", node->movecost);
-
-  // Print what is in the queue
-  printf("\n\tUnchecked queue:\n");
-  print_queue(robot->unchecked);
-
-  printf("\n[INFO]\tPushing 4 node elements to stack\n");
-  push_stack(&robot->checked, &robot->map.node[0][0]);
-  push_stack(&robot->checked, &robot->map.node[0][1]);
-  push_stack(&robot->unchecked, &robot->map.node[0][2]);
-  push_stack(&robot->unchecked, &robot->map.node[0][3]);
-
-  node = pop(&robot->checked);
-  printf("\n[INFO]\tPopped stack element, node returned: node->movecost=%d\n", node->movecost);
-
-
-  printf("\nChecked stack:\n");
-  print_stack(robot->checked);
-
-}
-
 ///finds all neighbors of a node and sets them as pointers
 void path_set_neighbors(Robot *robot) {
-  printf("\n[INFO]\tStarted linking nodes to neighbors\n");
-  for (int i = 0; i<(robot->map.size.x-1)/2; i++){
-    for (int j=0; j<(robot->map.size.y-1)/2; j++){
+  //printf("\n[INFO]\tStarted linking nodes to neighbors\n");
+  int i;
+  for (i = 0; i<(robot->map.size.x-1)/2; i++){
+    int j;
+    for (j=0; j<(robot->map.size.y-1)/2; j++){
       //printf("[INFO]\tlinking\t[%2i][%2i]\n",i,j);
-      if (!(robot->map.node[i][j].walls & N)){
+      if (!(robot->map.node[i][j].walls & North)){
         robot->map.node[i][j].n=&robot->map.node[i-1][j];
       } else {
         robot->map.node[i][j].n=NULL;
       }
-      if (!(robot->map.node[i][j].walls & E)){
+      if (!(robot->map.node[i][j].walls & East)){
         robot->map.node[i][j].e=&robot->map.node[i][j+1];
       } else {
         robot->map.node[i][j].e=NULL;
       }
-      if (!(robot->map.node[i][j].walls & S)){
+      if (!(robot->map.node[i][j].walls & South)){
         robot->map.node[i][j].s=&robot->map.node[i+1][j];
       } else {
         robot->map.node[i][j].s=NULL;
       }
-      if (!(robot->map.node[i][j].walls & W)){
+      if (!(robot->map.node[i][j].walls & West)){
         robot->map.node[i][j].w=&robot->map.node[i][j-1];
       } else {
         robot->map.node[i][j].w=NULL;
       }
 
-      if (!(robot->map.node[i][j].walls & NE)){
+      if (!(robot->map.node[i][j].walls & NorthEast)){
         robot->map.node[i][j].ne=&robot->map.node[i-1][j+1];
       } else {
         robot->map.node[i][j].ne=NULL;
       }
-      if (!(robot->map.node[i][j].walls & SE)){
+      if (!(robot->map.node[i][j].walls & SouthEast)){
         robot->map.node[i][j].se=&robot->map.node[i+1][j+1];
       } else {
         robot->map.node[i][j].se=NULL;
       }
-      if (!(robot->map.node[i][j].walls & SW)){
+      if (!(robot->map.node[i][j].walls & SouthWest)){
         robot->map.node[i][j].sw=&robot->map.node[i+1][j-1];
       } else {
         robot->map.node[i][j].sw=NULL;
       }
-      if (!(robot->map.node[i][j].walls & NW)){
+      if (!(robot->map.node[i][j].walls & NorthWest)){
         robot->map.node[i][j].nw=&robot->map.node[i-1][j-1];
       } else {
         robot->map.node[i][j].nw=NULL;
@@ -104,7 +62,7 @@ void path_set_neighbors(Robot *robot) {
   }
   //set movecost for the current position to 0
   robot->map.node[robot->pos.x][robot->pos.y].movecost = 0;
-  printf("[INFO]\tDone linking nodes to neighbors\n");
+  //printf("[INFO]\tDone linking nodes to neighbors\n");
 }
 
 ///calculates the path from the current position
@@ -126,16 +84,14 @@ void path_calculate(Robot *robot) {
 
   //----------------------------------CALC------------------------------------//
   int deadcount=0;
-  printf("\n\n[INFO]\tstarted path calculation\n\n");
   // until we reach the finish
   while ((curx!=robot->map.finish.y)||(cury!=robot->map.finish.x)){
     if (currNode==NULL){
-      printf("[WARN]\tsomething went wrong\n");
       break;
     }
     //catching infinite loops
     if (deadcount++>=(robot->map.nSize.x)*(robot->map.nSize.y)){
-        printf("[ERROR]\tEVERYTHING WENT WRONG\n"); return;
+      break;
     }
     curx = currNode->position.x;
     cury = currNode->position.y;
@@ -211,18 +167,17 @@ void path_calculate(Robot *robot) {
 
 
     push_stack(&robot->checked, currNode);
-    printf("[INFO]\tNode [%2d][%2d] computed!\n",curx,cury);
+    //printf("[INFO]\tNode [%2d][%2d] computed!\n",curx,cury);
 
     currNode = pop(&robot->unchecked);
   }
 
-  printf("\n[INFO]\tDone calculating path!\n");
+  //printf("\n[INFO]\tDone calculating path!\n");
 
   path_calculate_movement(robot);
 }
 
 ///calculates the movement stack out of the checked stack.
-///give pointer to a robot struct
 void path_calculate_movement(Robot *robot){
   //pop from stack until start is reached
   //-------------------------------- VARIABLES--------------------------------//
@@ -242,19 +197,19 @@ void path_calculate_movement(Robot *robot){
     //----------------------- Generate Movement Stack-----------------------//
     //adds all movements together
     move=0;
-    if (ownX<parX) move+=N;       //Something North
-    if (ownY>parY) move+=E;       //Something East
-    if (ownX>parX) move+=S;       //Something South
-    if (ownY<parY) move+=W;       //Something West
+    if (ownX<parX) move+=North;       //Something North
+    if (ownY>parY) move+=East;       //Something East
+    if (ownX>parX) move+=South;       //Something South
+    if (ownY<parY) move+=West;       //Something West
 
     //checks for two movements
-    if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){
-      if      (move==N+E) move=NE;//North and East
-      else if (move==S+E) move=SE;//South and East
-      else if (move==S+W) move=SW;//South and West
-      else if (move==N+W) move=NW;//North and West
+    if (((move!=North)&&(move!=East)&&(move!=South)&&(move!=West))){
+      if      (move==North+East) move=NorthEast;//North and East
+      else if (move==South+East) move=SouthEast;//South and East
+      else if (move==South+West) move=SouthWest;//South and West
+      else if (move==North+West) move=NorthWest;//North and West
     }
-    printf("[DEV]\tmoving direction: 0x%02x\n",move);
+    //printf("[DEV]\tmoving direction: 0x%02x\n",move);
     //------------------------Save To Movement Stack------------------------//
     push_move_stack(&robot->movement, move);
     //TODO

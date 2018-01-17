@@ -9,14 +9,14 @@
 #define ROBOT_NAME "MazeRunner"
 #define MAP_FILENAME "testmap.txt"
 
-#define N 0x01
-#define E 0x02
-#define S 0x04
-#define W 0x08
-#define NE 0x10
-#define SE 0x20
-#define SW 0x40
-#define NW 0x80
+#define North 0x01
+#define East 0x02
+#define South 0x04
+#define West 0x08
+#define NorthEast 0x10
+#define SouthEast 0x20
+#define SouthWest 0x40
+#define NorthWest 0x80
 
 typedef struct {
   int x,y;
