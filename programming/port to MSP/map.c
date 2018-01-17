@@ -3,8 +3,8 @@
 // Scan surroundings at current position and compare with map segment
 // If it differs, update map, then save map to file and recalculate path
 void map_check(Robot *robot) {
-  char scan_segment = scan();
-  char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
+  unsigned char scan_segment = scan();
+  unsigned char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
 
   // If scan and map segments are NOT identical
   if(scan_segment != map_segment) {
@@ -12,7 +12,7 @@ void map_check(Robot *robot) {
     map_update(robot, scan_segment);
 
     // Save struct map data to file
-    map_save(robot);
+    //map_save(robot);
 
     // Map has changed so calculate shortest path again
     //path_calculate(robot);
@@ -29,10 +29,8 @@ void map_save(Robot *robot) {
   }
 
   // Write map segments to text file
-  int i;
-  for (i = 0; i < robot->map.size.y; ++i) { // loop rows
-    int j;
-    for (j = 0; j < robot->map.size.x; ++j) { // loop cols
+  for (int i = 0; i < robot->map.size.y; ++i) { // loop rows
+    for (int j = 0; j < robot->map.size.x; ++j) { // loop cols
       // Write map segment value to file
       fprintf(myfile, "%c", robot->map.segments[i][j]);
     }
@@ -44,30 +42,9 @@ void map_save(Robot *robot) {
   fclose(myfile); // Close
 }
 
-// Reads map data from file and saves it in the map struct
-  // Start and finish positions are read from file and saved in robot struct
-  //
-  // In C an array and its size must be declared before we can store data in it
-  // Since we do not know the needed array size at compile time we wait and
-  // calculate the needed size at runtime instead
-  //
-  // The array size depends on the map size (rows and cols)
-  // The maps rows and cols can be calculated by counting the lines in the file
-  // and by counting characters in each line
-  //
-  // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
-  // a 5x5 array must be used to hold the values
-void map_load(Robot *robot) {
-  // for first 2 lines all characters into an array = string (skip for now)
-  //
-  // for map segments read character by character into array (forget size and malloc to begin with?)
-  // where 1st character is stored in [0][0] next in [0][1] and so on
-  // first character on next line in [1][0]
-  //
-  // when that is stored then we can always print out that map again
-  // first node/position will be at 1,1 next at 1,4
 
-  // Open file in read mode
+void map_load(Robot *robot) {
+/*
   FILE *myfile = fopen(MAP_FILENAME, "r");
 
   // Count number of lines and number of characters per line (last line)
@@ -92,6 +69,26 @@ void map_load(Robot *robot) {
 
   // Set file pointer position back to beginning of file
   rewind(myfile);
+*/
+
+/* Change to map load starts here */
+
+  // Manually set map size
+  int rows = 11;       // Size of map (newlines)
+  int cols = 11;       // Size of map (characters)
+
+  // Map data
+  char map[] =  "###########"
+                "#A o o o o#"
+                "## ###### #"
+                "#o o o o o#"
+                "######### #"
+                "#o o o o o#"
+                "# ####### #"
+                "#o#o o#o o#"
+                "# ## ###  #"
+                "#o o#o B#o#"
+                "###########";
 
   // Allocate memory for the 2D array with size of rows and cols
   // malloc() allocates single block of memory
@@ -99,8 +96,7 @@ void map_load(Robot *robot) {
   // sizeof() returns size in bytes of the object representation of type
   unsigned char **array; // Pointer to array
   array = malloc(rows * sizeof(char*));
-  int i;
-  for (i = 0; i < rows; i++) array[i] = calloc(cols, sizeof(char));
+  for (int i = 0; i < rows; i++) array[i] = calloc(cols, sizeof(char));
 
   // Store the pointer to the 2D array in map struct
   robot->map.segments = array;
@@ -109,37 +105,41 @@ void map_load(Robot *robot) {
   robot->map.size.x = cols;
   robot->map.size.y = rows;
 
+  char c;              	// Holds each character as it is read
+  int c_count = 0;		// Character counter
+
   // Fill map array with map data from file
-  for (i = 0; i < rows; i++) {
-    int j;
-    for (j = 0; j < cols; j++) {
-      c = fgetc(myfile);                // Read next character from file
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      //c = fgetc(myfile);            // Read next character from file (changed to array!)
+
+	  c = map[c_count]; 			// Read map character
+	  c_count++;					// Advance to next character
 
       robot->map.segments[i][j] = c;    // Store each character in map array
 
       if (c == 'A') {
         robot->map.start.x = (j-1)/2;
         robot->map.start.y = (i-1)/2;
-        //printf("[INFO]\tStart position:  [%2d][%2d]\n", robot->map.start.x, robot->map.start.y);
+        printf("[INFO]\tStart position:  [%2d][%2d]\n", robot->map.start.x, robot->map.start.y);
       }
 
       if (c == 'B') {
         robot->map.finish.x = (j-1)/2;
         robot->map.finish.y = (i-1)/2;
-        //printf("[INFO]\tFinish position: [%2d][%2d]\n", robot->map.finish.x, robot->map.finish.y);
+        printf("[INFO]\tFinish position: [%2d][%2d]\n", robot->map.finish.x, robot->map.finish.y);
       }
     }
-    fgetc(myfile); // Skip last character in each line (newline)
+    //fgetc(myfile); // Skip last character in each line (newline)
   }
-  fclose(myfile);
+  //fclose(myfile);
 
-  for (i = 0; i < rows; i++) {
-    //printf("[INFO]\t");
-    int j;
-    for (j = 0; j < cols; j++) {
-      //printf("%c", robot->map.segments[i][j]);
+  for (int i = 0; i < rows; i++) {
+    printf("[INFO]\t");
+    for (int j = 0; j < cols; j++) {
+      printf("%c", robot->map.segments[i][j]);
     }
-  //printf("\n");
+  printf("\n");
   }
 
   // Set robot current position to map start position
@@ -157,8 +157,7 @@ void node_map_load(Robot *robot) {
   // Declare node map of correct size
   Nodes **array;
   array = malloc(robot->map.nSize.x * sizeof(Nodes*));
-  int i;
-  for(i=0; i<robot->map.nSize.x; i++) {
+  for(int i=0; i<robot->map.nSize.x; i++) {
     array[i] = malloc(robot->map.nSize.y * sizeof(Nodes));
   }
 
@@ -170,20 +169,19 @@ void node_map_load(Robot *robot) {
   unsigned char hex;
 
   // loop through all nodes positions in the map (avoid walls)
-  for (i=1; i<robot->map.size.y; i+=2) {
-    int j;
-    for (j=1; j<robot->map.size.x; j+=2) {
+  for (int i=1; i<robot->map.size.y; i+=2) {
+    for (int j=1; j<robot->map.size.x; j+=2) {
       // For each node check walls in the 8 directions and build 8-bit value
       // # means the direction is closed by a wall, if no wall it is open
       hex = 0;
-      hex += (robot->map.segments[i-1][j+0] == '#') ? North : 0;
-      hex += (robot->map.segments[i-0][j+1] == '#') ? East : 0;
-      hex += (robot->map.segments[i+1][j-0] == '#') ? South : 0;
-      hex += (robot->map.segments[i-0][j-1] == '#') ? West : 0;
-      hex += (robot->map.segments[i-1][j+1] == '#') ? NorthEast : 0;
-      hex += (robot->map.segments[i+1][j+1] == '#') ? SouthEast : 0;
-      hex += (robot->map.segments[i+1][j-1] == '#') ? SouthWest : 0;
-      hex += (robot->map.segments[i-1][j-1] == '#') ? NorthWest : 0;
+      hex += (robot->map.segments[i-1][j+0] == '#') ? N : 0;
+      hex += (robot->map.segments[i-0][j+1] == '#') ? E : 0;
+      hex += (robot->map.segments[i+1][j-0] == '#') ? S : 0;
+      hex += (robot->map.segments[i-0][j-1] == '#') ? W : 0;
+      hex += (robot->map.segments[i-1][j+1] == '#') ? NE : 0;
+      hex += (robot->map.segments[i+1][j+1] == '#') ? SE : 0;
+      hex += (robot->map.segments[i+1][j-1] == '#') ? SW : 0;
+      hex += (robot->map.segments[i-1][j-1] == '#') ? NW : 0;
 
       // Save final 8-bit wall value
       robot->map.node[(i-1)/2][(j-1)/2].walls = hex;
@@ -201,7 +199,7 @@ void node_map_load(Robot *robot) {
 // Check the 8 individual hex values and update the correct map array values
 //
 // should update the node at the current position, which is the same node on map or node.map
-void map_update(Robot *robot, char hex) {
+void map_update(Robot *robot, unsigned char hex) {
 
   // Convert node coordinate to map coordinate
   int i = robot->pos.y*2+1;
@@ -211,14 +209,14 @@ void map_update(Robot *robot, char hex) {
   // Done by comparing bitwise each neighbor of the node to the hex wall value
   // Equal values puts a wall in the given direction by storing a '#'
   // Not equal stores a ' ' (space)
-  robot->map.segments[i-1][j+0] = (hex & North) ? '#' : ' ';
-  robot->map.segments[i-0][j+1] = (hex & East) ? '#' : ' ';
-  robot->map.segments[i+1][j-0] = (hex & South) ? '#' : ' ';
-  robot->map.segments[i-0][j-1] = (hex & West) ? '#' : ' ';
-  robot->map.segments[i-1][j+1] = (hex & NorthEast) ? '#' : ' ';
-  robot->map.segments[i+1][j+1] = (hex & SouthEast) ? '#' : ' ';
-  robot->map.segments[i+1][j-1] = (hex & SouthWest) ? '#' : ' ';
-  robot->map.segments[i-1][j-1] = (hex & NorthWest) ? '#' : ' ';
+  robot->map.segments[i-1][j+0] = (hex & N) ? '#' : ' ';
+  robot->map.segments[i-0][j+1] = (hex & E) ? '#' : ' ';
+  robot->map.segments[i+1][j-0] = (hex & S) ? '#' : ' ';
+  robot->map.segments[i-0][j-1] = (hex & W) ? '#' : ' ';
+  robot->map.segments[i-1][j+1] = (hex & NE) ? '#' : ' ';
+  robot->map.segments[i+1][j+1] = (hex & SE) ? '#' : ' ';
+  robot->map.segments[i+1][j-1] = (hex & SW) ? '#' : ' ';
+  robot->map.segments[i-1][j-1] = (hex & NW) ? '#' : ' ';
 
   // Map is now up to date, so rebuild nodes based on the updated map
   free(robot->map.node); // Free current nodes
@@ -284,10 +282,53 @@ In theory this should work (at least in my head).
 -------------------------
 */
 
+//[DEV] prints every element from a Node
+void map_print_node(Nodes *node){
+  int ownX, ownY;
+  int parX, parY;
+  char move=0;
 
+  ownX = node->position.x; ownY = node->position.y;
+  if (node->parent){
+    parX = node->parent->position.x;
+    parY = node->parent->position.y;
+  }
+
+  printf("[INFO]\tNode information [%2i][%2i]:\n",ownX, ownY);
+  printf("[INFO]\tParent\t\tmovecost\tNeighbors\n");
+  printf("[INFO]\t%p\t%i\t\t",node->parent,node->movecost);
+  if (node->n) printf("N  0x%02x\n[INFO]\t\t\t\t\t",node->n->walls);
+  if (node->e) printf("E  0x%02x\n[INFO]\t\t\t\t\t",node->e->walls);
+  if (node->s) printf("S  0x%02x\n[INFO]\t\t\t\t\t",node->s->walls);
+  if (node->w) printf("W  0x%02x\n[INFO]\t\t\t\t\t",node->w->walls);
+
+  if (node->ne) printf("NE 0x%02x\n[INFO]\t\t\t\t\t",node->ne->walls);
+  if (node->se) printf("SE 0x%02x\n[INFO]\t\t\t\t\t",node->se->walls);
+  if (node->sw) printf("SW 0x%02x\n[INFO]\t\t\t\t\t",node->sw->walls);
+  if (node->nw) printf("NW 0x%02x\n[INFO]\t\t\t\t\t",node->nw->walls);
+
+  if (node->parent){
+    printf("\n[INFO]\tParent is [%2i][%2i]\n",parX ,parY);
+    printf("[INFO]\tMoving here from parent:\n");
+    //adds all movements together
+    if (ownX<parX) move+=N;       //Something north
+    if (ownY>parY) move+=E;       //Something east
+    if (ownX>parX) move+=S;       //Something south
+    if (ownY<parY) move+=W;       //Something west
+
+    //checks for two movements
+    if (((move!=N)&&(move!=E)&&(move!=S)&&(move!=W))){
+      if (move==N+E) move=NE;     //North and East
+      else if (move==S+E) move=SE;//South and East
+      else if (move==S+W) move=SW;//South and West
+      else if (move==N+W) move=NW;//North and West
+    }
+    printf("[INFO]\t\t\t0x%02x\n\n",move);
+  } else printf("\n[INFO]\tNode [%2i][%2i] has no parent\n\n",ownX ,ownY);
+}
 
   // a 5x5 array must be used to hold the values
-  
+
   // Count number of lines and number of characters per line (last line)
   // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
   // sizeof() returns size in bytes of the object type
