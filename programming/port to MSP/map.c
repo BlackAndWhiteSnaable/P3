@@ -83,7 +83,7 @@ void map_load(volatile Robot *robot) {
 
 
 void node_map_load(volatile Robot *robot) {
-    volatile int i,j;
+  volatile unsigned int i,j;
   // From the map size the amount of nodes in the map can be calculated
   // TODO save in node struct
   // TODO turn into bitshifts?
@@ -105,9 +105,8 @@ void node_map_load(volatile Robot *robot) {
   unsigned char hex;
 
   // loop through all nodes positions in the map (avoid walls)
-  for (i=1; i<robot->map.size.y; i+=2) {
-    for (j=1; j<robot->map.size.x; j+=2) {
-      P1OUT ^= 0x01;
+  for (i=robot->map.size.y; i>1; i-=2) {
+    for (j=robot->map.size.x; j>1; j-=2) {
       // For each node check walls in the 8 directions and build 8-bit value
       // # means the direction is closed by a wall, if no wall it is open
         //TODO this stuff looks neat, but takes forever

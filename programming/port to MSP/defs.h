@@ -52,11 +52,11 @@ typedef struct move_element {
 } MoveStack;
 
 typedef struct {
-    volatile Point pos;
-    volatile Maps map;
-  volatile Queue *unchecked; // Head of queue for unchecked nodes
-  volatile Stack *checked; // Head of stack for checked nodes
-  volatile MoveStack *movement;  //Head of stack for movement
+  volatile Point pos;
+  volatile Maps map;
+  Queue *unchecked;    // Head of queue for unchecked nodes
+  Stack *checked;      // Head of stack for checked nodes
+  MoveStack *movement; //Head of stack for movement
 } Robot;
 
 
@@ -67,7 +67,7 @@ Function declarations
 
 // Robot
 void go();
-volatile Robot *robot_init();
+Robot *robot_init();
 
 // Map
 void map_load(volatile Robot *robot);
@@ -83,11 +83,11 @@ unsigned char scan();
 
 // Move
 void move_next(volatile Robot *robot);
-void push_move_stack(volatile MoveStack **head,volatile  unsigned char new_move);
+void push_move_stack(MoveStack **head, volatile unsigned char new_move);
 unsigned char pop_move(volatile MoveStack **head);
 
 // Priority queue and stack
-void push_queue(volatile Queue **head, volatile Nodes *new_node);  // add element on the stack
+void push_queue(Queue **head, volatile Nodes *new_node);  // add element on the stack
 void push_stack(volatile Stack **head, volatile Nodes *new_node);
 volatile Nodes *pop(volatile Queue **head); // removes element from top of queue or stack
 

@@ -9,9 +9,9 @@ int robot_finished(volatile Robot *robot) {
   return FALSE;
 }
 
-volatile Robot *robot_init() {
+Robot *robot_init() {
   // Dynamically allocate robot struct in memory and return pointer
-  volatile Robot *robot = malloc(sizeof(Robot));
+  Robot *robot = malloc(sizeof(Robot));
 
   // First queue and stack element must be initialized to NULL
   robot->unchecked = NULL;

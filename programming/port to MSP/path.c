@@ -2,10 +2,9 @@
 
 ///finds all neighbors of a node and sets them as pointers
 void path_set_neighbors(volatile Robot *robot) {
-  volatile int i;
-  for (i = 0; i<(robot->map.size.x-1)/2; i++){
-    int j;
-    for (j=0; j<(robot->map.size.y-1)/2; j++){
+  volatile unsigned int i,j;
+  for (i = robot->map.nSize.x; i>0; i--){
+    for (j=robot->map.nSize.y; j>0; j--){
       if (!(robot->map.node[i][j].walls & North)){
         robot->map.node[i][j].n=&robot->map.node[i-1][j];
       } else {
@@ -60,6 +59,7 @@ void path_set_neighbors(volatile Robot *robot) {
 
 ///calculates the path from the current position
 void path_calculate(volatile Robot *robot) {
+  P1OUT &= ~0x01;
   //--------------------------------- SETUP-----------------------------------//
   //declare all variables needed in scope
   volatile unsigned int curx = 0;
@@ -204,9 +204,10 @@ void path_calculate_movement(volatile Robot *robot){
     //------------------------Save To Movement Stack------------------------//
     push_move_stack(&robot->movement, move);
     //TODO
+    P1OUT |= 0x01;
     while (((parNode=pop(&robot->checked))->position.x!=parX)||
            (parNode->position.y!=parY)){}
     currNode=parNode;
-    P1OUT |= 0x01;
+    P1OUT &= ~0x01;
   }
 }

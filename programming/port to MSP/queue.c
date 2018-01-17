@@ -1,7 +1,7 @@
 #include "defs.h"
 
 // Add element to queue
-void push_queue(volatile Queue **head, volatile Nodes *new_node)
+void push_queue(Queue **head, volatile Nodes *new_node)
 {
   volatile Queue *tmp;
   tmp = (Queue *)malloc(sizeof(Queue)); // Allocate new queue element struct in memory
@@ -33,6 +33,7 @@ void push_queue(volatile Queue **head, volatile Nodes *new_node)
 
 
 // remove one element from head of queue
+//TODO returns NULL a bit too often
 volatile Nodes *pop(volatile Queue **head)
 {
     if (!*head) {

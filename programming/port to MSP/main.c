@@ -4,6 +4,7 @@
  main.c
 *******************/
 int main() {
+  WDTCTL = WDTPW + WDTHOLD;
   go(); // Calls all other functions
   return 0;
 }
@@ -16,7 +17,7 @@ void go() {
   P1DIR = 0x01;
   P1OUT = 0x00;
   //----------------------------------SETUP ----------------------------------//
-  volatile Robot *robot;           // Declare empty pointer to a struct of type Robot
+  Robot *robot;           // Declare empty pointer to a struct of type Robot
   robot = robot_init();   // Allocate structs and return the address to pointer
 
   map_load(robot);        // Load map data from file
