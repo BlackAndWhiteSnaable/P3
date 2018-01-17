@@ -1,7 +1,7 @@
 #include "defs.h"
 
 // Add element to stack
-void push_stack(Stack **head, Nodes *new_node)
+void push_stack(volatile Stack **head, volatile Nodes *new_node)
 {
   Stack *tmp;               // pointer to a struct of type Stack
   //                        // tmp points to struct allocated in memory
