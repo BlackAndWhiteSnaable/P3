@@ -1,1 +1,0 @@
-"./main.obj" "./map.obj" "./move.obj" "./path.obj" "./queue.obj" "./robot.obj" "./scan.obj" "./stack.obj" "../lnk_msp430f5529.cmd" -llibmath.a -llibc.a 
