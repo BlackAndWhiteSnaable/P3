@@ -3,8 +3,8 @@
 // Scan surroundings at current position and compare with map segment
 // If it differs, update map, then save map to file and recalculate path
 void map_check(Robot *robot) {
-  unsigned char scan_segment = scan();
-  unsigned char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
+  char scan_segment = scan();
+  char map_segment = robot->map.node[robot->pos.x][robot->pos.y].walls;
 
   // If scan and map segments are NOT identical
   if(scan_segment != map_segment) {
@@ -12,7 +12,7 @@ void map_check(Robot *robot) {
     map_update(robot, scan_segment);
 
     // Save struct map data to file
-    //map_save(robot);
+    map_save(robot);
 
     // Map has changed so calculate shortest path again
     //path_calculate(robot);
@@ -42,9 +42,30 @@ void map_save(Robot *robot) {
   fclose(myfile); // Close
 }
 
-
+// Reads map data from file and saves it in the map struct
+  // Start and finish positions are read from file and saved in robot struct
+  //
+  // In C an array and its size must be declared before we can store data in it
+  // Since we do not know the needed array size at compile time we wait and
+  // calculate the needed size at runtime instead
+  //
+  // The array size depends on the map size (rows and cols)
+  // The maps rows and cols can be calculated by counting the lines in the file
+  // and by counting characters in each line
+  //
+  // For 5 lines of map segments (5 rows) and 5 characters in each line (5 cols)
+  // a 5x5 array must be used to hold the values
 void map_load(Robot *robot) {
-/*
+  // for first 2 lines all characters into an array = string (skip for now)
+  //
+  // for map segments read character by character into array (forget size and malloc to begin with?)
+  // where 1st character is stored in [0][0] next in [0][1] and so on
+  // first character on next line in [1][0]
+  //
+  // when that is stored then we can always print out that map again
+  // first node/position will be at 1,1 next at 1,4
+
+  // Open file in read mode
   FILE *myfile = fopen(MAP_FILENAME, "r");
 
   // Count number of lines and number of characters per line (last line)
@@ -69,26 +90,6 @@ void map_load(Robot *robot) {
 
   // Set file pointer position back to beginning of file
   rewind(myfile);
-*/
-
-/* Change to map load starts here */
-
-  // Manually set map size
-  int rows = 11;       // Size of map (newlines)
-  int cols = 11;       // Size of map (characters)
-
-  // Map data
-  char map[] =  "###########"
-                "#A o o o o#"
-                "## ###### #"
-                "#o o o o o#"
-                "######### #"
-                "#o o o o o#"
-                "# ####### #"
-                "#o#o o#o o#"
-                "# ## ###  #"
-                "#o o#o B#o#"
-                "###########";
 
   // Allocate memory for the 2D array with size of rows and cols
   // malloc() allocates single block of memory
@@ -105,16 +106,10 @@ void map_load(Robot *robot) {
   robot->map.size.x = cols;
   robot->map.size.y = rows;
 
-  char c;              	// Holds each character as it is read
-  int c_count = 0;		// Character counter
-
   // Fill map array with map data from file
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
-      //c = fgetc(myfile);            // Read next character from file (changed to array!)
-
-	  c = map[c_count]; 			// Read map character
-	  c_count++;					// Advance to next character
+      c = fgetc(myfile);                // Read next character from file
 
       robot->map.segments[i][j] = c;    // Store each character in map array
 
@@ -130,9 +125,9 @@ void map_load(Robot *robot) {
         printf("[INFO]\tFinish position: [%2d][%2d]\n", robot->map.finish.x, robot->map.finish.y);
       }
     }
-    //fgetc(myfile); // Skip last character in each line (newline)
+    fgetc(myfile); // Skip last character in each line (newline)
   }
-  //fclose(myfile);
+  fclose(myfile);
 
   for (int i = 0; i < rows; i++) {
     printf("[INFO]\t");
@@ -199,7 +194,7 @@ void node_map_load(Robot *robot) {
 // Check the 8 individual hex values and update the correct map array values
 //
 // should update the node at the current position, which is the same node on map or node.map
-void map_update(Robot *robot, unsigned char hex) {
+void map_update(Robot *robot, char hex) {
 
   // Convert node coordinate to map coordinate
   int i = robot->pos.y*2+1;
@@ -328,7 +323,7 @@ void map_print_node(Nodes *node){
 }
 
   // a 5x5 array must be used to hold the values
-
+  
   // Count number of lines and number of characters per line (last line)
   // calloc() allocates multiple blocks of memory each of same size and sets all bytes to zero
   // sizeof() returns size in bytes of the object type
