@@ -96,13 +96,11 @@ void node_map_load(Robot *robot) {
       hex += (robot->map.segments[i+1][j-1] == '#') ? SouthWest : 0;
       hex += (robot->map.segments[i-1][j-1] == '#') ? NorthWest : 0;
 
+      //TODO something fishy happening here, doesn't change value in struct
       // Save final 8-bit wall value
-      robot->map.node[ni][nj].walls = hex;
+      robot->map.node[2][2].walls = 0x20; //supposed to be hex
 
       // Save nodes own x,y position on node map
-      // Nodes position is calculated based on the position in segment map
-      // Example: First node top left will have position 0,0 and so on
-      // TODO make this bitshifts
       robot->map.node[ni][nj].position.x = ni;
       robot->map.node[ni][nj].position.y = nj;
     }
