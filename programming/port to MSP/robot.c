@@ -1,6 +1,6 @@
 #include "defs.h"
 // Returns TRUE if robot current position is identical to map finish position
-int robot_finished(volatile Robot *robot) {
+int robot_finished(Robot *robot) {
   // Compares robot current position with map finish position
   if(robot->pos.x == robot->map.finish.x &&
     robot->pos.y == robot->map.finish.y) {

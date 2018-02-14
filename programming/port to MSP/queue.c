@@ -1,9 +1,9 @@
 #include "defs.h"
 
 // Add element to queue
-void push_queue(Queue **head, volatile Nodes *new_node)
+void push_queue(Queue **head, Nodes *new_node)
 {
-  volatile Queue *tmp;
+  Queue *tmp;
   tmp = (Queue *)malloc(sizeof(Queue)); // Allocate new queue element struct in memory
 
   // queue is empty, insert new Queue element as head
@@ -19,7 +19,7 @@ void push_queue(Queue **head, volatile Nodes *new_node)
 
   // Insert new element before existing element with higher movecost value
   } else {
-    volatile Queue *cur;
+    Queue *cur;
     cur = *head;
     while(cur->next != NULL && cur->next->node->movecost <= new_node->movecost) {
     cur = cur->next; // Next node
@@ -34,15 +34,15 @@ void push_queue(Queue **head, volatile Nodes *new_node)
 
 // remove one element from head of queue
 //TODO returns NULL a bit too often
-volatile Nodes *pop(volatile Queue **head)
+Nodes *pop(Queue **head)
 {
     if (!*head) {
         return NULL;
     } else {
-        volatile Nodes *node;
+        Nodes *node;
         node = (*head)->node;
 
-        volatile Queue *tmp;                                     // tmp pointer to struct
+        Queue *tmp;                                     // tmp pointer to struct
         tmp = (*head)->next;                            // set pointer to 2nd queue element from head
         free(*head);                                  // free allocated memory for 1st queue element
         *head = tmp;                                  // set 2nd queue element to 1st queue element

@@ -26,4 +26,5 @@ void go() {
   //---------------------------------RUNNING ---------------------------------//
   path_calculate(robot);  //calculate path
 
+  P1OUT = 0x01;
 }

@@ -1,10 +1,12 @@
 #include "defs.h"
 
 ///finds all neighbors of a node and sets them as pointers
-void path_set_neighbors(volatile Robot *robot) {
-  volatile unsigned int i,j;
-  for (i = robot->map.nSize.x; i>0; i--){
-    for (j=robot->map.nSize.y; j>0; j--){
+void path_set_neighbors(Robot *robot) {
+  unsigned int i,j,stopi, stopj;
+  stopi = robot->map.nSize.x;
+  stopj = robot->map.nSize.y;
+  for (i = 0; i<stopi; i++){
+    for (j=0; j<stopj; j++){
       if (!(robot->map.node[i][j].walls & North)){
         robot->map.node[i][j].n=&robot->map.node[i-1][j];
       } else {
@@ -58,14 +60,14 @@ void path_set_neighbors(volatile Robot *robot) {
 }
 
 ///calculates the path from the current position
-void path_calculate(volatile Robot *robot) {
+void path_calculate(Robot *robot) {
   P1OUT &= ~0x01;
   //--------------------------------- SETUP-----------------------------------//
   //declare all variables needed in scope
-  volatile unsigned int curx = 0;
-  volatile unsigned int cury = 0;          //to keep track of your food/position on the map
+  unsigned int curx = 0;
+  unsigned int cury = 0;          //to keep track of your food/position on the map
                           //should not be necessary, but would clean up the code
-  volatile Nodes *currNode;        //the Node currently looked at
+  Nodes *currNode = NULL;        //the Node currently looked at
 
   //make sure that all nodes have the correct neighbors
   path_set_neighbors(robot);
@@ -74,7 +76,7 @@ void path_calculate(volatile Robot *robot) {
   curx = robot->pos.x;
   cury = robot->pos.y;
   push_queue(&robot->unchecked, &robot->map.node[curx][cury]);
-  currNode =pop(&robot->unchecked);
+  currNode = pop(&robot->unchecked);
 
   //----------------------------------CALC------------------------------------//
   int deadcount=0;
@@ -169,15 +171,15 @@ void path_calculate(volatile Robot *robot) {
 }
 
 ///calculates the movement stack out of the checked stack.
-void path_calculate_movement(volatile Robot *robot){
+void path_calculate_movement(Robot *robot){
   P1OUT &= ~0x01;
   //pop from stack until start is reached
   //-------------------------------- VARIABLES--------------------------------//
-  volatile int deadcount=0;
-  volatile int parX=0,parY=0;
-  volatile int ownX=0,ownY=0;
-  volatile char move=0;
-  volatile Nodes *currNode = NULL, *parNode = NULL;
+  int deadcount=0;
+  int parX=0,parY=0;
+  int ownX=0,ownY=0;
+  unsigned char move=0;
+  Nodes *currNode = NULL, *parNode = NULL;
   //----------------------------LOOP THROUGH STACK----------------------------//
   currNode=pop(&robot->checked);
   while(currNode->movecost!=0){ //start has movecost 0
