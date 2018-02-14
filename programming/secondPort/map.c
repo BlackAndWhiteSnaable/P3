@@ -36,8 +36,8 @@ void map_load(Robot *robot) {
   robot->pos.y = robot->map.start.y;
 
   //Manually set finish position
-  robot->map.finish.x = 9;
-  robot->map.finish.y = 7;
+  robot->map.finish.x = 2;
+  robot->map.finish.y = 2;
 
   // Map data
   strcpy(robot->map.segments[0],  "#######");
@@ -136,34 +136,6 @@ void map_update(Robot *robot, unsigned char hex) {
   // Map is now up to date, so rebuild nodes based on the updated map
   free(robot->map.node); // Free current nodes
   node_map_load(robot); // Rebuild nodes
-}
 
-
-//[DEV] prints every element from a Node
-void map_print_node(Nodes *node){
-  int ownX, ownY;
-  int parX, parY;
-  char move=0;
-
-  ownX = node->position.x; ownY = node->position.y;
-  if (node->parent){
-    parX = node->parent->position.x;
-    parY = node->parent->position.y;
-  }
-
-  if (node->parent){
-    //adds all movements together
-    if (ownX<parX) move+=North;       //Something north
-    if (ownY>parY) move+=East;       //Something east
-    if (ownX>parX) move+=South;       //Something south
-    if (ownY<parY) move+=West;       //Something west
-
-    //checks for two movements
-    if (((move!=North)&&(move!=East)&&(move!=South)&&(move!=West))){
-      if (move==North+East) move=NorthEast;     //North and East
-      else if (move==South+East) move=SouthEast;//South and East
-      else if (move==South+West) move=SouthWest;//South and West
-      else if (move==North+West) move=NorthWest;//North and West
-    }
-  }
+  P1OUT ^= 0x01;
 }
