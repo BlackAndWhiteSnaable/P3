@@ -3,7 +3,7 @@
 /*******************
  main.c
 *******************/
-int main() {
+int main(void) {
   WDTCTL = WDTPW + WDTHOLD;
   go(); // Calls all other functions
   return 0;
@@ -13,18 +13,23 @@ int main() {
  functions.c
 *******************/
 // Executes robot behavior instructions
-void go() {
+void go(void) {
   P1DIR = 0x01;
   P1OUT = 0x00;
   //----------------------------------SETUP ----------------------------------//
-  Robot *robot;           // Declare empty pointer to a struct of type Robot
-  robot = robot_init();   // Allocate structs and return the address to pointer
 
-  map_load(robot);        // Load map data from file
-  node_map_load(robot);   // load map into node array
+  node_map_load();   // load map into node array
 
   //---------------------------------RUNNING ---------------------------------//
-  //path_calculate(robot);  //calculate path
+  //path_calculate();  //calculate path
+
+  //---------------------------------TESTING ---------------------------------//
+  int test;
+  test = push_queue((char)0x01);
+
+  char testc,testb;
+  testc = pop_queue();
+  testb = pop_queue();
 
   P1OUT = 0x01;
 }

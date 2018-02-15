@@ -1,15 +1,11 @@
 /*******************
  defs.h
 *******************/
-#include <stdio.h>      // Needed for printf
 #include <stdlib.h>     // Needed for malloc
-#include <string.h>
 #include <msp430.h>
 
 #define TRUE 1
 #define FALSE 0
-#define ROBOT_NAME "MazeRunner"
-#define MAP_FILENAME "testmap.txt"
 
 #define North 0x01
 #define East 0x02
@@ -19,6 +15,10 @@
 #define SouthEast 0x20
 #define SouthWest 0x40
 #define NorthWest 0x80
+
+#define Xsize 3
+#define Ysize 3
+#define numnodes 9
 
 typedef struct {
   unsigned int x,y;
@@ -38,11 +38,7 @@ typedef struct {
   Point start;          // start position as node coordinates
   Point finish;         // finish position as node coordinates
   Point nSize;          // size of the nodemap
-  Nodes **node;         // 2D array of each node's 8 neighbours represented in a hex value
-
-  //--Text based--//
-  Point size;           // Size is amount of characters in the textfile
-  char segments[7][7];  // 2D array of the map data from text file (user input)
+  Nodes node[Ysize][Xsize];         // 2D array of each node's 8 neighbours represented in a hex value
 } Maps;
 
 typedef struct element {
@@ -63,40 +59,46 @@ typedef struct {
   MoveStack *movement; // first element in movement stack
 } Robot;
 
+/*--GLOBALS--
+ *
+ */
+Robot robot;
 
+char queue[numnodes];
+int queue_count;
 
 /*
 Function declarations
 */
 
 // Robot
-void go();
-Robot *robot_init();
+void go(void);
+void robot_init(void);
 
 // Map
-void map_load(Robot *robot);
-void map_save(Robot *robot);
-void map_check(Robot *robot);
-void map_update(Robot *robot, unsigned char hex);
-void node_map_load(Robot *robot); // node/map?
-int robot_finished(Robot *robot);
-void test_node_array(Robot *robot);
+void map_load(void);
+void map_save(void);
+void map_check(void);
+void map_update(unsigned char hex);
+void node_map_load(void); // node/map?
+int robot_finished(void);
+void test_node_array(void);
 
 // Scan
-unsigned char scan();
+unsigned char scan(void);
 
 // Move
-void move_next(Robot *robot);
+void move_next(void);
 void push_move_stack(MoveStack **head, unsigned char new_move);
 unsigned char pop_move(MoveStack **head);
 
 // Priority queue and stack
-void push_queue(Queue **head, Nodes *new_node);  // add element on the stack
+int push_queue(char coords);  // add element on the stack
 void push_stack(Stack **head, Nodes *new_node);
-Nodes *pop(Queue **head); // removes element from top of queue or stack
+char pop_queue(void); // removes element from top of queue
 
 // Pathfinding
-void path_test(Robot *robot);
-void path_set_neighbors(Robot *robot);
-void path_calculate(Robot *robot);
-void path_calculate_movement(Robot *robot);
+void path_test(void);
+void path_set_neighbors(void);
+void path_calculate(void);
+void path_calculate_movement(void);
