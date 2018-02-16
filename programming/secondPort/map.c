@@ -20,9 +20,24 @@ void map_check() {
  * in a later update this should be automated
  */
 void node_map_load() {
+  /*--SIZE
+   *
+   */
   robot.map.nSize.x = 3;
   robot.map.nSize.y = 3;
 
+  /*--START & FINISH--
+   *
+   */
+  robot.map.start.x = 0;
+  robot.map.start.y = 0;
+
+  robot.map.finish.x= 2;
+  robot.map.finish.y= 2;
+
+  /*--WALLS--
+   *
+   */
   robot.map.node[0][0].walls = 0xDD;
   robot.map.node[0][1].walls = 0xA5;
   robot.map.node[0][2].walls = 0xF7;
@@ -34,6 +49,24 @@ void node_map_load() {
   robot.map.node[2][0].walls = 0xED;
   robot.map.node[2][1].walls = 0x75;
   robot.map.node[2][2].walls = 0xF7;
+
+
+  /*--MOVECOST
+   *
+   */
+  robot.map.node[0][0].movecost = 0xFFF;
+  robot.map.node[0][1].movecost = 0xFFF;
+  robot.map.node[0][2].movecost = 0xFFF;
+
+  robot.map.node[1][0].movecost = 0xFFF;
+  robot.map.node[1][1].movecost = 0xFFF;
+  robot.map.node[1][2].movecost = 0xFFF;
+
+  robot.map.node[2][0].movecost = 0xFFF;
+  robot.map.node[2][1].movecost = 0xFFF;
+  robot.map.node[2][2].movecost = 0xFFF;
+
+  robot.map.node[robot.map.start.y][robot.map.start.x].movecost = 0;
 
   P1OUT ^= 0x01;
 }

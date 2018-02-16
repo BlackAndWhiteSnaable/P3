@@ -21,7 +21,7 @@ void go(void) {
   node_map_load();   // load map into node array
 
   //---------------------------------RUNNING ---------------------------------//
-  //path_calculate();  //calculate path
+  path_calculate();  //calculate path
 
   //---------------------------------TESTING ---------------------------------//
   int test;
