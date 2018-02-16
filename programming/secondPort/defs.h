@@ -38,7 +38,7 @@ typedef struct {
   Point start;          // start position as node coordinates
   Point finish;         // finish position as node coordinates
   Point nSize;          // size of the nodemap
-  Nodes node[Ysize][Xsize];         // 2D array of each node's 8 neighbours represented in a hex value
+  Nodes node[Ysize][Xsize];// 2D array of nodes
 } Maps;
 
 typedef struct element {

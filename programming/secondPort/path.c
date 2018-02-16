@@ -59,14 +59,15 @@ void path_set_neighbors() {
   robot.map.node[robot.pos.x][robot.pos.y].movecost = 0;
 }
 
+
 ///calculates the path from the current position
 void path_calculate() {
-  //--------------------------------- SETUP-----------------------------------//
+  //-------------------------------- SETUP----------------------------------//
   //declare all variables needed in scope
   unsigned int curx = 0;
-  unsigned int cury = 0;          //to keep track of your food/position on the map
-                          //should not be necessary, but would clean up the code
-  Nodes *currNode = NULL;        //the Node currently looked at
+  unsigned int cury = 0;    //to keep track of your food/position on the map
+                            //should not be necessary, but would clean the code
+  Nodes *currNode = NULL;   //the Node currently looked at
 
   //make sure that all nodes have the correct neighbors
   path_set_neighbors();
@@ -77,7 +78,7 @@ void path_calculate() {
   //push_queue(&robot.unchecked, &robot.map.node[curx][cury]);
   //currNode = pop(&robot.unchecked);
 
-  //----------------------------------CALC------------------------------------//
+  //---------------------------------CALC-----------------------------------//
   int deadcount=0;
   // until we reach the finish
   while ((curx!=robot.map.finish.y)||(cury!=robot.map.finish.x)){
