@@ -59,7 +59,114 @@ void path_set_neighbors() {
   robot.map.node[robot.pos.x][robot.pos.y].movecost = 0;
 }
 
+void path_calculate() {
+  /*--VARIABLE DECLARATION--
+   * current: x,y,node(walls),cost
+   */
+  char cx, cy, cnode, endx, endy;
+  unsigned int ccost;
+  endx=hex2x(end);endy=hex2y(end);
 
+  /*TAKE START NODE*/
+  cx=hex2x(pos); cy=hex2y(pos);
+  cnode= map[cy][cx];
+  ccost=mapc[cy][cx];
+  /*WHILE NOT END*/
+  while(cx!=endx||cy!=endy){
+    /*NORTH*/
+    if((cnode&North)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy-1][cx  ]|=South;
+      /*CHANGE MOVECOST*/
+      mapc[cy-1][cx  ]=ccost+10;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy-1][cx  ]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx  ,cy-1));
+    }
+    /*EAST*/
+    if((cnode&East)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy  ][cx+1]|=West;
+      /*CHANGE MOVECOST*/
+      mapc[cy  ][cx+1]=ccost+10;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy  ][cx+1]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx+1,cy  ));
+    }
+    /*SOUTH*/
+    if((cnode&South)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy+1][cx  ]|=North;
+      /*CHANGE MOVECOST*/
+      mapc[cy+1][cx  ]=ccost+10;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy+1][cx  ]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx  ,cy+1));
+    }
+    /*WEST*/
+    if((cnode&West)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy  ][cx-1]|=East;
+      /*CHANGE MOVECOST*/
+      mapc[cy  ][cx-1]=ccost+10;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy  ][cx-1]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx-1,cy  ));
+    }
+
+    /*NORTHEAST*/
+    if((cnode&NorthEast)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy-1][cx+1]|=SouthWest;
+      /*CHANGE MOVECOST*/
+      mapc[cy-1][cx+1]=ccost+14;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy-1][cx+1]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx+1,cy-1));
+    }
+    /*SOUTHEAST*/
+    if((cnode&SouthEast)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy+1][cx+1]|=NorthWest;
+      /*CHANGE MOVECOST*/
+      mapc[cy+1][cx+1]=ccost+14;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy+1][cx+1]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx+1,cy+1));
+    }
+    /*SOUTHWEST*/
+    if((cnode&SouthWest)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy+1][cx-1]|=NorthEast;
+      /*CHANGE MOVECOST*/
+      mapc[cy+1][cx-1]=ccost+14;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy+1][cx-1]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx-1,cy+1));
+    }
+    /*NORTHWEST*/
+    if((cnode&NorthWest)==0){
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cy-1][cx-1]|=SouthEast;
+      /*CHANGE MOVECOST*/
+      mapc[cy-1][cx-1]=ccost+14;
+      /*SAVE PATH(PARENT)*/
+      mapp[cy-1][cx-1]=xy2hex(cx,cy);
+      /*PUT INTO QUEUE*/
+      push_queue(xy2hex(cx-1,cy-1));
+    }
+    P1OUT ^= 0x01;
+  }
+
+}
+/*
 ///calculates the path from the current position
 void path_calculate() {
   //-------------------------------- SETUP----------------------------------//
@@ -100,7 +207,7 @@ void path_calculate() {
       //prints neighbor (debugging)
       //pushes neighbor on queue
     */
-
+/*
     //------------------------------------STRAIGHTS-------------------------//
     if (currNode->n && (currNode->n->movecost > currNode->movecost+10)){
       currNode->n->movecost = currNode->movecost+10;
@@ -168,11 +275,10 @@ void path_calculate() {
 
   P1OUT |= 0x01;
   path_calculate_movement();
-}
+}*/
 
 ///calculates the movement stack out of the checked stack.
 void path_calculate_movement(){
-  P1OUT &= ~0x01;
   //pop from stack until start is reached
   //-------------------------------- VARIABLES--------------------------------//
   int deadcount=0;
@@ -210,6 +316,6 @@ void path_calculate_movement(){
     //while (((parNode=pop(&robot.checked))->position.x!=parX)||
     //       (parNode->position.y!=parY)){}
     currNode=parNode;
-    P1OUT &= ~0x01;
+    P1OUT ^= 0x01;
   }
 }

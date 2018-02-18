@@ -8,9 +8,10 @@
 #define FALSE 0
 
 #define North 0x01
-#define East 0x02
+#define East  0x02
 #define South 0x04
-#define West 0x08
+#define West  0x08
+
 #define NorthEast 0x10
 #define SouthEast 0x20
 #define SouthWest 0x40
@@ -67,12 +68,22 @@ Robot robot;
 char queue[numnodes];
 int queue_count;
 
+// hardcoded 3x3 map
+char map[3][3];
+unsigned int mapc[3][3];
+char mapp[3][3];
+//positions in hex
+char start;
+char end;
+char pos;
 /*
 Function declarations
 */
-
 // Robot
 void go(void);
+char xy2hex(char x,char y);
+char hex2x(char hex);
+char hex2y(char hex);
 void robot_init(void);
 
 // Map
