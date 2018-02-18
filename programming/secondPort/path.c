@@ -1,167 +1,135 @@
 #include "defs.h"
 
-///finds all neighbors of a node and sets them as pointers
-void path_set_neighbors() {
-  unsigned int i,j,stopi, stopj;
-  stopi = robot.map.nSize.x;
-  stopj = robot.map.nSize.y;
-  for (i = 0; i<stopi; i++){
-    for (j=0; j<stopj; j++){
-      if (!(robot.map.node[i][j].walls & North)){
-        robot.map.node[i][j].n=&robot.map.node[i-1][j];
-      } else {
-        robot.map.node[i][j].n=NULL;
-      }
-      if (!(robot.map.node[i][j].walls & East)){
-        robot.map.node[i][j].e=&robot.map.node[i][j+1];
-      } else {
-        robot.map.node[i][j].e=NULL;
-      }
-      if (!(robot.map.node[i][j].walls & South)){
-        robot.map.node[i][j].s=&robot.map.node[i+1][j];
-      } else {
-        robot.map.node[i][j].s=NULL;
-      }
-      if (!(robot.map.node[i][j].walls & West)){
-        robot.map.node[i][j].w=&robot.map.node[i][j-1];
-      } else {
-        robot.map.node[i][j].w=NULL;
-      }
-
-      if (!(robot.map.node[i][j].walls & NorthEast)){
-        robot.map.node[i][j].ne=&robot.map.node[i-1][j+1];
-      } else {
-        robot.map.node[i][j].ne=NULL;
-      }
-      if (!(robot.map.node[i][j].walls & SouthEast)){
-        robot.map.node[i][j].se=&robot.map.node[i+1][j+1];
-      } else {
-        robot.map.node[i][j].se=NULL;
-      }
-      if (!(robot.map.node[i][j].walls & SouthWest)){
-        robot.map.node[i][j].sw=&robot.map.node[i+1][j-1];
-      } else {
-        robot.map.node[i][j].sw=NULL;
-      }
-      if (!(robot.map.node[i][j].walls & NorthWest)){
-        robot.map.node[i][j].nw=&robot.map.node[i-1][j-1];
-      } else {
-        robot.map.node[i][j].nw=NULL;
-      }
-
-      robot.map.node[i][j].movecost = 0xFFF; //set movecost to something high
-                                              //reset to 0 for start later
-      robot.map.node[i][j].parent = NULL;    //set parent pointer to NULL
-
-    }
-  }
-  //set movecost for the current position to 0
-  robot.map.node[robot.pos.x][robot.pos.y].movecost = 0;
-}
 
 void path_calculate() {
   /*--VARIABLE DECLARATION--
-   * current: x,y,node(walls),cost
+   * current: x,y,node(walls),cost,position
+   * general: endx&y
    */
-  char cx, cy, cnode, endx, endy;
+  char cx, cy, cnode, cpos, endx, endy;
   unsigned int ccost;
+
   endx=hex2x(end);endy=hex2y(end);
 
   /*TAKE START NODE*/
-  cx=hex2x(pos); cy=hex2y(pos);
-  cnode= map[cy][cx];
-  ccost=mapc[cy][cx];
-  /*WHILE NOT END*/
+  cpos=pos;
+  /*WHILE NOT AT THE END*/
   while(cx!=endx||cy!=endy){
+    cx=hex2x(cpos); cy=hex2y(cpos);
+    cnode= map[cx][cy];
+    ccost=mapc[cx][cy];
     /*NORTH*/
     if((cnode&North)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy-1][cx  ]|=South;
-      /*CHANGE MOVECOST*/
-      mapc[cy-1][cx  ]=ccost+10;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy-1][cx  ]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx  ,cy-1));
+      if(mapc[cx-1][cy  ]>ccost+10){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx-1][cy  ]|=South;
+        /*CHANGE MOVECOST*/
+        mapc[cx-1][cy  ]=ccost+10;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx-1][cy  ]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx-1,cy  ));
+      }
     }
     /*EAST*/
     if((cnode&East)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy  ][cx+1]|=West;
-      /*CHANGE MOVECOST*/
-      mapc[cy  ][cx+1]=ccost+10;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy  ][cx+1]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx+1,cy  ));
+      if(mapc[cx  ][cy+1]>ccost+10){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx  ][cy+1]|=West;
+        /*CHANGE MOVECOST*/
+        mapc[cx  ][cy+1]=ccost+10;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx  ][cy+1]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx  ,cy+1));
+      }
     }
     /*SOUTH*/
     if((cnode&South)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy+1][cx  ]|=North;
-      /*CHANGE MOVECOST*/
-      mapc[cy+1][cx  ]=ccost+10;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy+1][cx  ]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx  ,cy+1));
+      if(mapc[cx+1][cy  ]>ccost+10){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx+1][cy  ]|=North;
+        /*CHANGE MOVECOST*/
+        mapc[cx+1][cy  ]=ccost+10;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx+1][cy  ]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx+1,cy  ));
+      }
     }
     /*WEST*/
     if((cnode&West)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy  ][cx-1]|=East;
-      /*CHANGE MOVECOST*/
-      mapc[cy  ][cx-1]=ccost+10;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy  ][cx-1]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx-1,cy  ));
+      if(mapc[cx  ][cy-1]>ccost+10){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx  ][cy-1]|=East;
+        /*CHANGE MOVECOST*/
+        mapc[cx  ][cy-1]=ccost+10;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx  ][cy-1]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx  ,cy-1));
+      }
     }
 
     /*NORTHEAST*/
     if((cnode&NorthEast)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy-1][cx+1]|=SouthWest;
-      /*CHANGE MOVECOST*/
-      mapc[cy-1][cx+1]=ccost+14;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy-1][cx+1]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx+1,cy-1));
+      if(mapc[cx-1][cy+1]>ccost+14){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx-1][cy+1]|=SouthWest;
+        /*CHANGE MOVECOST*/
+        mapc[cx-1][cy+1]=ccost+14;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx-1][cy+1]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx-1,cy+1));
+      }
     }
     /*SOUTHEAST*/
     if((cnode&SouthEast)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy+1][cx+1]|=NorthWest;
-      /*CHANGE MOVECOST*/
-      mapc[cy+1][cx+1]=ccost+14;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy+1][cx+1]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx+1,cy+1));
+      if(mapc[cx+1][cy+1]>ccost+14){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx+1][cy+1]|=NorthWest;
+        /*CHANGE MOVECOST*/
+        mapc[cx+1][cy+1]=ccost+14;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx+1][cy+1]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx+1,cy+1));
+      }
     }
     /*SOUTHWEST*/
     if((cnode&SouthWest)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy+1][cx-1]|=NorthEast;
-      /*CHANGE MOVECOST*/
-      mapc[cy+1][cx-1]=ccost+14;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy+1][cx-1]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx-1,cy+1));
+      if(mapc[cx+1][cy-1]>ccost+14){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx+1][cy-1]|=NorthEast;
+        /*CHANGE MOVECOST*/
+        mapc[cx+1][cy-1]=ccost+14;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx+1][cy-1]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx+1,cy-1));
+      }
     }
     /*NORTHWEST*/
     if((cnode&NorthWest)==0){
-      /*REMOVE PARENT AS NEIGHBOUR*/
-      map [cy-1][cx-1]|=SouthEast;
-      /*CHANGE MOVECOST*/
-      mapc[cy-1][cx-1]=ccost+14;
-      /*SAVE PATH(PARENT)*/
-      mapp[cy-1][cx-1]=xy2hex(cx,cy);
-      /*PUT INTO QUEUE*/
-      push_queue(xy2hex(cx-1,cy-1));
+      if(mapc[cx-1][cy-1]>ccost+14){
+        /*REMOVE PARENT AS NEIGHBOUR*/
+        map [cx-1][cy-1]|=SouthEast;
+        /*CHANGE MOVECOST*/
+        mapc[cx-1][cy-1]=ccost+14;
+        /*SAVE PATH(PARENT)*/
+        mapp[cx-1][cy-1]=xy2hex(cx,cy);
+        /*PUT INTO QUEUE*/
+        push_queue(xy2hex(cx-1,cy-1));
+      }
     }
+    /*PUSH CURRENT NODE TO STACK*/
+    push_stack(cpos);
+
+    /*TAKE NEXT NODE FROM QUEUE*/
+    cpos=pop_queue();
+
+    /*TOGGLE LED*/
     P1OUT ^= 0x01;
   }
 

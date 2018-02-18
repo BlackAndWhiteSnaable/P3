@@ -68,6 +68,9 @@ Robot robot;
 char queue[numnodes];
 int queue_count;
 
+char stack[numnodes];
+int stack_count;
+
 // hardcoded 3x3 map
 char map[3][3];
 unsigned int mapc[3][3];
@@ -87,13 +90,11 @@ char hex2y(char hex);
 void robot_init(void);
 
 // Map
-void map_load(void);
-void map_save(void);
+void map_setup(void);
 void map_check(void);
 void map_update(unsigned char hex);
-void node_map_load(void); // node/map?
-int robot_finished(void);
-void test_node_array(void);
+void map_reset_parents(void);
+void map_reset_cost(void);
 
 // Scan
 unsigned char scan(void);
@@ -104,12 +105,12 @@ void push_move_stack(MoveStack **head, unsigned char new_move);
 unsigned char pop_move(MoveStack **head);
 
 // Priority queue and stack
-int push_queue(char coords);  // add element on the stack
-void push_stack(Stack **head, Nodes *new_node);
+void push_queue(char coords);  // add element on the stack
+void push_stack(char coords);
 char pop_queue(void); // removes element from top of queue
 
 // Pathfinding
 void path_test(void);
-void path_set_neighbors(void);
+void path_set_neighbors(void); //TODO ?
 void path_calculate(void);
 void path_calculate_movement(void);
