@@ -13,6 +13,7 @@ void path_calculate() {
 
   /*TAKE START NODE*/
   cpos=pos;
+  cx=hex2x(cpos); cy=hex2y(cpos);
   /*WHILE NOT AT THE END*/
   while(cx!=endx||cy!=endy){
     cx=hex2x(cpos); cy=hex2y(cpos);
@@ -132,137 +133,29 @@ void path_calculate() {
     /*TOGGLE LED*/
     P1OUT ^= 0x01;
   }
+  path_calculate_movement();
 
 }
-/*
-///calculates the path from the current position
-void path_calculate() {
-  //-------------------------------- SETUP----------------------------------//
-  //declare all variables needed in scope
-  unsigned int curx = 0;
-  unsigned int cury = 0;    //to keep track of your food/position on the map
-                            //should not be necessary, but would clean the code
-  Nodes *currNode = NULL;   //the Node currently looked at
-
-  //make sure that all nodes have the correct neighbors
-  path_set_neighbors();
-
-  //start calculating from current position
-  curx = robot.pos.x;
-  cury = robot.pos.y;
-  //push_queue(&robot.unchecked, &robot.map.node[curx][cury]);
-  //currNode = pop(&robot.unchecked);
-
-  //---------------------------------CALC-----------------------------------//
-  int deadcount=0;
-  // until we reach the finish
-  while ((curx!=robot.map.finish.y)||(cury!=robot.map.finish.x)){
-    if (currNode==NULL){
-      break;
-    }
-    //catching infinite loops
-    if (deadcount++>=(robot.map.nSize.x)*(robot.map.nSize.y)){
-      break;
-    }
-    curx = currNode->position.x;
-    cury = currNode->position.y;
-
-    /*explaining the if once
-    //checks whether the neighbor exists, then if movecost is smaller
-      //updates neighbor movecost
-      //updates neighbor parent
-      //remove parent as neighbor
-      //prints neighbor (debugging)
-      //pushes neighbor on queue
-    */
-/*
-    //------------------------------------STRAIGHTS-------------------------//
-    if (currNode->n && (currNode->n->movecost > currNode->movecost+10)){
-      currNode->n->movecost = currNode->movecost+10;
-      currNode->n->parent = currNode;
-      currNode->n->s = NULL;
-      //map_print_node(currNode->n);
-      //push_queue(&robot.unchecked, currNode->n);
-    }
-    if (currNode->e && (currNode->e->movecost > currNode->movecost+10)){
-      currNode->e->movecost = currNode->movecost+10;
-      currNode->e->parent = currNode;
-      currNode->e->w = NULL;
-      //map_print_node(currNode->e);
-      //push_queue(&robot.unchecked, currNode->e);
-    }
-    if (currNode->s && (currNode->s->movecost > currNode->movecost+10)){
-      currNode->s->movecost = currNode->movecost+10;
-      currNode->s->parent = currNode;
-      currNode->s->n = NULL;
-      //map_print_node(currNode->s);
-      //push_queue(&robot.unchecked, currNode->s);
-    }
-    if (currNode->w && (currNode->w->movecost > currNode->movecost+10)){
-      currNode->w->movecost = currNode->movecost+10;
-      currNode->w->parent = currNode;
-      currNode->w->e = NULL;
-      //map_print_node(currNode->w);
-      //push_queue(&robot.unchecked, currNode->w);
-    }
-
-    //------------------------------------DIAGONALS-------------------------//
-    if (currNode->ne && (currNode->ne->movecost > currNode->movecost+14)){
-      currNode->ne->movecost = currNode->movecost+14;
-      currNode->ne->parent = currNode;
-      currNode->ne->sw = NULL;
-      //map_print_node(currNode->n);
-      //push_queue(&robot.unchecked, currNode->ne);
-    }
-    if (currNode->se && (currNode->se->movecost > currNode->movecost+14)){
-      currNode->se->movecost = currNode->movecost+14;
-      currNode->se->parent = currNode;
-      currNode->se->nw = NULL;
-      //map_print_node(currNode->se);
-      //push_queue(&robot.unchecked, currNode->se);
-    }
-    if (currNode->sw && (currNode->sw->movecost > currNode->movecost+14)){
-      currNode->sw->movecost = currNode->movecost+14;
-      currNode->sw->parent = currNode;
-      currNode->sw->ne = NULL;
-      //map_print_node(currNode->sw);
-      //push_queue(&robot.unchecked, currNode->sw);
-    }
-    if (currNode->nw && (currNode->nw->movecost > currNode->movecost+14)){
-      currNode->nw->movecost = currNode->movecost+14;
-      currNode->nw->parent = currNode;
-      currNode->nw->se = NULL;
-      //push_queue(&robot.unchecked, currNode->nw);
-    }
-
-
-    //push_stack(&robot.checked, currNode);
-
-    //currNode = pop(&robot.unchecked);
-  }
-
-  P1OUT |= 0x01;
-  path_calculate_movement();
-}*/
 
 ///calculates the movement stack out of the checked stack.
 void path_calculate_movement(){
   //pop from stack until start is reached
   //-------------------------------- VARIABLES--------------------------------//
-  int deadcount=0;
   int parX=0,parY=0;
   int ownX=0,ownY=0;
-  unsigned char move=0;
-  Nodes *currNode = NULL, *parNode = NULL;
+  char move=0;
+  char currNode=0x00, parNode=0x00;
   //----------------------------LOOP THROUGH STACK----------------------------//
-  //currNode=pop(&robot.checked);
-  while(currNode->movecost!=0){ //start has movecost 0
-    deadcount++;
-    ownX = currNode->position.x;
-    ownY = currNode->position.y;
-    parX = currNode->parent->position.x;
-    parY = currNode->parent->position.y;
+  currNode=pop_stack();
+
+  while(currNode!=start){ //while not looking at the final node
+    ownX = hex2x(currNode);
+    ownY = hex2y(currNode);
+    parX = hex2x(mapp[ownY][ownX]);
+    parX = hex2y(mapp[ownY][ownX]);
     //----------------------- Generate Movement Stack-----------------------//
+    //TODO test
+    //TODO can maybe be done in one step (checking for two movements)
     //adds all movements together
     move=0;
     if (ownX<parX) move+=North;       //Something North
@@ -278,7 +171,7 @@ void path_calculate_movement(){
       else if (move==North+West) move=NorthWest;//North and West
     }
     //------------------------Save To Movement Stack------------------------//
-    //push_move_stack(&robot.movement, move);
+    push_move_stack(move);
     //TODO
     P1OUT |= 0x01;
     //while (((parNode=pop(&robot.checked))->position.x!=parX)||

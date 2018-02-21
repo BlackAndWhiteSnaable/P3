@@ -71,6 +71,9 @@ int queue_count;
 char stack[numnodes];
 int stack_count;
 
+char move_stack[numnodes];
+int move_stack_count;
+
 // hardcoded 3x3 map
 char map[3][3];
 unsigned int mapc[3][3];
@@ -101,13 +104,14 @@ unsigned char scan(void);
 
 // Move
 void move_next(void);
-void push_move_stack(MoveStack **head, unsigned char new_move);
-unsigned char pop_move(MoveStack **head);
+void push_move_stack(char move);
+char pop_move();
 
 // Priority queue and stack
 void push_queue(char coords);  // add element on the stack
 void push_stack(char coords);
 char pop_queue(void); // removes element from top of queue
+char pop_stack(void);   // pops element from stack
 
 // Pathfinding
 void path_test(void);
