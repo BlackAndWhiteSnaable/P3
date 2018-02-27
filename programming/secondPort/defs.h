@@ -75,6 +75,7 @@ char move_stack[numnodes];
 int move_stack_count;
 
 // hardcoded 3x3 map
+char orig[3][3];
 char map[3][3];
 unsigned int mapc[3][3];
 char mapp[3][3];
@@ -93,7 +94,8 @@ char hex2y(char hex);
 void robot_init(void);
 
 // Map
-void map_setup(void);
+void map_hardcode(void);
+void map_load(void);
 void map_check(void);
 void map_update(unsigned char hex);
 void map_reset_parents(void);
@@ -105,7 +107,7 @@ unsigned char scan(void);
 // Move
 void move_next(void);
 void push_move_stack(char move);
-char pop_move();
+char pop_move_stack(void);
 
 // Priority queue and stack
 void push_queue(char coords);  // add element on the stack

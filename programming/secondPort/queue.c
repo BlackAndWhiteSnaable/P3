@@ -7,7 +7,11 @@ void push_queue(char coords)
     if (queue_count<numnodes){
         int i;
         //check if the node is already in the queue, return FAIL
-        for(i=0;i<queue_count;i++) if(queue[i]==coords) break;
+        for(i=0;i<queue_count;i++) {
+            if(queue[i]==coords) {
+                return;
+            }
+        }
         queue[queue_count]=coords; queue_count++;
         //return SUCCES
         P1OUT ^= 0x01;
@@ -37,7 +41,11 @@ void push_stack(char coords)
     if (stack_count<numnodes){
         int i;
         //check if the node is already in the stack, return FAIL
-        for(i=0;i<stack_count;i++) if(stack[i]==coords) break;
+        for(i=0;i<stack_count;i++) {
+            if(stack[i]==coords) {
+                return;
+            }
+        }
         stack[stack_count]=coords; stack_count++;
         //return SUCCES
         P1OUT ^= 0x01;
@@ -62,9 +70,21 @@ void push_move_stack(char move)
     if (move_stack_count<numnodes){
         int i;
         //check if the node is already in the move_stack, return FAIL
-        for(i=0;i<move_stack_count;i++) if(move_stack[i]==move) break;
+        for(i=0;i<move_stack_count;i++) if(move_stack[i]==move) return;
         move_stack[move_stack_count]=move; move_stack_count++;
         //return SUCCES
         P1OUT ^= 0x01;
     }
+}
+
+char pop_move_stack()
+{
+    //check for popping more elements than in queue
+    if (move_stack_count<=0) return 0;
+    char res=move_stack[move_stack_count];
+    int i;
+    for (i=move_stack_count;i>=0;i--) move_stack[i]=move_stack[i+1];
+    move_stack[move_stack_count]=(char)0;
+    move_stack_count--;
+    return res;
 }

@@ -21,9 +21,11 @@ void path_calculate() {
     ccost=mapc[cx][cy];
     /*NORTH*/
     if((cnode&North)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=North;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx-1][cy  ]|=South;
       if(mapc[cx-1][cy  ]>ccost+10){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx-1][cy  ]|=South;
         /*CHANGE MOVECOST*/
         mapc[cx-1][cy  ]=ccost+10;
         /*SAVE PATH(PARENT)*/
@@ -34,9 +36,11 @@ void path_calculate() {
     }
     /*EAST*/
     if((cnode&East)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=East;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx  ][cy+1]|=West;
       if(mapc[cx  ][cy+1]>ccost+10){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx  ][cy+1]|=West;
         /*CHANGE MOVECOST*/
         mapc[cx  ][cy+1]=ccost+10;
         /*SAVE PATH(PARENT)*/
@@ -47,9 +51,11 @@ void path_calculate() {
     }
     /*SOUTH*/
     if((cnode&South)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=South;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx+1][cy  ]|=North;
       if(mapc[cx+1][cy  ]>ccost+10){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx+1][cy  ]|=North;
         /*CHANGE MOVECOST*/
         mapc[cx+1][cy  ]=ccost+10;
         /*SAVE PATH(PARENT)*/
@@ -60,9 +66,11 @@ void path_calculate() {
     }
     /*WEST*/
     if((cnode&West)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=West;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx  ][cy-1]|=East;
       if(mapc[cx  ][cy-1]>ccost+10){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx  ][cy-1]|=East;
         /*CHANGE MOVECOST*/
         mapc[cx  ][cy-1]=ccost+10;
         /*SAVE PATH(PARENT)*/
@@ -74,9 +82,11 @@ void path_calculate() {
 
     /*NORTHEAST*/
     if((cnode&NorthEast)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=NorthEast;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx-1][cy+1]|=SouthWest;
       if(mapc[cx-1][cy+1]>ccost+14){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx-1][cy+1]|=SouthWest;
         /*CHANGE MOVECOST*/
         mapc[cx-1][cy+1]=ccost+14;
         /*SAVE PATH(PARENT)*/
@@ -87,9 +97,11 @@ void path_calculate() {
     }
     /*SOUTHEAST*/
     if((cnode&SouthEast)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=SouthEast;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx+1][cy+1]|=NorthWest;
       if(mapc[cx+1][cy+1]>ccost+14){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx+1][cy+1]|=NorthWest;
         /*CHANGE MOVECOST*/
         mapc[cx+1][cy+1]=ccost+14;
         /*SAVE PATH(PARENT)*/
@@ -100,9 +112,11 @@ void path_calculate() {
     }
     /*SOUTHWEST*/
     if((cnode&SouthWest)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=SouthWest;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx+1][cy-1]|=NorthEast;
       if(mapc[cx+1][cy-1]>ccost+14){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx+1][cy-1]|=NorthEast;
         /*CHANGE MOVECOST*/
         mapc[cx+1][cy-1]=ccost+14;
         /*SAVE PATH(PARENT)*/
@@ -113,9 +127,11 @@ void path_calculate() {
     }
     /*NORTHWEST*/
     if((cnode&NorthWest)==0){
+      /*REMOVE NEIGHBOUR AS NEIGHBOUR*/
+      map [cx  ][cy  ]|=NorthWest;
+      /*REMOVE PARENT AS NEIGHBOUR*/
+      map [cx-1][cy-1]|=SouthEast;
       if(mapc[cx-1][cy-1]>ccost+14){
-        /*REMOVE PARENT AS NEIGHBOUR*/
-        map [cx-1][cy-1]|=SouthEast;
         /*CHANGE MOVECOST*/
         mapc[cx-1][cy-1]=ccost+14;
         /*SAVE PATH(PARENT)*/
@@ -129,9 +145,6 @@ void path_calculate() {
 
     /*TAKE NEXT NODE FROM QUEUE*/
     cpos=pop_queue();
-
-    /*TOGGLE LED*/
-    P1OUT ^= 0x01;
   }
   path_calculate_movement();
 
@@ -152,7 +165,7 @@ void path_calculate_movement(){
     ownX = hex2x(currNode);
     ownY = hex2y(currNode);
     parX = hex2x(mapp[ownY][ownX]);
-    parX = hex2y(mapp[ownY][ownX]);
+    parY = hex2y(mapp[ownY][ownX]);
     //----------------------- Generate Movement Stack-----------------------//
     //TODO test
     //TODO can maybe be done in one step (checking for two movements)
@@ -164,7 +177,7 @@ void path_calculate_movement(){
     if (ownY<parY) move+=West;       //Something West
 
     //checks for two movements
-    if (((move!=North)&&(move!=East)&&(move!=South)&&(move!=West))){
+    if ((move!=North)&&(move!=East)&&(move!=South)&&(move!=West)){
       if      (move==North+East) move=NorthEast;//North and East
       else if (move==South+East) move=SouthEast;//South and East
       else if (move==South+West) move=SouthWest;//South and West

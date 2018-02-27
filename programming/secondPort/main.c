@@ -17,7 +17,9 @@ void go(void) {
   P1DIR = 0x01;
   P1OUT = 0x00;
   //----------------------------------SETUP ----------------------------------//
-  map_setup();      //hardcodes the map into memory
+  map_hardcode();   //setup hardcoded map
+  map_load();       //loads the map into memory
+  pos=start;        //set position to start
 
   //---------------------------------RUNNING ---------------------------------//
   path_calculate(); //calculate path
@@ -26,12 +28,12 @@ void go(void) {
   push_queue((char)0x01);
 
   char testc,testb;
-  testc = 0xDD&East;
+  testc = pop_move_stack();
   testc = 0xDD&(char)East;
   testc = 0xDD&North;
-  testc = 0xDD&(char)North;
+  testc = pop_move_stack();
 
-  testb = pop_queue();
+  testb = pop_move_stack();
 
   P1OUT = 0x01;
 }
